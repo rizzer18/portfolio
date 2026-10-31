@@ -1,0 +1,21 @@
+node_modules
+.next
+.git
+.env*
+!.env.example
+uploads
+
+# pnpm-workspace.yaml is a single-app project, exclude to avoid pnpm workspace errors
+pnpm-workspace.yaml
+
+# PNG-файли лише в корені проекту (не зачіпає public/images/)
+/*.png
+/*.jpg
+/*.jpeg
+/*.ico
+
+# PNG-файли лише в корені проекту (не зачіпає public/images/)
+/*.png
+/*.jpg
+/*.jpeg
+/*.ico

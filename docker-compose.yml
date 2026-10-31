@@ -1,0 +1,19 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: roman-roshkanyuk-portfolio:latest
+    container_name: portfolio
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - uploads_data:/app/uploads
+
+volumes:
+  uploads_data:
