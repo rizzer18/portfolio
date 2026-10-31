@@ -13,7 +13,7 @@ export async function GET(
     const safeName = path.basename(filename);
     const filePath = path.join(UPLOADS_DIR, safeName); 
 
-    if (!fs.existsSync(filePath)) {
+    if (!fs.existsSync(filePath)) { 
       return NextResponse.json({ error: "File not found" }, { status: 404 });
     }
 
