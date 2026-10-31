@@ -6,7 +6,7 @@ export const maxDuration = 300;
 export const dynamic = "force-dynamic";
 
 export const config = {
-  api: { bodyParser: false },
+  api: { bodyParser: false }, 
 };
 
 const UPLOADS_DIR = path.join(process.cwd(), "uploads");
