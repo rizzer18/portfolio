@@ -125,7 +125,7 @@ export const translations = {
     skillsDesc: "Vývojový stack, síťové inženýrství, self-hosted Linux & UI design.",
     skillCats: [
       { title: "Programování", items: ["React.js", "Node.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML / CSS", "JavaScript"] },
-      { title: "Sítě & infrastruktura", items: ["CCNA", "MikroTik", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP", "NAT"] },
+      { title: "Sítě & infrastruktura", items: ["CCNA", "MikroTik", "OSPF", "VRF", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP", "NAT"] },
       { title: "Linux & Virtualizace", items: ["Linux Server", "VMware Workstation", "Docker", "Cloudflare Tunnels", "Bash", "SSH Hardening"] },
       { title: "Windows Server & AD (Kyberna)", items: ["Active Directory", "GPO", "IIS", "DNS Server", "DHCP Server", "VPN / NAT"] },
     ],
@@ -162,7 +162,7 @@ export const translations = {
     servicesTitle: ["Co ", "dělám & stavím"],
     servicesDesc: "Od síťové architektury a Linux infrastruktury po automatizaci chytré domácnosti a produkční webové aplikace pro reálné klienty.",
     services: [
-      { num: "01", title: "Síťové inženýrství", subtitle: "MikroTik · CCNA · VPN · VLAN", description: "Konfigurace MikroTik routerů: site-to-site šifrovaná VPN mezi dvěma zařízeními, duální VLAN segmentace (CZ & UA), správa DHCP/DNS. Teoretický základ z Cisco CCNA kurzů.", highlights: ["MikroTik RouterOS", "Site-to-Site VPN", "CZ / UA VLANs", "CCNA Certified", "DNS & DHCP"] },
+      { num: "01", title: "Síťové inženýrství", subtitle: "MikroTik · CCNA · OSPF · VRF · VPN · VLAN", description: "Konfigurace MikroTik routerů: dynamické směrování OSPF, VRF segmentace, site-to-site šifrovaná VPN mezi dvěma zařízeními, duální VLAN (CZ & UA), správa DHCP/DNS a NAT. Teoretický i praktický základ z Cisco CCNA kurzů.", highlights: ["MikroTik RouterOS", "OSPF Routing", "VRF Isolation", "Site-to-Site VPN", "CZ / UA VLANs", "CCNA Certified", "DNS & DHCP"] },
       { num: "02", title: "Linux systémy & Self-Hosting", subtitle: "Self-hosted · Cloudflare · Docker", description: "Vlastnoručně nakonfigurovaný domácí Linux server běžící 24/7. Bezpečný vzdálený přístup přes Cloudflare Tunneling — žádné otevřené porty. Kontejnerizace služeb pomocí Docker.", highlights: ["Linux Administration", "Cloudflare Tunnels", "Docker Compose", "SSH Hardening", "Frigate NVR AI"] },
       { num: "03", title: "Automatizace chytré domácnosti", subtitle: "Home Assistant · Zigbee · No-Subscription", description: "Lokální chytrá domácnost s Home Assistant a Zigbee (Zigbee2MQTT). Bez cloudových předplatných — 100% lokální automatizační síť s Frigate AI kamerovým dohledem.", highlights: ["Home Assistant", "Zigbee2MQTT", "Frigate AI Vision", "Zero Subscriptions", "Automation Scripts"] },
       { num: "04", title: "Produkční webové aplikace", subtitle: "Next.js · Node.js · TypeScript", description: "Webové aplikace pro reálné klienty — od rezervačních platforem po vícejazyčné sportovní kluby a komerční služby v Kanadě. Postaveno s Next.js, React, TypeScript a SEO-optimalizovanou architekturou.", highlights: ["Next.js & React", "Node.js & REST APIs", "TypeScript", "Tailwind CSS", "SEO Optimization"] },
@@ -320,7 +320,7 @@ export const translations = {
     skillsDesc: "Стек розробки, мережеве інженерство, self-hosted Linux & UI дизайн.",
     skillCats: [
       { title: "Програмування", items: ["React.js", "Node.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML / CSS", "JavaScript"] },
-      { title: "Мережі & інфраструктура", items: ["CCNA", "MikroTik", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP", "NAT"] },
+      { title: "Мережі & інфраструктура", items: ["CCNA", "MikroTik", "OSPF", "VRF", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP", "NAT"] },
       { title: "Linux & Віртуалізація", items: ["Linux Server", "VMware Workstation", "Docker", "Cloudflare Tunnels", "Bash", "SSH Hardening"] },
       { title: "Windows Server & AD (Kyberna)", items: ["Active Directory", "GPO", "IIS", "DNS Server", "DHCP Server", "VPN / NAT"] },
     ],
@@ -357,7 +357,7 @@ export const translations = {
     servicesTitle: ["Що я ", "роблю & будую"],
     servicesDesc: "Від мережевої архітектури та Linux інфраструктури до автоматизації розумного дому та веб-застосунків для реальних клієнтів.",
     services: [
-      { num: "01", title: "Мережеве інженерство", subtitle: "MikroTik · CCNA · VPN · VLAN", description: "Конфігурація MikroTik роутерів: site-to-site шифрований VPN між двома точками, подвійна VLAN сегментація (CZ & UA), керування DHCP/DNS. Теоретична база з курсів Cisco CCNA.", highlights: ["MikroTik RouterOS", "Site-to-Site VPN", "CZ / UA VLANs", "CCNA Certified", "DNS & DHCP"] },
+      { num: "01", title: "Мережеве інженерство", subtitle: "MikroTik · CCNA · OSPF · VRF · VPN · VLAN", description: "Конфігурація MikroTik роутерів: динамічна маршрутизація OSPF, ізоляція VRF, site-to-site шифрований VPN між двома точками, подвійна VLAN (CZ & UA), керування DHCP/DNS та NAT. Практична та теоретична база Cisco CCNA.", highlights: ["MikroTik RouterOS", "OSPF Routing", "VRF Isolation", "Site-to-Site VPN", "CZ / UA VLANs", "CCNA Certified", "DNS & DHCP"] },
       { num: "02", title: "Linux системи & Self-Hosting", subtitle: "Self-hosted · Cloudflare · Docker", description: "Власноруч налаштований домашній Linux сервер 24/7. Безпечний віддалений доступ через Cloudflare Tunneling — без відкритих портів. Контейнеризація за допомогою Docker.", highlights: ["Linux Administration", "Cloudflare Tunnels", "Docker Compose", "SSH Hardening", "Frigate NVR AI"] },
       { num: "03", title: "Автоматизація розумного дому", subtitle: "Home Assistant · Zigbee · No-Subscription", description: "Локальний розумний дім на Home Assistant та Zigbee (Zigbee2MQTT). Без хмарних підписок — 100% автономна мережа з Frigate AI відеоаналітикою.", highlights: ["Home Assistant", "Zigbee2MQTT", "Frigate AI Vision", "Zero Subscriptions", "Automation Scripts"] },
       { num: "04", title: "Продакшн веб-застосунки", subtitle: "Next.js · Node.js · TypeScript", description: "Веб-застосунки для реальних клієнтів — від систем бронювання до багатомовних платформ спортивних клубів та сервісів у Канаді. Next.js, React, TypeScript, SEO.", highlights: ["Next.js & React", "Node.js & REST APIs", "TypeScript", "Tailwind CSS", "SEO Optimization"] },

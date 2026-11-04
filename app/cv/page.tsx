@@ -326,7 +326,7 @@ export default function CVPage() {
                     Sítě &amp; Bezpečnost
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["MikroTik RouterOS", "Site-to-Site VPN", "VLAN", "NAT", "Cisco CCNA", "Cloudflare Tunnels", "DNS / DHCP", "Zero-Trust"].map((s) => (
+                    {["MikroTik RouterOS", "OSPF", "VRF", "Site-to-Site VPN", "VLAN", "NAT", "Cisco CCNA", "Cloudflare Tunnels", "DNS / DHCP", "Zero-Trust"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>

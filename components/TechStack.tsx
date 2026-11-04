@@ -55,6 +55,8 @@ export default function TechStack() {
     { name: "Zigbee2MQTT", cat: "IoT" },
     { name: "Frigate NVR", cat: "IoT" },
     { name: "Cloudflare", cat: "Infra" },
+    { name: "OSPF", cat: "Network" },
+    { name: "VRF", cat: "Network" },
     { name: "Windows Server", cat: "Infra" },
     { name: "Active Directory", cat: "Infra" },
     { name: "VMware", cat: "Infra" },
