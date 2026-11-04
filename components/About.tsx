@@ -84,9 +84,9 @@ export default function About() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-zinc-300">
-                  <span className="text-semibold text-white">Roman Roshkanyuk</span>
+                  <span className="text-semibold text-white">{t.aboutPhotoName}</span>
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40">
-                    VUT FEKT · 1. ročník
+                    {t.aboutPhotoBadge}
                   </span>
                 </div>
               </div>

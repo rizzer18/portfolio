@@ -102,8 +102,10 @@ export default function TabsSection() {
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Moje <span className="text-gold-gradient">{t.tabsTitleParts[0]}</span>,{" "}
-              <span className="text-gold-gradient">{t.tabsTitleParts[1]}</span> a{" "}
+              {t.tabsTitlePrefix}{" "}
+              <span className="text-gold-gradient">{t.tabsTitleParts[0]}</span>,{" "}
+              <span className="text-gold-gradient">{t.tabsTitleParts[1]}</span>{" "}
+              {t.tabsTitleConjunction}{" "}
               <span className="text-gold-gradient">{t.tabsTitleParts[2]}</span>
             </h2>
           </div>
