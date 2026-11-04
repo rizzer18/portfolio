@@ -254,7 +254,7 @@ export default function CVPage() {
                     Hradec Králové, Česká republika
                   </p>
                   <p className="text-[10px] text-zinc-500 print:text-zinc-600 mt-1">
-                    IT střední škola zakončená maturitní zkouškou v roce 2026.
+                    IT střední škola zakončená maturitní zkouškou v roce 2026. Specializace na správu Windows Server (Active Directory, GPO, IIS, DNS, DHCP, VPN, NAT), VMware virtualizaci a sítě Cisco CCNA.
                   </p>
                 </div>
               </div>
@@ -326,7 +326,7 @@ export default function CVPage() {
                     Sítě &amp; Bezpečnost
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["MikroTik RouterOS", "Site-to-Site VPN", "VLAN", "Cisco CCNA", "Cloudflare Tunnels", "DNS / DHCP", "Zero-Trust"].map((s) => (
+                    {["MikroTik RouterOS", "Site-to-Site VPN", "VLAN", "NAT", "Cisco CCNA", "Cloudflare Tunnels", "DNS / DHCP", "Zero-Trust"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>
@@ -336,10 +336,10 @@ export default function CVPage() {
 
                 <div>
                   <span className="text-[10px] font-bold text-amber-400 print:text-zinc-800 uppercase block mb-1">
-                    Linux &amp; Servery
+                    Systémy, Virtualizace &amp; Servery
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["Linux Server", "Docker", "Docker Compose", "Frigate NVR AI", "Bash", "SSH Hardening"].map((s) => (
+                    {["Windows Server", "Active Directory", "GPO", "IIS", "VMware Workstation", "Linux Server", "Docker", "Docker Compose", "Frigate NVR AI", "Bash", "SSH Hardening"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>

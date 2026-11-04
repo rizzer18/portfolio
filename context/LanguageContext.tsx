@@ -125,8 +125,9 @@ export const translations = {
     skillsDesc: "Vývojový stack, síťové inženýrství, self-hosted Linux & UI design.",
     skillCats: [
       { title: "Programování", items: ["React.js", "Node.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML / CSS", "JavaScript"] },
-      { title: "Sítě & infrastruktura", items: ["CCNA", "MikroTik", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP"] },
-      { title: "Linux & Smart Home", items: ["Linux Server", "Home Assistant", "Zigbee2MQTT", "Frigate NVR", "Cloudflare Tunneling", "Docker"] },
+      { title: "Sítě & infrastruktura", items: ["CCNA", "MikroTik", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP", "NAT"] },
+      { title: "Linux & Virtualizace", items: ["Linux Server", "VMware Workstation", "Docker", "Cloudflare Tunnels", "Bash", "SSH Hardening"] },
+      { title: "Windows Server & AD (Kyberna)", items: ["Active Directory", "GPO", "IIS", "DNS Server", "DHCP Server", "VPN / NAT"] },
     ],
     skillLangsTitle: "Jazyky & UI design",
     skillLangs: [
@@ -140,7 +141,7 @@ export const translations = {
     eduDesc: "Akademická dráha a oborové kvalifikace.",
     schools: [
       { period: "2026 — Současnost", badge: "1. ročník", name: "VUT Brno — FEKT", desc: "Telekomunikační a informační systémy", sub: "1. ročník · Telekomunikační a informační systémy", active: true },
-      { period: "2022 — 2026", badge: "Absolvent (2026)", name: "Střední škola Kyberna", desc: "Hradec Králové, Česká republika", sub: "IT střední škola zakončená maturitní zkouškou (absolvent 2026)", active: false },
+      { period: "2022 — 2026", badge: "Absolvent (2026)", name: "Střední škola Kyberna", desc: "Hradec Králové, Česká republika", sub: "IT obor, maturitní zkouška (2026). Specializace: Windows Server (Active Directory, GPO, IIS, DNS, DHCP, VPN, NAT), VMware virtualizace a Cisco CCNA.", active: false },
     ],
     certsTitle: "Oficiální certifikáty",
     certView: "Zobrazit",
@@ -319,8 +320,9 @@ export const translations = {
     skillsDesc: "Стек розробки, мережеве інженерство, self-hosted Linux & UI дизайн.",
     skillCats: [
       { title: "Програмування", items: ["React.js", "Node.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML / CSS", "JavaScript"] },
-      { title: "Мережі & інфраструктура", items: ["CCNA", "MikroTik", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP"] },
-      { title: "Linux & Smart Home", items: ["Linux Server", "Home Assistant", "Zigbee2MQTT", "Frigate NVR", "Cloudflare Tunneling", "Docker"] },
+      { title: "Мережі & інфраструктура", items: ["CCNA", "MikroTik", "Site-to-Site VPN", "CZ & UA VLANs", "Cloudflare", "DNS / DHCP", "NAT"] },
+      { title: "Linux & Віртуалізація", items: ["Linux Server", "VMware Workstation", "Docker", "Cloudflare Tunnels", "Bash", "SSH Hardening"] },
+      { title: "Windows Server & AD (Kyberna)", items: ["Active Directory", "GPO", "IIS", "DNS Server", "DHCP Server", "VPN / NAT"] },
     ],
     skillLangsTitle: "Мови & UI дизайн",
     skillLangs: [
@@ -334,7 +336,7 @@ export const translations = {
     eduDesc: "Академічний шлях та галузеві кваліфікації.",
     schools: [
       { period: "2026 — Теперішній час", badge: "1-й курс", name: "VUT Brno — FEKT", desc: "Телекомунікаційні та інформаційні системи", sub: "1-й курс · Телекомунікаційні та інформаційні системи", active: true },
-      { period: "2022 — 2026", badge: "Випускник (2026)", name: "Середня школа Kyberna", desc: "Градець-Кралове, Чеська Республіка", sub: "IT середня школа, закінчена з матурою (випускник 2026)", active: false },
+      { period: "2022 — 2026", badge: "Випускник (2026)", name: "Середня школа Kyberna", desc: "Градець-Кралове, Чеська Республіка", sub: "IT середня школа, матуріта (2026). Спеціалізація: Windows Server (Active Directory, GPO, IIS, DNS, DHCP, VPN, NAT), VMware віртуалізація та Cisco CCNA.", active: false },
     ],
     certsTitle: "Офіційні сертифікати",
     certView: "Переглянути",
