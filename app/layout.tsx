@@ -10,9 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Roman Roshkanyuk | Všestranný IT Specialista, Systémy & Webový inženýr",
+  title: "Roman Roshkanyuk | DevOps & IT Specialist, Systémy & Webový inženýr",
   description:
-    "Portfolio Romana Roshkanyuka — Všestranný IT Specialista & systémový architekt. Specializace na síťové inženýrství (MikroTik), správu Linuxu, úsporné automatizace chytré domácnosti a moderní webové aplikace Next.js.",
+    "Portfolio Romana Roshkanyuka — DevOps & IT Specialist & systémový architekt. Specializace na síťové inženýrství (MikroTik), správu Linuxu, Docker kontejnerizaci, úsporné automatizace a moderní webové aplikace.",
   icons: {
     icon: "/images/star1.png",
   },

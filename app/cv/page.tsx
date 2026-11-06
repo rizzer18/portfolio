@@ -75,7 +75,7 @@ export default function CVPage() {
                   Roman Roshkanyuk
                 </h1>
                 <p className="text-amber-400 print:text-zinc-800 font-semibold text-sm sm:text-base mb-2">
-                  Všestranný IT Specialista & Full-Stack Vývojář
+                  DevOps &amp; IT Specialist | Systems &amp; Network Engineer
                 </p>
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 print:border-zinc-400 print:text-zinc-700 text-[11px] font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 print:bg-zinc-700"></span>
@@ -126,7 +126,7 @@ export default function CVPage() {
                 <span>Profil &amp; Cíl</span>
               </h2>
               <p className="text-xs sm:text-[13px] text-zinc-300 print:text-zinc-800 leading-relaxed">
-                Všestranný IT specialista se silným základem v síťové architektuře, správě serverů a moderním webovém vývoji. Absolvent IT střední školy Kyberna (maturita 2026) a student 1. ročníku na VUT Brno (obor Telekomunikační a informační systémy). Propojuji teoretické znalosti (Cisco CCNA) s reálnou praxí: vývoj klientských webových platforem na Next.js v produkci, správa šifrovaných MikroTik VPN s duálními VLAN a návrh cenově úsporné, 100% lokální automatizace chytré domácnosti.
+                DevOps &amp; IT Specialist se silným praktickým zázemím v Linux systémech, Docker kontejnerizaci, síťové architektuře (Cisco CCNA, MikroTik) a operativní technické podpoře (IT Support). Absolvent IT střední školy Kyberna (maturita 2026) a student VUT Brno FEKT (Telekomunikační a informační systémy). Každoročně vybírán školou pro IT Support a síťový provoz na mezinárodní IT konferenci ISSS díky vysoké zodpovědnosti, efektivní komunikaci a schopnosti pohotově řešit technické incidenty. Vynikám v systémové diagnostice, nepřetržitém dohledu domácího serverového ekosystému, moderním webovém vývoji (Next.js) a disponuji hlubokou znalostí programovacího jazyka C# (.NET) — od fundamentálního OOP přes návrhové vzory a generika až po nízkoúrovňovou reflexi (System.Reflection).
               </p>
             </section>
 
@@ -134,45 +134,45 @@ export default function CVPage() {
             <section>
               <h2 className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-zinc-800 mb-4 flex items-center gap-2">
                 <Code size={14} />
-                <span>Produkční Projekty &amp; Zkušenosti</span>
+                <span>Pracovní Zkušenosti &amp; Projekty</span>
               </h2>
 
               <div className="space-y-4">
                 
-                {/* Projekt 1: Weby */}
+                {/* Projekt 1: ISSS IT Support */}
                 <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5 py-0.5">
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-xs sm:text-sm font-bold text-white print:text-black">
-                      Full-Stack Webový Vývojář (Klientské projekty)
+                      IT Support Specialist (Brigáda) — Konference ISSS
                     </h3>
-                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600">2023 — Současnost</span>
+                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600">2024 — Současnost (každoročně)</span>
                   </div>
                   <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1.5">
-                    Produkční weby pro klienty v ČR a zahraničí (Next.js, React, Node.js, TypeScript)
+                    Technické zajištění mezinárodní IT konference ISSS v Hradci Králové (nominován SŠ Kyberna)
                   </p>
                   <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside">
-                    <li><strong className="text-white print:text-black">bowlingovyclubsv.cz:</strong> Komplexní rezervační a prezentační systém zábavního centra v Týništi n. O.</li>
-                    <li><strong className="text-white print:text-black">nikita-box.cz:</strong> Web sportovního klubu v HK s rozvrhem tréninků a CZ/UA lokalizací.</li>
-                    <li><strong className="text-white print:text-black">luxury-cleaning-solutions.ca:</strong> Web úklidové firmy v Edmontonu (Kanada) s okamžitou online cenovou kalkulačkou.</li>
-                    <li><strong className="text-white print:text-black">honzapokusil.cz:</strong> Portál současného tanečního divadla s repertoárem a workshopy.</li>
+                    <li>Vybrán vedením školy Kyberna pro vysokou zodpovědnost, skvělou komunikaci a rychlé řešení problémů pod časovým tlakem.</li>
+                    <li>Operativní technická podpora (IT support), správa síťové konektivity, hardwaru, audiovizuální techniky a řešení incidentů účastníků a přednášejících.</li>
+                    <li>Osvědčená hluboká orientace v IT infrastruktuře a nulové narušení chodu konferenčních sálů.</li>
                   </ul>
                 </div>
 
-                {/* Projekt 2: Linux & Home Lab */}
+                {/* Projekt 2: Linux & DevOps Home Lab */}
                 <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5 py-0.5">
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-xs sm:text-sm font-bold text-white print:text-black">
-                      Správce Domácí Laboratoře &amp; Linux Serveru
+                      DevOps &amp; Home Server Operations (Vlastní infrastruktura)
                     </h3>
                     <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600">2023 — Současnost</span>
                   </div>
                   <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1.5">
-                    Self-hosted Linux, Docker kontejnerizace, Frigate AI, Cloudflare Zero-Trust
+                    24/7 Správa domácích serverů, Home Assistant, Docker kontejnerizace, dohled a Cloudflare Zero-Trust
                   </p>
                   <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside">
-                    <li>Konfigurace a 24/7 správa vlastního Linux serveru (Debian / Ubuntu).</li>
-                    <li>Bezpečné vystavení služeb do internetu přes <strong className="text-white print:text-black">Cloudflare Tunnels</strong> bez nutnosti otevírat porty v routeru.</li>
-                    <li>Implementace <strong className="text-white print:text-black">Frigate NVR</strong> kamerového dohledu s lokální detekcí objektů pomocí umělé inteligence.</li>
+                    <li>Kompletní technická podpora a správa domácího ekosystému s nepřetržitým 24/7 chodem (100% uptime).</li>
+                    <li>Údržba a konfigurace <strong className="text-white print:text-black">Home Assistant</strong>, správa senzorové mesh sítě (Zigbee2MQTT) a operativní řešení výpadků.</li>
+                    <li>Kontejnerizace více než 10 služeb pomocí <strong className="text-white print:text-black">Docker Compose</strong>, správa záloh, aktualizací a hardening Linux serveru (Debian/Ubuntu).</li>
+                    <li>Zabezpečený vzdálený přístup přes <strong className="text-white print:text-black">Cloudflare Tunnels (Zero-Trust)</strong> bez nutnosti otevírat porty ven.</li>
                   </ul>
                 </div>
 
@@ -180,33 +180,35 @@ export default function CVPage() {
                 <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5 py-0.5">
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-xs sm:text-sm font-bold text-white print:text-black">
-                      Síťový Inženýr — MikroTik Site-to-Site VPN
+                      Síťový Inženýr — MikroTik Site-to-Site VPN &amp; Routing
                     </h3>
                     <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600">2023 — 2026</span>
                   </div>
                   <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1.5">
-                    Propojení dvou MikroTik routerů, VLAN segmentace (CZ / UA)
+                    Propojení dvou MikroTik routerů, VLAN segmentace (CZ / UA), OSPF
                   </p>
                   <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside">
-                    <li>Vytvoření šifrovaného site-to-site VPN tunelu mezi dvěma geografickými lokacemi.</li>
-                    <li>Rozdělení klientského routeru do dvou izolovaných virtuálních sítí (<strong className="text-white print:text-black">CZ VLAN a UA VLAN</strong>) pro optimalizaci provozu a bezpečnost.</li>
+                    <li>Návrh a implementace šifrovaného site-to-site VPN tunelu mezi dvěma geografickými lokalitami.</li>
+                    <li>Segmentace sítě do izolovaných virtuálních sítí (<strong className="text-white print:text-black">CZ VLAN a UA VLAN</strong>) a konfigurace firewallu pro maximální bezpečnost.</li>
                   </ul>
                 </div>
 
-                {/* Projekt 4: Smart Home */}
+                {/* Projekt 4: Full-Stack Web Development */}
                 <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5 py-0.5">
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-xs sm:text-sm font-bold text-white print:text-black">
-                      Architekt Úsporné Chytré Domácnosti (IoT)
+                      Web &amp; Systems Engineer (Klientské projekty)
                     </h3>
-                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600">2024 — Současnost</span>
+                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600">2023 — Současnost</span>
                   </div>
                   <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1.5">
-                    Home Assistant, Zigbee2MQTT, 100% lokální řízení bez poplatků
+                    Full-stack produkční platformy na míru (Next.js 15, TypeScript, Node.js, Tailwind CSS)
                   </p>
                   <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside">
-                    <li>Návrh rozsáhlé sítě senzorů a akčních členů na protokolu Zigbee 3.0.</li>
-                    <li>Úplná eliminace cloudových měsíčních předplatných, zajištění spolehlivého chodu i při výpadku internetu.</li>
+                    <li><strong className="text-white print:text-black">bowlingovyclubsv.cz:</strong> Komplexní rezervační a prezentační systém pro zábavní centrum v Týništi n. O.</li>
+                    <li><strong className="text-white print:text-black">nikita-box.cz:</strong> Web sportovního klubu s rozvrhem tréninků a CZ/UA lokalizací.</li>
+                    <li><strong className="text-white print:text-black">luxury-cleaning-solutions.ca:</strong> Portál pro kanadskou úklidovou firmu s interaktivním cenovým kalkulátorem.</li>
+                    <li><strong className="text-white print:text-black">honzapokusil.cz:</strong> Prezentační platforma divadelního souboru s optimalizovaným výkonem.</li>
                   </ul>
                 </div>
 
@@ -317,16 +319,16 @@ export default function CVPage() {
             <section>
               <h2 className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-zinc-800 mb-3 flex items-center gap-2">
                 <Layers size={14} />
-                <span>Technický Stack</span>
+                <span>Technický Stack &amp; Kompetence</span>
               </h2>
 
               <div className="space-y-2.5 text-[11px]">
                 <div>
                   <span className="text-[10px] font-bold text-amber-400 print:text-zinc-800 uppercase block mb-1">
-                    Sítě &amp; Bezpečnost
+                    DevOps, Linux &amp; Kontejnerizace
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["MikroTik RouterOS", "OSPF", "VRF", "Site-to-Site VPN", "VLAN", "NAT", "Cisco CCNA", "Cloudflare Tunnels", "DNS / DHCP", "Zero-Trust"].map((s) => (
+                    {["Linux (Debian/Ubuntu)", "Docker", "Docker Compose", "Bash Scripting", "Cloudflare Zero-Trust", "SSH Hardening", "Reverse Proxy", "CI/CD základy"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>
@@ -336,10 +338,10 @@ export default function CVPage() {
 
                 <div>
                   <span className="text-[10px] font-bold text-amber-400 print:text-zinc-800 uppercase block mb-1">
-                    Systémy, Virtualizace &amp; Servery
+                    Sítě &amp; Infrastruktura (CCNA)
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["Windows Server", "Active Directory", "GPO", "IIS", "VMware Workstation", "Linux Server", "Docker", "Docker Compose", "Frigate NVR AI", "Bash", "SSH Hardening"].map((s) => (
+                    {["Cisco CCNA", "MikroTik RouterOS", "OSPF Routing", "VRF", "Site-to-Site VPN", "CZ/UA VLANs", "DNS & DHCP Server", "NAT / Firewall", "Wireshark"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>
@@ -349,10 +351,10 @@ export default function CVPage() {
 
                 <div>
                   <span className="text-[10px] font-bold text-amber-400 print:text-zinc-800 uppercase block mb-1">
-                    Webový Vývoj
+                    IT Support, Provoz &amp; Home Services
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["Next.js 15", "React 19", "TypeScript", "Node.js", "Tailwind CSS", "HTML5 / CSS3", "REST APIs"].map((s) => (
+                    {["ISSS Conference Support", "Home Assistant Správa", "Hardware Diagnostics", "Incident Troubleshooting", "Windows Server", "Active Directory", "GPO", "VMware Workstation"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>
@@ -362,10 +364,10 @@ export default function CVPage() {
 
                 <div>
                   <span className="text-[10px] font-bold text-amber-400 print:text-zinc-800 uppercase block mb-1">
-                    Chytrá Domácnost &amp; IoT
+                    C# (.NET) &amp; Webový Vývoj
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["Home Assistant", "Zigbee2MQTT", "Zigbee 3.0", "MQTT Protocol", "Zero-Subscription IoT"].map((s) => (
+                    {["C# (.NET)", "OOP do hloubky", "System.Reflection", "Generics & LINQ", "Design Patterns", "Next.js 15", "React 19", "TypeScript", "Node.js", "REST APIs", "Git"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>
@@ -375,10 +377,10 @@ export default function CVPage() {
 
                 <div>
                   <span className="text-[10px] font-bold text-amber-400 print:text-zinc-800 uppercase block mb-1">
-                    Design &amp; Nástroje
+                    IoT, Dohled &amp; Nástroje
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {["Figma", "Git / GitHub", "VS Code", "Swagger", "WordPress"].map((s) => (
+                    {["Zigbee2MQTT", "Frigate NVR", "Figma", "VS Code", "Swagger"].map((s) => (
                       <span key={s} className="px-2 py-0.5 rounded bg-zinc-800/80 print:bg-zinc-100 text-zinc-300 print:text-zinc-800 text-[10px] border border-zinc-700/40 print:border-zinc-300">
                         {s}
                       </span>
@@ -417,7 +419,7 @@ export default function CVPage() {
 
         {/* FOOTER NOTE */}
         <footer className="mt-8 pt-6 border-t border-zinc-800 print:border-zinc-300 text-center text-[10px] text-zinc-500 print:text-zinc-500">
-          Roman Roshkanyuk · Všestranný IT Specialista · Tel: +420 605 447 445 · E-mail: romanroskanuk74@gmail.com · VUT Brno FEKT (2026)
+          Roman Roshkanyuk · DevOps &amp; IT Specialist · Tel: +420 605 447 445 · E-mail: romanroskanuk74@gmail.com · VUT Brno FEKT (2026)
         </footer>
 
       </main>

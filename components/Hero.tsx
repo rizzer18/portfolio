@@ -134,7 +134,7 @@ export default function Hero() {
                 <div className="relative w-44 h-44 sm:w-48 sm:h-48 mb-1 transform hover:scale-105 transition-transform duration-500 cursor-pointer">
                   <Image
                     src="/images/avatar.png"
-                    alt="Roman Roshkanyuk - Všestranný IT Specialista"
+                    alt="Roman Roshkanyuk - DevOps & IT Specialist"
                     fill
                     sizes="(max-width: 640px) 176px, 192px"
                     className="object-contain drop-shadow-2xl"

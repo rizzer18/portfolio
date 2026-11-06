@@ -46,6 +46,7 @@ export default function TechStack() {
 
   const textStacks = [
     { name: "Next.js", cat: "Web" },
+    { name: "C# (.NET)", cat: "Web" },
     { name: "React", cat: "Web" },
     { name: "TypeScript", cat: "Web" },
     { name: "Tailwind CSS", cat: "Web" },

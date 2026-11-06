@@ -64,7 +64,7 @@ export default function Header() {
               Roman Roshkanyuk
             </span>
             <span className="text-[10px] text-zinc-400 font-mono tracking-wider hidden sm:block">
-              Všestranný IT Specialista
+              DevOps &amp; IT Specialist
             </span>
           </div>
         </a>
