@@ -31,8 +31,12 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Create uploads dir and give ownership to nextjs user BEFORE switching user
-RUN mkdir -p /app/uploads && chown nextjs:nodejs /app/uploads
+# Install sharp in runner for hardware-accelerated image optimization on Alpine
+RUN npm install --omit=dev sharp
+
+# Create cache and uploads dirs and give ownership to nextjs user
+RUN mkdir -p /app/.next/cache && chown -R nextjs:nodejs /app/.next/cache
+RUN mkdir -p /app/uploads && chown -R nextjs:nodejs /app/uploads
 
 USER nextjs
 

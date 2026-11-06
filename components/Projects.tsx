@@ -69,8 +69,8 @@ export default function Projects() {
 
   return (
     <section id="projects" className="relative py-28 bg-[#09090b] overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/3 left-1/4 w-[450px] h-[450px] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none" />
+      {/* Background ambient lighting - optimized with radial gradient */}
+      <div className="absolute top-1/3 left-1/4 w-[450px] h-[450px] bg-[radial-gradient(circle,rgba(245,158,11,0.08)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         

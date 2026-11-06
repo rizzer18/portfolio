@@ -26,9 +26,9 @@ export default function About() {
 
   return (
     <section id="about" className="relative py-28 bg-[#09090b] overflow-hidden">
-      {/* Subtle ambient glows */}
-      <div className="absolute top-1/2 right-4 w-[450px] h-[450px] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute -bottom-10 left-10 w-[350px] h-[350px] bg-sky-600/4 rounded-full blur-[140px] pointer-events-none" />
+      {/* Subtle ambient glows - optimized with radial gradients */}
+      <div className="absolute top-1/2 right-4 w-[450px] h-[450px] bg-[radial-gradient(circle,rgba(245,158,11,0.08)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute -bottom-10 left-10 w-[350px] h-[350px] bg-[radial-gradient(circle,rgba(2,132,199,0.06)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
