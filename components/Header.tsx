@@ -69,7 +69,7 @@ export default function Header() {
           </div>
         </a>
         {/* Language Toggle */}
-        <div className="hidden md:flex items-center gap-2 ml-4">
+       {/* <div className="hidden md:flex items-center gap-2 ml-4">
           <button
             onClick={() => setLang('cs')}
             className={`px-2 py-1 rounded-full text-xs font-medium transition-colors ${lang === 'cs' ? 'bg-amber-400 text-black' : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800'} `}
@@ -82,7 +82,7 @@ export default function Header() {
           >
             UA
           </button>
-        </div>
+        </div>*/} 
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1 bg-zinc-900/60 border border-zinc-800/70 rounded-full px-3 py-1.5 backdrop-blur-md shadow-inner">
