@@ -29,7 +29,7 @@ export const translations = {
       "Linux servery a Docker kontejnery",
       " s Cloudflare Zero-Trust tunely, konfiguruji robustní ",
       "MikroTik sítě",
-      " (Site-to-Site VPN, OSPF, duální CZ/UA VLANy) a každoročně zajišťuji ",
+      " (Site-to-Site VPN, OSPF, VLANy) a každoročně zajišťuji ",
       "IT Support a infrastrukturu na mezinárodní IT konferenci ISSS",
       ". Propojuji infrastrukturu s moderním webovým vývojem (Next.js).",
     ],
@@ -47,7 +47,7 @@ export const translations = {
     heroInfraStatus: "Vše online & stabilní",
     heroInfraRows: [
       { label: "🐧 Linux Server", value: "Cloudflare Zero-Trust" },
-      { label: "🌐 MikroTik VPN", value: "Site-to-Site (CZ/UA)" },
+      { label: "🌐 MikroTik VPN", value: "Wireguard" },
       { label: "🏠 Home Services (HA)", value: "24/7 Správa & Dohled" },
       { label: "🚀 Production Web", value: "4 klientské weby" },
     ],
@@ -131,7 +131,6 @@ export const translations = {
     ],
     skillLangsTitle: "Jazyky & UI design",
     skillLangs: [
-      { lang: "Ukrajinština", level: "Rodný jazyk" },
       { lang: "Čeština", level: "C1 (maturitní zkouška)" },
       { lang: "Angličtina", level: "B1 (Intermediate)" },
     ],
