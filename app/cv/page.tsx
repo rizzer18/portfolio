@@ -399,10 +399,6 @@ export default function CVPage() {
 
               <ul className="space-y-1.5 text-xs text-zinc-300 print:text-zinc-800">
                 <li className="flex items-center justify-between">
-                  <span>Ukrajinština</span>
-                  <span className="text-amber-400 print:text-zinc-600 font-semibold text-[11px]">Rodný jazyk</span>
-                </li>
-                <li className="flex items-center justify-between">
                   <span>Čeština</span>
                   <span className="text-amber-400 print:text-zinc-600 font-semibold text-[11px]">Plynule (studium VUT Brno)</span>
                 </li>
