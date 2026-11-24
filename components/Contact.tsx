@@ -7,7 +7,7 @@ import { Mail, Phone, Send, CheckCircle2, Sparkles, MessageSquare } from "lucide
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Contact() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [formData, setFormData] = useState({
     subject: "",
     name: "",
@@ -34,14 +34,14 @@ export default function Contact() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || (t.contactTag === "Spojme se" ? "Něco se pokazilo." : "Щось пішло не так."));
+        throw new Error(data.error || (lang === "cs" ? "Něco se pokazilo." : "Щось пішло не так."));
       }
 
       setIsSubmitted(true);
       setFormData({ subject: "", name: "", phone: "", email: "", message: "" });
       setTimeout(() => setIsSubmitted(false), 6000);
     } catch (err: unknown) {
-      setSubmitError(err instanceof Error ? err.message : (t.contactTag === "Spojme se" ? "Neznámá chyba." : "Невідома помилка."));
+      setSubmitError(err instanceof Error ? err.message : (lang === "cs" ? "Neznámá chyba." : "Невідома помилка."));
     } finally {
       setIsSubmitting(false);
     }

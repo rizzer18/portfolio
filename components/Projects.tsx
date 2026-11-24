@@ -20,29 +20,29 @@ const gradients = [
 ];
 
 const domains = [
+  "Self-Hosted Linux · Zero-Trust",
   "bowlingovyclubsv.cz",
+  "luxury-cleaning-solutions.ca",
   "nikita-box.cz",
   "honzapokusil.cz",
-  "luxury-cleaning-solutions.ca",
-  "Local Linux Server & Cloudflare",
 ];
 
-const types: ("web" | "infra")[] = ["web", "web", "web", "web", "infra"];
+const types: ("web" | "infra")[] = ["infra", "web", "web", "web", "web"];
 
 const tags = [
-  ["Next.js", "React", "Tailwind CSS", "SEO Schema", "Reservations"],
-  ["Next.js", "React", "Tailwind CSS", "Multilingual (CZ/UA)", "Dark Mode"],
-  ["Next.js", "React", "CSS Modules", "Responsive Design", "Page Transitions"],
-  ["Next.js", "React", "Tailwind CSS", "Instant Calculator", "Google Reviews"],
-  ["Home Assistant", "Zigbee2MQTT", "Cost-Effective IoT", "Linux", "MikroTik", "Frigate NVR", "Cloudflare"],
+  ["Docker Compose", "GitHub Actions CI/CD", "MikroTik WireGuard", "OSPF/VLAN", "Zero-Trust"],
+  ["Next.js", "TypeScript", "SSR/SSG", "Schema.org SEO", "Reservations"],
+  ["Next.js", "TypeScript", "Price Calculator", "Google Reviews", "Core Web Vitals"],
+  ["Next.js", "React", "i18n (CZ/UA)", "Tailwind CSS", "Responsive UI"],
+  ["Next.js", "React", "Modular UI", "Image Optimization", "Transitions"],
 ];
 
 const liveUrls = [
+  "#about",
   "https://bowlingovyclubsv.cz/",
+  "https://www.luxury-cleaning-solutions.ca/",
   "https://nikita-box.cz/",
   "https://honzapokusil.cz/",
-  "https://www.luxury-cleaning-solutions.ca/",
-  "#about",
 ];
 
 export default function Projects() {
