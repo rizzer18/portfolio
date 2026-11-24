@@ -1,20 +1,17 @@
 node_modules
 .next
 .git
+.github
 .env*
 !.env.example
 uploads
+*.tsbuildinfo
 
 # pnpm-workspace.yaml is a single-app project, exclude to avoid pnpm workspace errors
 pnpm-workspace.yaml
+pnpm-lock.yaml
 
-# PNG-файли лише в корені проекту (не зачіпає public/images/)
-/*.png
-/*.jpg
-/*.jpeg
-/*.ico
-
-# PNG-файли лише в корені проекту (не зачіпає public/images/)
+# Root-level scratch images (does not affect public/images/)
 /*.png
 /*.jpg
 /*.jpeg

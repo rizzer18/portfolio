@@ -1,21 +1,11 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 
 export type Lang = "cs" | "uk";
 
 export const translations = {
   cs: {
-    // ── HEADER ──────────────────────────────────────────────────────────────
-    nav: [
-      { name: "Domů", href: "#hero", id: "hero" },
-      { name: "O mně", href: "#about", id: "about" },
-      { name: "Architektura & Stack", href: "#services", id: "services" },
-      { name: "Produkce", href: "#projects", id: "projects" },
-      { name: "Certifikáty & Praxe", href: "#skills-section", id: "skills-section" },
-      { name: "Kontakt", href: "#contact", id: "contact" },
-    ],
-    headerCv: "CV",
     headerCta: "Kontaktujte mě",
 
     // ── HERO / OVERVIEW ─────────────────────────────────────────────────────
@@ -23,25 +13,7 @@ export const translations = {
     heroGreeting: "Ahoj, jsem",
     heroSubtitle: "Junior DevOps, Infrastructure & Software Engineer",
     heroSubtitleDesc: "End-to-end přesah od L2/L3 sítí a Linuxu přes CI/CD až po C# a TypeScript",
-    heroDesc: [
-      "Student 1. ročníku VUT FEKT Brno a absolvent IT školy Kyberna (2026) s reálnou produkční praxí. Vlastnoručně provozuji ",
-      "24/7 Linux servery, multi-stage Docker kontejnery a vlastní GitHub Actions CI/CD",
-      " za Cloudflare Zero-Trust tunely (0 otevřených WAN portů), stavím ",
-      "MikroTik sítě s WireGuard VPN, OSPF, VRF a 802.1Q VLAN segmentací",
-      " a píšu čistý kód v ",
-      "C# (.NET, OOP, SOLID, LINQ, System.Reflection) i TypeScriptu (Next.js)",
-      ".",
-    ],
     heroCvBtn: "Technické CV (PDF)",
-    heroCompBtn: "Architektura & Stack",
-    heroPills: [
-      { label: "🐳 Docker & GitHub Actions CI/CD", color: "border-amber-500/30 bg-amber-500/10 text-amber-300" },
-      { label: "🐧 Linux (systemd, SSH, Zero-Trust)", color: "border-zinc-700 bg-zinc-900/60 text-zinc-200" },
-      { label: "🌐 MikroTik (OSPF, VRF, WireGuard, VLAN)", color: "border-amber-500/30 bg-amber-500/10 text-amber-300" },
-      { label: "⚡ C# (.NET, SOLID, Async, Reflection)", color: "border-violet-500/30 bg-violet-500/10 text-violet-300" },
-      { label: "🎧 Live Ops & L2 Support (ISSS)", color: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" },
-      { label: "💻 Next.js 15 & Streaming API", color: "border-zinc-700 bg-zinc-900/60 text-zinc-200" },
-    ],
     heroInfraTitle: "Vlastní Home Lab (Ukázka dovedností)",
     heroInfraStatus: "24/7 Home Lab",
     heroInfraRows: [
@@ -52,9 +24,6 @@ export const translations = {
     ],
 
     // ── ABOUT ───────────────────────────────────────────────────────────────
-    aboutTag: "Inženýrský profil",
-    aboutTitle: "DevOps, Systémy",
-    aboutTitleAccent: "& Software Engineering",
     aboutPhotoName: "Roman Roshkanyuk",
     aboutPhotoBadge: "VUT FEKT · 1. ročník",
     aboutBio1: [
@@ -86,13 +55,11 @@ export const translations = {
       { label: "C# (.NET) & Full-Stack", desc: "OOP/SOLID · LINQ · Reflection · Next.js 15 · REST", tag: ".NET & TS" },
       { label: "SysAdmin & Live Ops", desc: "AD DS & GPO · VMware · ISSS SLA Support · MQTT/HA", tag: "ISSS 2024–26" },
     ],
-    aboutCta: "Kontaktujte mě",
 
     // ── PROJECTS ────────────────────────────────────────────────────────────
-    projectsTag: "Ověřeno v reálném provozu",
     projectsTitle1: "Produkční",
     projectsTitle2: "projekty & infra",
-    projectsDesc: "Žádné školní makety — reálně běžící komerční aplikace pro klienty v ČR a Kanadě + vlastní 24/7 serverový klastr.",
+    projectsDesc: "Žádné školní makety — reálně běžící komerční aplikace pro klienty v ČR a Kanadě + vlastní domácí Home Lab.",
     filterAll: "Vše",
     filterWeb: "Komerční weby (4)",
     filterInfra: "Home Lab (1)",
@@ -101,8 +68,6 @@ export const translations = {
     projectLiveStatus: "200 OK · Prod",
     projectSelfHosted: "24/7 Self-Hosted",
     liveProduction: "Production",
-    projectsBanner: "Všechny komerční projekty běží v ostrém provozu s reálnými zákazníky, SSL, SEO strukturovanými daty a monitoringem.",
-    projectsBannerCta: "Chcete probrat architekturu? Napište mi",
     projects: [
       {
         title: "Domácí Linux Server, CI/CD & MikroTik Home Lab",
@@ -131,17 +96,11 @@ export const translations = {
       },
     ],
 
-    // ── TABS / QUALIFICATIONS ───────────────────────────────────────────────
-    tabsTag: "Technická verifikace",
+    // ── QUALIFICATIONS ──────────────────────────────────────────────────────
     tabsTitleParts: ["dovednosti", "certifikáty", "praxe"],
     tabsTitlePrefix: "Ověřené",
     tabsTitleConjunction: "a",
     tabLabels: ["Stack", "Certifikáty & VUT", "Praxe"],
-    userBadgeName: "Roman Roshkanyuk",
-    userBadgeRole: "DevOps & Software Engineer",
-
-    skillsTitle: "Technický arzenál",
-    skillsDesc: "Konkrétní protokoly, nástroje a technologie ověřené v produkci a laboratorních scénářích.",
     skillCats: [
       {
         title: "C# (.NET) & Backend Engineering",
@@ -170,10 +129,6 @@ export const translations = {
       { lang: "Ukrajinština", level: "Rodilý mluvčí (C2)" },
       { lang: "Angličtina", level: "B1+ (technická dokumentace, RFC, CLI)" },
     ],
-    skillDesignItems: ["Čistá architektura", "Dokumentace", "Týmová komunikace"],
-
-    eduTitle: "Vzdělání & 6 ověřených certifikátů",
-    eduDesc: "Vysokoškolské technické studium a certifikace Cisco Networking Academy.",
     schools: [
       {
         period: "2026 — Současnost",
@@ -195,9 +150,6 @@ export const translations = {
     certsTitle: "Oficiální certifikáty",
     certView: "Náhled",
     certDownload: "PDF",
-
-    expTitle: "Reálná praxe & Provozní zodpovědnost",
-    expDesc: "Kombinace produkčního DevOps provozu, živého IT Supportu pod SLA a komerčního vývoje.",
     expCards: [
       {
         tag: "Live Event Ops · Ročníky 2024, 2025, 2026",
@@ -215,11 +167,8 @@ export const translations = {
         desc: "End-to-end dodávka produkčních aplikací (sběr požadavků, architektura v Next.js/TypeScript/Node.js, streaming API, deployment do Dockeru, DNS/SSL v Cloudflare) pro platící klienty v ČR a Kanadě + backend v C# (.NET).",
       },
     ],
-    expEmail: "romanroskanuk74@gmail.com",
-    expPhone: "+420 605 447 445",
 
     // ── SERVICES / ARCHITECTURE ─────────────────────────────────────────────
-    servicesTag: "Technický přesah",
     servicesTitle: ["Architektura, ", "kterou stavím & spravuji"],
     servicesDesc: "Propojuji síťovou vrstvu, Linux/Docker infrastrukturu a aplikační kód v C# / TypeScriptu do spolehlivých celků.",
     services: [
@@ -253,11 +202,9 @@ export const translations = {
       },
     ],
 
-    // ── TECHSTACK ───────────────────────────────────────────────────────────
     techLabel: "Produkční stack & inženýrské nástroje",
 
     // ── CONTACT ─────────────────────────────────────────────────────────────
-    contactTag: "Přímé spojení",
     contactTitle: ["Pojďme probrat ", "spolupráci", " nebo technickou roli"],
     contactSubtitle: "Rád se potkám u technického pohovoru, ukážu živou infrastrukturu i kód svých projektů. Reaguji obratem.",
     emailLabel: "E-mail",
@@ -270,34 +217,9 @@ export const translations = {
     formSend: "Odeslat zprávu",
     formSending: "Odesílám...",
     formSuccess: "Děkuji! Zpráva dorazila — ozvu se vám co nejdříve.",
-
-    // ── FOOTER ──────────────────────────────────────────────────────────────
-    footerMade: "Postaveno na",
-    footerBy: "—",
-    footerDesc: "DevOps · Linux · Docker · MikroTik · C# (.NET) · VUT FEKT Brno",
-    footerNav: [
-      { name: "Domů", href: "#hero" },
-      { name: "O mně", href: "#about" },
-      { name: "Kompetence", href: "#services" },
-      { name: "Portfolio", href: "#projects" },
-      { name: "Certifikáty", href: "#skills-section" },
-      { name: "CV", href: "/cv" },
-      { name: "Kontakt", href: "#contact" },
-    ],
-    backToTop: "Zpět nahoru",
   },
 
   uk: {
-    // ── HEADER ──────────────────────────────────────────────────────────────
-    nav: [
-      { name: "Головна", href: "#hero", id: "hero" },
-      { name: "Про мене", href: "#about", id: "about" },
-      { name: "Архітектура & Стек", href: "#services", id: "services" },
-      { name: "Продакшн", href: "#projects", id: "projects" },
-      { name: "Сертифікати & Досвід", href: "#skills-section", id: "skills-section" },
-      { name: "Контакт", href: "#contact", id: "contact" },
-    ],
-    headerCv: "CV",
     headerCta: "Зв'язатися",
 
     // ── HERO / OVERVIEW ─────────────────────────────────────────────────────
@@ -305,25 +227,7 @@ export const translations = {
     heroGreeting: "Привіт, я",
     heroSubtitle: "Junior DevOps, Infrastructure & Software Engineer",
     heroSubtitleDesc: "End-to-end інженерія: від L2/L3 мереж і Linux через CI/CD до C# та TypeScript",
-    heroDesc: [
-      "Студент 1-го курсу VUT FEKT Brno та випускник IT-школи Kyberna (2026) з реальним продакшн-досвідом. Власноруч адмініструю ",
-      "24/7 Linux-сервери, multi-stage Docker контейнери та власний GitHub Actions CI/CD",
-      " за тунелями Cloudflare Zero-Trust (0 відкритих WAN-портів), будую ",
-      "MikroTik мережі з WireGuard VPN, OSPF, VRF та 802.1Q VLAN",
-      " і пишу чистий код на ",
-      "C# (.NET, SOLID, LINQ, System.Reflection) та TypeScript (Next.js)",
-      ".",
-    ],
     heroCvBtn: "Технічне CV (PDF)",
-    heroCompBtn: "Архітектура & Стек",
-    heroPills: [
-      { label: "🐳 Docker & GitHub Actions CI/CD", color: "border-amber-500/30 bg-amber-500/10 text-amber-300" },
-      { label: "🐧 Linux (systemd, SSH, Zero-Trust)", color: "border-zinc-700 bg-zinc-900/60 text-zinc-200" },
-      { label: "🌐 MikroTik (OSPF, VRF, WireGuard, VLAN)", color: "border-amber-500/30 bg-amber-500/10 text-amber-300" },
-      { label: "⚡ C# (.NET, SOLID, Async, Reflection)", color: "border-violet-500/30 bg-violet-500/10 text-violet-300" },
-      { label: "🎧 Live Ops & L2 Support (ISSS)", color: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" },
-      { label: "💻 Next.js 15 & Streaming API", color: "border-zinc-700 bg-zinc-900/60 text-zinc-200" },
-    ],
     heroInfraTitle: "Власний Home Lab (Підтвердження вмінь)",
     heroInfraStatus: "24/7 Home Lab",
     heroInfraRows: [
@@ -334,9 +238,6 @@ export const translations = {
     ],
 
     // ── ABOUT ───────────────────────────────────────────────────────────────
-    aboutTag: "Інженерний профіль",
-    aboutTitle: "DevOps, Системи",
-    aboutTitleAccent: "& Software Engineering",
     aboutPhotoName: "Roman Roshkanyuk",
     aboutPhotoBadge: "VUT FEKT · 1-й курс",
     aboutBio1: [
@@ -368,13 +269,11 @@ export const translations = {
       { label: "C# (.NET) & Full-Stack", desc: "ООП/SOLID · LINQ · Reflection · Next.js 15 · REST", tag: ".NET & TS" },
       { label: "SysAdmin & Live Ops", desc: "AD DS & GPO · VMware · ISSS SLA Support · MQTT/HA", tag: "ISSS 2024–26" },
     ],
-    aboutCta: "Зв'язатися",
 
     // ── PROJECTS ────────────────────────────────────────────────────────────
-    projectsTag: "Перевірено реальним трафіком",
     projectsTitle1: "Продакшн",
     projectsTitle2: "проєкти & інфра",
-    projectsDesc: "Жодних навчальних макетів — реальні комерційні платформи для клієнтів у Чехії та Канаді + власний 24/7 серверний кластер.",
+    projectsDesc: "Жодних навчальних макетів — реальні комерційні платформи для клієнтів у Чехії та Канаді + власний домашній Home Lab.",
     filterAll: "Всі",
     filterWeb: "Комерційні сайти (4)",
     filterInfra: "Home Lab (1)",
@@ -383,8 +282,6 @@ export const translations = {
     projectLiveStatus: "200 OK · Prod",
     projectSelfHosted: "24/7 Self-Hosted",
     liveProduction: "Production",
-    projectsBanner: "Усі комерційні проєкти працюють у живому продакшні з реальними клієнтами, SSL, структурованими даними SEO та моніторингом.",
-    projectsBannerCta: "Обговоримо архітектуру чи вакансію?",
     projects: [
       {
         title: "Домашній Linux-сервер, CI/CD & MikroTik Home Lab",
@@ -413,17 +310,11 @@ export const translations = {
       },
     ],
 
-    // ── TABS / QUALIFICATIONS ───────────────────────────────────────────────
-    tabsTag: "Технічна верифікація",
+    // ── QUALIFICATIONS ──────────────────────────────────────────────────────
     tabsTitleParts: ["навички", "сертифікати", "досвід"],
     tabsTitlePrefix: "Підтверджені",
     tabsTitleConjunction: "та",
     tabLabels: ["Стек", "Сертифікати & VUT", "Досвід"],
-    userBadgeName: "Roman Roshkanyuk",
-    userBadgeRole: "DevOps & Software Engineer",
-
-    skillsTitle: "Технічний арсенал",
-    skillsDesc: "Конкретні протоколи, інструменти та технології, перевірені у продакшні та лабораторних стендах.",
     skillCats: [
       {
         title: "C# (.NET) & Backend Engineering",
@@ -452,10 +343,6 @@ export const translations = {
       { lang: "Українська", level: "Рідна мова (C2)" },
       { lang: "Англійська", level: "B1+ (технічна документація, RFC, CLI)" },
     ],
-    skillDesignItems: ["Чиста архітектура", "Документація", "Командна комунікація"],
-
-    eduTitle: "Освіта & 6 офіційних сертифікатів",
-    eduDesc: "Вища інженерна освіта та сертифікація Cisco Networking Academy.",
     schools: [
       {
         period: "2026 — Теперішній час",
@@ -477,9 +364,6 @@ export const translations = {
     certsTitle: "Офіційні сертифікати",
     certView: "Перегляд",
     certDownload: "PDF",
-
-    expTitle: "Реальний досвід & Експлуатаційна відповідальність",
-    expDesc: "Поєднання продакшн DevOps-інфраструктури, живого IT Support під SLA та комерційної розробки.",
     expCards: [
       {
         tag: "Live Event Ops · Роки 2024, 2025, 2026",
@@ -497,11 +381,8 @@ export const translations = {
         desc: "End-to-end доставка продакшн-систем (архітектура на Next.js/TypeScript/Node.js, потокові файлові API, деплой у Docker, DNS/SSL у Cloudflare) для клієнтів у Чехії й Канаді + розробка на C# (.NET).",
       },
     ],
-    expEmail: "romanroskanuk74@gmail.com",
-    expPhone: "+420 605 447 445",
 
     // ── SERVICES / ARCHITECTURE ─────────────────────────────────────────────
-    servicesTag: "Інженерний профіль",
     servicesTitle: ["Архітектура, ", "яку я будую & підтримую"],
     servicesDesc: "Поєдную мережевий рівень, Linux/Docker інфраструктуру та прикладний код на C# / TypeScript у відмовостійкі системи.",
     services: [
@@ -535,11 +416,9 @@ export const translations = {
       },
     ],
 
-    // ── TECHSTACK ───────────────────────────────────────────────────────────
     techLabel: "Продакшн стек & інженерні інструменти",
 
     // ── CONTACT ─────────────────────────────────────────────────────────────
-    contactTag: "Прямий контакт",
     contactTitle: ["Обговоримо ", "співпрацю", " або інженерну роль"],
     contactSubtitle: "Охоче пройду технічну співбесіду, покажу живу інфраструктуру та код своїх проєктів. Відповідаю оперативно.",
     emailLabel: "E-mail",
@@ -552,21 +431,6 @@ export const translations = {
     formSend: "Надіслати повідомлення",
     formSending: "Надсилаю...",
     formSuccess: "Дякую! Повідомлення отримано — відповім якнайшвидше.",
-
-    // ── FOOTER ──────────────────────────────────────────────────────────────
-    footerMade: "Побудовано на",
-    footerBy: "—",
-    footerDesc: "DevOps · Linux · Docker · MikroTik · C# (.NET) · VUT FEKT Brno",
-    footerNav: [
-      { name: "Головна", href: "#hero" },
-      { name: "Про мене", href: "#about" },
-      { name: "Компетенції", href: "#services" },
-      { name: "Портфоліо", href: "#projects" },
-      { name: "Сертифікати", href: "#skills-section" },
-      { name: "CV", href: "/cv" },
-      { name: "Контакт", href: "#contact" },
-    ],
-    backToTop: "Нагору",
   },
 } as const;
 
@@ -597,17 +461,24 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   }, []);
 
-  const setLang = (newLang: Lang) => {
+  const setLang = useCallback((newLang: Lang) => {
     setLangState(newLang);
-    try { localStorage.setItem("portfolio-lang", newLang); } catch {}
+    try {
+      localStorage.setItem("portfolio-lang", newLang);
+    } catch {}
     document.documentElement.lang = newLang;
-  };
+  }, []);
 
-  return (
-    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] as Translations }}>
-      {children}
-    </LanguageContext.Provider>
+  const value = useMemo(
+    () => ({
+      lang,
+      setLang,
+      t: translations[lang] as Translations,
+    }),
+    [lang, setLang]
   );
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
 export const useLanguage = () => useContext(LanguageContext);

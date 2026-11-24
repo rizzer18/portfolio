@@ -4,7 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "../context/LanguageContext";
 
 const inter = Inter({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
   variable: "--font-inter",
 });

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { Readable } from "node:stream";
 
 export const dynamic = "force-dynamic";
 
@@ -70,28 +72,9 @@ const MIME_TYPES: Record<string, string> = {
 };
 
 function getMimeType(filename: string): string {
-  const ext = filename.split(".").pop()?.toLowerCase() ?? "";
+  const dotIdx = filename.lastIndexOf(".");
+  const ext = dotIdx !== -1 ? filename.slice(dotIdx + 1).toLowerCase() : "";
   return MIME_TYPES[ext] ?? "application/octet-stream";
-}
-
-function nodeStreamToWebStream(stream: fs.ReadStream): ReadableStream<Uint8Array> {
-  return new ReadableStream({
-    start(controller) {
-      stream.on("data", (chunk: Buffer | string) => {
-        const buf = typeof chunk === "string" ? Buffer.from(chunk) : chunk;
-        controller.enqueue(new Uint8Array(buf));
-      });
-      stream.on("end", () => {
-        controller.close();
-      });
-      stream.on("error", (err) => {
-        controller.error(err);
-      });
-    },
-    cancel() {
-      stream.destroy();
-    },
-  });
 }
 
 export async function GET(
@@ -104,13 +87,31 @@ export async function GET(
     const safeName = path.basename(decoded);
     const filePath = path.join(UPLOADS_DIR, safeName);
 
-    if (!fs.existsSync(filePath)) {
+    let stat: fs.Stats;
+    try {
+      stat = await fsp.stat(filePath);
+      if (!stat.isFile()) {
+        return NextResponse.json({ error: "File not found" }, { status: 404 });
+      }
+    } catch {
       return NextResponse.json({ error: "File not found" }, { status: 404 });
     }
 
-    const stat = fs.statSync(filePath);
     const fileSize = stat.size;
+    const etag = `W/"${fileSize.toString(16)}-${Math.floor(stat.mtimeMs).toString(16)}"`;
     const forceDownload = req.nextUrl.searchParams.get("download") === "1";
+    const rangeHeader = req.headers.get("range");
+
+    if (!forceDownload && !rangeHeader && req.headers.get("if-none-match") === etag) {
+      return new NextResponse(null, {
+        status: 304,
+        headers: {
+          ETag: etag,
+          "Cache-Control": "public, max-age=3600",
+        },
+      });
+    }
+
     const contentType = forceDownload
       ? "application/octet-stream"
       : getMimeType(safeName);
@@ -124,6 +125,9 @@ export async function GET(
       "Content-Disposition": contentDisposition,
       "Accept-Ranges": "bytes",
       "X-Content-Type-Options": "nosniff",
+      ETag: etag,
+      "Last-Modified": stat.mtime.toUTCString(),
+      "Cache-Control": forceDownload ? "private, no-cache" : "public, max-age=3600",
     };
 
     if (!forceDownload && contentType.startsWith("image/svg")) {
@@ -131,7 +135,6 @@ export async function GET(
         "default-src 'none'; img-src data: 'self'; style-src 'unsafe-inline'; sandbox";
     }
 
-    const rangeHeader = req.headers.get("range");
     if (rangeHeader && !forceDownload) {
       const match = rangeHeader.match(/bytes=(\d*)-(\d*)/);
       if (match) {
@@ -150,25 +153,31 @@ export async function GET(
         const chunkSize = end - start + 1;
         const stream = fs.createReadStream(filePath, { start, end });
 
-        return new NextResponse(nodeStreamToWebStream(stream), {
-          status: 206,
-          headers: {
-            ...baseHeaders,
-            "Content-Range": `bytes ${start}-${end}/${fileSize}`,
-            "Content-Length": chunkSize.toString(),
-          },
-        });
+        return new NextResponse(
+          Readable.toWeb(stream) as unknown as ReadableStream<Uint8Array>,
+          {
+            status: 206,
+            headers: {
+              ...baseHeaders,
+              "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+              "Content-Length": chunkSize.toString(),
+            },
+          }
+        );
       }
     }
 
     const stream = fs.createReadStream(filePath);
-    return new NextResponse(nodeStreamToWebStream(stream), {
-      status: 200,
-      headers: {
-        ...baseHeaders,
-        "Content-Length": fileSize.toString(),
-      },
-    });
+    return new NextResponse(
+      Readable.toWeb(stream) as unknown as ReadableStream<Uint8Array>,
+      {
+        status: 200,
+        headers: {
+          ...baseHeaders,
+          "Content-Length": fileSize.toString(),
+        },
+      }
+    );
   } catch {
     return NextResponse.json({ error: "Failed to serve file" }, { status: 500 });
   }

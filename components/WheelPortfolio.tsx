@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import {
   User,
   Cpu,
@@ -34,7 +34,7 @@ import {
   Briefcase,
   FolderOpen,
 } from "lucide-react";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage, type Lang, type Translations } from "../context/LanguageContext";
 
 interface Certificate {
   name: string;
@@ -165,18 +165,13 @@ const DRUM_SPRING = {
   mass: 0.85,
 };
 
-export default function WheelPortfolio() {
-  const { t, lang, setLang } = useLanguage();
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [direction, setDirection] = useState<number>(1);
-  const activeIndexRef = useRef<number>(0);
-
-  // Sub-states inside sections
-  const [projectFilter, setProjectFilter] = useState<"all" | "web" | "infra">("all");
-  const [qualFilter, setQualFilter] = useState<"all" | "certs" | "skills" | "edu">("all");
-  const [previewCert, setPreviewCert] = useState<Certificate | null>(null);
-
-  // Contact form state
+const ContactSection = memo(function ContactSection({
+  lang,
+  t,
+}: {
+  lang: Lang;
+  t: Translations;
+}) {
   const [formData, setFormData] = useState({
     subject: "",
     name: "",
@@ -188,45 +183,227 @@ export default function WheelPortfolio() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(
+          data.error || (lang === "cs" ? "Něco se pokazilo." : "Щось пішло не так.")
+        );
+      }
+      setIsSubmitted(true);
+      setFormData({ subject: "", name: "", phone: "", email: "", message: "" });
+      setTimeout(() => setIsSubmitted(false), 6000);
+    } catch (err: unknown) {
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : lang === "cs"
+          ? "Neznámá chyba."
+          : "Невідома помилка."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+          {t.contactTitle[0]}
+          <span className="text-gold-gradient">{t.contactTitle[1]}</span>
+          {t.contactTitle[2]}
+        </h2>
+        <p className="text-xs text-zinc-400 mt-0.5">{t.contactSubtitle}</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        <div className="lg:col-span-5 space-y-2.5">
+          <a
+            href="mailto:romanroskanuk74@gmail.com"
+            className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900/70 border border-zinc-800 hover:border-amber-400/50 transition-all group"
+          >
+            <div className="p-2 rounded-lg bg-amber-400/10 text-amber-400">
+              <Mail size={16} />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[9.5px] uppercase tracking-wider text-zinc-500 font-semibold">
+                {t.emailLabel}
+              </div>
+              <div className="text-xs font-semibold text-white group-hover:text-amber-300 truncate">
+                romanroskanuk74@gmail.com
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="tel:+420605447445"
+            className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900/70 border border-zinc-800 hover:border-amber-400/50 transition-all group"
+          >
+            <div className="p-2 rounded-lg bg-amber-400/10 text-amber-400">
+              <Phone size={16} />
+            </div>
+            <div>
+              <div className="text-[9.5px] uppercase tracking-wider text-zinc-500 font-semibold">
+                {t.phoneLabel}
+              </div>
+              <div className="text-xs font-semibold text-white group-hover:text-amber-300">
+                +420 605 447 445
+              </div>
+            </div>
+          </a>
+
+          <div className="hidden sm:block relative w-full h-32 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950">
+            <Image
+              src="/images/classroom.png"
+              alt="Roman Roshkanyuk — ISSS & Team"
+              fill
+              sizes="360px"
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        <form onSubmit={handleContactSubmit} className="lg:col-span-7 space-y-2.5">
+          <input
+            type="text"
+            name="subject"
+            value={formData.subject}
+            onChange={(e) => setFormData((p) => ({ ...p, subject: e.target.value }))}
+            placeholder={t.formSubject}
+            required
+            className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
+              placeholder={t.formName}
+              required
+              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
+            />
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
+              placeholder={t.formPhone}
+              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
+            />
+          </div>
+
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+            placeholder={t.formEmail}
+            required
+            className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
+          />
+
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
+            placeholder={t.formMessage}
+            rows={3}
+            required
+            className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors resize-none"
+          />
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-2.5 px-5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-xs sm:text-sm shadow-gold-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 transition-all"
+          >
+            <span>{isSubmitting ? t.formSending : t.formSend}</span>
+            <Send size={14} />
+          </button>
+
+          {isSubmitted && (
+            <div className="flex items-center gap-2 text-xs text-amber-300 bg-amber-400/10 border border-amber-400/30 p-2.5 rounded-xl">
+              <CheckCircle2 size={14} className="text-amber-400" />
+              <span>{t.formSuccess}</span>
+            </div>
+          )}
+
+          {submitError && (
+            <div className="text-xs text-red-300 bg-red-500/10 border border-red-500/30 p-2.5 rounded-xl">
+              ⚠ {submitError}
+            </div>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+});
+
+export default function WheelPortfolio() {
+  const { t, lang, setLang } = useLanguage();
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [direction, setDirection] = useState<number>(1);
+  const activeIndexRef = useRef<number>(0);
+
+  // Sub-states inside sections
+  const [projectFilter, setProjectFilter] = useState<"all" | "web" | "infra">("all");
+  const [qualFilter, setQualFilter] = useState<"all" | "certs" | "skills" | "edu">("all");
+  const [previewCert, setPreviewCert] = useState<Certificate | null>(null);
+
   const scrollerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const wheelNodes = [
-    {
-      id: "about",
-      num: "01",
-      title: lang === "cs" ? "O mně" : "Про мене",
-      sub: lang === "cs" ? "Inženýrský profil" : "Інженерний профіль",
-      icon: User,
-    },
-    {
-      id: "services",
-      num: "02",
-      title: lang === "cs" ? "Architektura" : "Архітектура",
-      sub: lang === "cs" ? "DevOps, Sítě & C#" : "DevOps, Мережі & C#",
-      icon: Cpu,
-    },
-    {
-      id: "projects",
-      num: "03",
-      title: lang === "cs" ? "Produkce" : "Продакшн",
-      sub: lang === "cs" ? "5 živých nasazení" : "5 живих релізів",
-      icon: Layers,
-    },
-    {
-      id: "skills-section",
-      num: "04",
-      title: lang === "cs" ? "Certifikáty & Praxe" : "Сертифікати & Досвід",
-      sub: lang === "cs" ? "CCNA, VUT & ISSS" : "CCNA, VUT & ISSS",
-      icon: Award,
-    },
-    {
-      id: "contact",
-      num: "05",
-      title: lang === "cs" ? "Kontakt" : "Контакт",
-      sub: lang === "cs" ? "Přímé spojení" : "Прямий зв'язок",
-      icon: Send,
-    },
-  ];
+  const wheelNodes = useMemo(
+    () => [
+      {
+        id: "about",
+        num: "01",
+        title: lang === "cs" ? "O mně" : "Про мене",
+        sub: lang === "cs" ? "Inženýrský profil" : "Інженерний профіль",
+        icon: User,
+      },
+      {
+        id: "services",
+        num: "02",
+        title: lang === "cs" ? "Architektura" : "Архітектура",
+        sub: lang === "cs" ? "DevOps, Sítě & C#" : "DevOps, Мережі & C#",
+        icon: Cpu,
+      },
+      {
+        id: "projects",
+        num: "03",
+        title: lang === "cs" ? "Produkce" : "Продакшн",
+        sub: lang === "cs" ? "5 živých nasazení" : "5 живих релізів",
+        icon: Layers,
+      },
+      {
+        id: "skills-section",
+        num: "04",
+        title: lang === "cs" ? "Certifikáty & Praxe" : "Сертифікати & Досвід",
+        sub: lang === "cs" ? "CCNA, VUT & ISSS" : "CCNA, VUT & ISSS",
+        icon: Award,
+      },
+      {
+        id: "contact",
+        num: "05",
+        title: lang === "cs" ? "Kontakt" : "Контакт",
+        sub: lang === "cs" ? "Přímé spojení" : "Прямий зв'язок",
+        icon: Send,
+      },
+    ],
+    [lang]
+  );
 
   const selectNode = useCallback((nextIdx: number, explicitDir?: number) => {
     const normalized = ((nextIdx % NODE_COUNT) + NODE_COUNT) % NODE_COUNT;
@@ -283,52 +460,25 @@ export default function WheelPortfolio() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [previewCert]);
 
-  // Contact Submit
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitError(null);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(
-          data.error || (lang === "cs" ? "Něco se pokazilo." : "Щось пішло не так.")
-        );
-      }
-      setIsSubmitted(true);
-      setFormData({ subject: "", name: "", phone: "", email: "", message: "" });
-      setTimeout(() => setIsSubmitted(false), 6000);
-    } catch (err: unknown) {
-      setSubmitError(
-        err instanceof Error
-          ? err.message
-          : lang === "cs"
-          ? "Neznámá chyba."
-          : "Невідома помилка."
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const projects = useMemo(
+    () =>
+      t.projects.map((p, i) => ({
+        id: i + 1,
+        title: p.title,
+        domain: PROJECT_DOMAINS[i],
+        category: p.category,
+        type: PROJECT_TYPES[i],
+        description: p.description,
+        tags: PROJECT_TAGS[i],
+        liveUrl: PROJECT_URLS[i],
+      })),
+    [t.projects]
+  );
 
-  const projects = t.projects.map((p, i) => ({
-    id: i + 1,
-    title: p.title,
-    domain: PROJECT_DOMAINS[i],
-    category: p.category,
-    type: PROJECT_TYPES[i],
-    description: p.description,
-    tags: PROJECT_TAGS[i],
-    liveUrl: PROJECT_URLS[i],
-  }));
-
-  const filteredProjects = projects.filter((p) =>
-    projectFilter === "all" ? true : p.type === projectFilter
+  const filteredProjects = useMemo(
+    () =>
+      projects.filter((p) => (projectFilter === "all" ? true : p.type === projectFilter)),
+    [projects, projectFilter]
   );
 
   // Renders compact, high-density content for any section index (0..4)
@@ -961,140 +1111,7 @@ export default function WheelPortfolio() {
 
       /* ── 05: CONTACT ── */
       default:
-        return (
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                {t.contactTitle[0]}
-                <span className="text-gold-gradient">{t.contactTitle[1]}</span>
-                {t.contactTitle[2]}
-              </h2>
-              <p className="text-xs text-zinc-400 mt-0.5">{t.contactSubtitle}</p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-              <div className="lg:col-span-5 space-y-2.5">
-                <a
-                  href="mailto:romanroskanuk74@gmail.com"
-                  className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900/70 border border-zinc-800 hover:border-amber-400/50 transition-all group"
-                >
-                  <div className="p-2 rounded-lg bg-amber-400/10 text-amber-400">
-                    <Mail size={16} />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-[9.5px] uppercase tracking-wider text-zinc-500 font-semibold">
-                      {t.emailLabel}
-                    </div>
-                    <div className="text-xs font-semibold text-white group-hover:text-amber-300 truncate">
-                      romanroskanuk74@gmail.com
-                    </div>
-                  </div>
-                </a>
-
-                <a
-                  href="tel:+420605447445"
-                  className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900/70 border border-zinc-800 hover:border-amber-400/50 transition-all group"
-                >
-                  <div className="p-2 rounded-lg bg-amber-400/10 text-amber-400">
-                    <Phone size={16} />
-                  </div>
-                  <div>
-                    <div className="text-[9.5px] uppercase tracking-wider text-zinc-500 font-semibold">
-                      {t.phoneLabel}
-                    </div>
-                    <div className="text-xs font-semibold text-white group-hover:text-amber-300">
-                      +420 605 447 445
-                    </div>
-                  </div>
-                </a>
-
-                <div className="hidden sm:block relative w-full h-32 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950">
-                  <Image
-                    src="/images/classroom.png"
-                    alt="Roman Roshkanyuk — ISSS & Team"
-                    fill
-                    sizes="360px"
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-
-              <form onSubmit={handleContactSubmit} className="lg:col-span-7 space-y-2.5">
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData((p) => ({ ...p, subject: e.target.value }))}
-                  placeholder={t.formSubject}
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-                />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
-                    placeholder={t.formName}
-                    required
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-                  />
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
-                    placeholder={t.formPhone}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-                  />
-                </div>
-
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
-                  placeholder={t.formEmail}
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-                />
-
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
-                  placeholder={t.formMessage}
-                  rows={3}
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors resize-none"
-                />
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-2.5 px-5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-xs sm:text-sm shadow-gold-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 transition-all"
-                >
-                  <span>{isSubmitting ? t.formSending : t.formSend}</span>
-                  <Send size={14} />
-                </button>
-
-                {isSubmitted && (
-                  <div className="flex items-center gap-2 text-xs text-amber-300 bg-amber-400/10 border border-amber-400/30 p-2.5 rounded-xl">
-                    <CheckCircle2 size={14} className="text-amber-400" />
-                    <span>{t.formSuccess}</span>
-                  </div>
-                )}
-
-                {submitError && (
-                  <div className="text-xs text-red-300 bg-red-500/10 border border-red-500/30 p-2.5 rounded-xl">
-                    ⚠ {submitError}
-                  </div>
-                )}
-              </form>
-            </div>
-          </div>
-        );
+        return <ContactSection lang={lang} t={t} />;
     }
   };
 
@@ -1102,6 +1119,7 @@ export default function WheelPortfolio() {
   const nextNode = wheelNodes[(activeIndex + 1) % NODE_COUNT];
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#060609] text-white relative flex flex-col">
       {/* Background Telemetry & Ambient Glows */}
       <div className="fixed inset-0 bg-grid-pattern opacity-50 pointer-events-none" />
@@ -1358,7 +1376,7 @@ export default function WheelPortfolio() {
               const Icon = node.icon;
 
               return (
-                <motion.button
+                <m.button
                   key={node.id}
                   type="button"
                   onClick={() => selectNode(idx)}
@@ -1419,7 +1437,7 @@ export default function WheelPortfolio() {
                       {node.sub}
                     </p>
                   </div>
-                </motion.button>
+                </m.button>
               );
             })}
           </div>
@@ -1506,7 +1524,7 @@ export default function WheelPortfolio() {
               const zIndex = 30 - absRel * 10;
 
               return (
-                <motion.section
+                <m.section
                   key={node.id}
                   onClick={!isActive ? () => selectNode(idx) : undefined}
                   animate={{
@@ -1564,20 +1582,20 @@ export default function WheelPortfolio() {
                     </div>
                   </div>
 
-                  {/* Card Inner Body — normal vertical scroll only, hidden on background deck plates */}
+                  {/* Card Inner Body — only mount active section DOM for 80% lower node count */}
                   <div
                     ref={(el) => {
                       scrollerRefs.current[idx] = el;
                     }}
-                    className={`flex-1 px-6 xl:px-8 py-5 xl:py-6 transition-opacity duration-200 ${
+                    className={`flex-1 px-6 xl:px-8 py-5 xl:py-6 ${
                       isActive
-                        ? "overflow-y-auto pointer-events-auto opacity-100"
-                        : "overflow-hidden pointer-events-none opacity-0"
+                        ? "overflow-y-auto pointer-events-auto"
+                        : "overflow-hidden pointer-events-none"
                     }`}
                   >
-                    {renderSectionBody(idx)}
+                    {isActive ? renderSectionBody(idx) : null}
                   </div>
-                </motion.section>
+                </m.section>
               );
             })}
           </div>
@@ -1604,7 +1622,7 @@ export default function WheelPortfolio() {
         ═══════════════════════════════════════════════════════════════════ */}
         <div style={{ perspective: "1100px" }} className="lg:hidden w-full pb-16">
           <AnimatePresence mode="wait" custom={direction}>
-            <motion.section
+            <m.section
               key={wheelNodes[activeIndex].id}
               custom={direction}
               initial={{
@@ -1637,7 +1655,7 @@ export default function WheelPortfolio() {
                 </span>
               </div>
               <div className="p-4 sm:p-5">{renderSectionBody(activeIndex)}</div>
-            </motion.section>
+            </m.section>
           </AnimatePresence>
         </div>
       </main>
@@ -1724,5 +1742,6 @@ export default function WheelPortfolio() {
         </div>
       )}
     </div>
+    </LazyMotion>
   );
 }

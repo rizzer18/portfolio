@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   UploadCloud,
@@ -73,14 +73,16 @@ function formatSize(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 }
 
+const DATE_FORMATTER = new Intl.DateTimeFormat("uk-UA", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleString("uk-UA", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return DATE_FORMATTER.format(new Date(iso));
 }
 
 function renderFileTypeIcon(name: string, size = 18) {
@@ -132,8 +134,17 @@ export default function FileServerPage() {
     fetchFiles();
   }, [fetchFiles]);
 
-  const filtered = files.filter((f) =>
-    f.name.toLowerCase().includes(search.toLowerCase())
+  const deferredSearch = useDeferredValue(search);
+
+  const filtered = useMemo(() => {
+    const q = deferredSearch.trim().toLowerCase();
+    if (!q) return files;
+    return files.filter((f) => f.name.toLowerCase().includes(q));
+  }, [files, deferredSearch]);
+
+  const totalFilteredSize = useMemo(
+    () => filtered.reduce((acc, f) => acc + f.size, 0),
+    [filtered]
   );
 
   const activeFile =
@@ -373,7 +384,7 @@ export default function FileServerPage() {
           <div className="flex items-center justify-between sm:justify-end gap-3">
             <span className="text-zinc-500 text-xs sm:text-sm whitespace-nowrap">
               {filtered.length} файл{filtered.length === 1 ? "" : "ів"} ·{" "}
-              {formatSize(filtered.reduce((acc, f) => acc + f.size, 0))} всього
+              {formatSize(totalFilteredSize)} всього
             </span>
 
             <div className="flex items-center bg-zinc-900/90 border border-zinc-800 rounded-xl p-1">
