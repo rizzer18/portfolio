@@ -61,11 +61,11 @@ export default function CVPage() {
             <div className="flex items-center gap-5">
               <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-amber-400/40 print:border-zinc-400 shrink-0 bg-zinc-900">
                 <Image
-                  src="/images/roman.png"
+                  src="/images/roman-profile.jpg"
                   alt="Roman Roshkanyuk"
                   fill
                   sizes="112px"
-                  className="object-cover"
+                  className="object-cover object-[50%_32%]"
                   priority
                 />
               </div>

@@ -75,12 +75,12 @@ export default function About() {
             <div className="relative p-[1.5px] rounded-[1.8rem] bg-gradient-to-b from-amber-400/40 via-zinc-800 to-transparent shadow-2xl">
               <div className="relative w-64 h-80 sm:w-72 sm:h-96 rounded-[1.7rem] overflow-hidden bg-zinc-950 group">
                 <Image
-                  src="/images/roman.png"
+                  src="/images/roman-profile.jpg"
                   alt="Roman Roshkanyuk"
                   fill
                   sizes="(max-width: 640px) 256px, 288px"
                   priority
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="object-cover object-[50%_32%] group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-zinc-300">
