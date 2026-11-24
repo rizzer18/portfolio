@@ -148,172 +148,162 @@ export default function CVPage() {
               </h2>
               <p className="text-xs text-zinc-300 print:text-zinc-800 leading-relaxed">
                 {isCs
-                  ? "Prakticky zaměřený inženýr propojující správu Linux serverů, kontejnerizaci (Docker, GitHub Actions CI/CD), síťovou architekturu (2× Cisco CCNA, MikroTik OSPF/VRF/WireGuard/VLAN, Windows Server AD DS & GPO) a vývoj softwaru v C# (.NET — OOP, SOLID, LINQ, async/await, System.Reflection) a TypeScriptu (Next.js 15). Vlastnoručně provozuji 24/7 produkční Linux infrastrukturu za Cloudflare Zero-Trust tunely (0 otevřených WAN portů), dodal jsem 4+ komerční aplikace do ostrého provozu v ČR a Kanadě a každoročně zajišťuji L1/L2 IT Support na mezinárodní konferenci ISSS."
-                  : "Практичний інженер, що поєднує адміністрування Linux-серверів, контейнеризацію (Docker, GitHub Actions CI/CD), мережеву архітектуру (2× Cisco CCNA, MikroTik OSPF/VRF/WireGuard/VLAN, Windows Server AD DS & GPO) та розробку ПЗ на C# (.NET — ООП, SOLID, LINQ, async/await, System.Reflection) і TypeScript (Next.js 15). Власноруч підтримую 24/7 Linux-інфраструктуру за Cloudflare Zero-Trust (0 відкритих WAN-портів), вивів у продакшн 4+ комерційні веб-системи в Чехії й Канаді та щороку забезпечую L1/L2 IT Support на міжнародній конференції ISSS."}
+                  ? "Prakticky zaměřený student 1. ročníku VUT FEKT Brno a absolvent SŠ Kyberna (2026) se zaměřením na správu Linuxu, sítě (2× Cisco CCNA, MikroTik, Windows Server AD DS & GPO) a vývoj v C# (.NET) a TypeScriptu (Next.js). Své znalosti prokazuji na reálných komerčních webech pro klienty v ČR a Kanadě (4 projekty v provozu), tříleté praxi v IT Support týmu na konferenci ISSS (2024–2026) a vlastním domácím Home Labu (Linux server, Docker, vlastní GitHub Actions CI/CD, Cloudflare Zero-Trust a MikroTik VPN/OSPF/VLAN)."
+                  : "Практично орієнтований студент 1-го курсу VUT FEKT Brno та випускник SŠ Kyberna (2026) зі спеціалізацією на Linux, мережах (2× Cisco CCNA, MikroTik, Windows Server AD DS & GPO) та розробці на C# (.NET) і TypeScript (Next.js). Підтверджую свої навички 4 реальними комерційними сайтами для клієнтів у Чехії й Канаді, трирічним досвідом IT Support на конференції ISSS (2024–2026) та власними домашніми Home Lab проєктами (Linux-сервер, Docker, власний GitHub Actions CI/CD, Cloudflare Zero-Trust і MikroTik VPN/OSPF/VLAN)."}
               </p>
             </section>
 
-            {/* Production Experience & Architecture */}
+            {/* Real Experience & Commercial Work */}
             <section>
-              <h2 className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-zinc-800 mb-3.5 flex items-center gap-2">
-                <Code size={14} />
+              <h2 className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-zinc-800 mb-3 flex items-center gap-2">
+                <Briefcase size={14} />
                 <span>
                   {isCs
-                    ? "Produkční praxe & Technická realizace"
-                    : "Продакшн-досвід & Технічна реалізація"}
+                    ? "Praxe & Komerční realizace"
+                    : "Практичний досвід & Комерційні проєкти"}
                 </span>
               </h2>
 
-              <div className="space-y-4">
-                {/* Role 1: DevOps & Linux */}
+              <div className="space-y-3.5">
+                {/* Commercial Web & C# */}
                 <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5">
                   <div className="flex items-center justify-between gap-2 mb-0.5">
                     <h3 className="text-xs sm:text-[13px] font-bold text-white print:text-black">
-                      DevOps, Linux &amp; Zero-Trust Infrastructure Engineer
+                      {isCs
+                        ? "Freelance Web Developer & C# (.NET) vývoj"
+                        : "Freelance Web Developer & розробка на C# (.NET)"}
                     </h3>
                     <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600 shrink-0">
                       2023 — {isCs ? "Současnost" : "Тепер. час"}
                     </span>
                   </div>
                   <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1">
+                    Next.js 15 · TypeScript · Node.js · C# (.NET, OOP/SOLID, System.Reflection)
+                  </p>
+                  <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside leading-relaxed">
+                    <li>
+                      <strong className="text-white print:text-black">
+                        {isCs ? "4 komerční weby v provozu:" : "4 комерційні сайти в продакшні:"}
+                      </strong>{" "}
+                      <code>bowlingovyclubsv.cz</code>,{" "}
+                      <code>luxury-cleaning-solutions.ca</code> (Kanada),{" "}
+                      <code>nikita-box.cz</code>, <code>honzapokusil.cz</code>.
+                    </li>
+                    <li>
+                      <strong className="text-white print:text-black">C# (.NET):</strong>{" "}
+                      {isCs
+                        ? "Důraz na čisté OOP & SOLID principy, Generics, LINQ, async/await a práci se System.Reflection + vlastní streamovací File Server (HTTP 206 Range)."
+                        : "Чиста архітектура ООП & SOLID, Generics, LINQ, async/await та робота з System.Reflection + власний потоковий File Server (HTTP 206 Range)."}
+                    </li>
+                  </ul>
+                </div>
+
+                {/* ISSS Live IT Support */}
+                <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                    <h3 className="text-xs sm:text-[13px] font-bold text-white print:text-black">
+                      IT Support — Konference ISSS Hradec Králové
+                    </h3>
+                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600 shrink-0">
+                      {isCs ? "Ročníky 2024, 2025, 2026" : "Роки 2024, 2025, 2026"}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1">
+                    {isCs
+                      ? "Mezinárodní konference ISSS · Výběr SŠ Kyberna (v termínech konání)"
+                      : "Міжнародна конференція ISSS · Відбір SŠ Kyberna (у дні проведення)"}
+                  </p>
+                  <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside leading-relaxed">
+                    <li>
+                      {isCs
+                        ? "Během studia na SŠ Kyberna třikrát v řadě (2024, 2025 a 2026) vybrán vedením školy pro spolehlivost, klidnou komunikaci a okamžité řešení L1/L2 síťových, AV a OS problémů přímo v přednáškových sálech."
+                        : "Під час навчання в SŠ Kyberna три роки поспіль (2024, 2025 та 2026) відбирався керівництвом школи за надійність, чітку комунікацію та миттєве усунення L1/L2 мережевих, AV та системних інцидентів у залах конференції."}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            {/* Personal Home Lab Projects (Proof of Skills) */}
+            <section>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-zinc-800 mb-3 flex items-center gap-2">
+                <Code size={14} />
+                <span>
+                  {isCs
+                    ? "Domácí technické projekty — Home Lab (Ukázka dovedností)"
+                    : "Домашні технічні проєкти — Home Lab (Підтвердження вмінь)"}
+                </span>
+              </h2>
+
+              <div className="space-y-3.5">
+                {/* Home Project 1: Linux, Docker & CI/CD */}
+                <div className="border-l-2 border-zinc-700 print:border-zinc-400 pl-3.5">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                    <h3 className="text-xs sm:text-[13px] font-bold text-white print:text-black">
+                      {isCs
+                        ? "Domácí Linux Server, Docker CI/CD & Smart Home"
+                        : "Домашній Linux-сервер, Docker CI/CD & Smart Home"}
+                    </h3>
+                    <span className="text-[10px] font-mono text-amber-400/90 print:text-zinc-600 shrink-0">
+                      {isCs ? "Domácí projekt (Home Lab)" : "Домашній проєкт (Home Lab)"}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 print:text-zinc-700 font-medium mb-1">
                     Debian/Ubuntu · Multi-stage Docker · GitHub Actions Runner · Cloudflare Zero-Trust
                   </p>
                   <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside leading-relaxed">
                     <li>
                       {isCs ? (
                         <>
-                          Automatizoval jsem CI/CD pipeline přes vlastní{" "}
+                          Vlastní domácí server pro praktický trénink DevOps: automatický CI/CD deploy přes vlastní{" "}
                           <strong className="text-white print:text-black">
                             systemd GitHub Actions Runner
                           </strong>{" "}
-                          a multi-stage Alpine Docker obrazy běžící pod neprivilegovaným{" "}
-                          <code className="text-[10px]">UID 1001</code>.
+                          a multi-stage Alpine Docker kontejnery (non-root).
                         </>
                       ) : (
                         <>
-                          Автоматизував CI/CD конвеєр через власний{" "}
+                          Власний домашній сервер як практичне підтвердження DevOps-навичок: автоматичний CI/CD деплой через власний{" "}
                           <strong className="text-white print:text-black">
                             systemd GitHub Actions Runner
                           </strong>{" "}
-                          та multi-stage Alpine Docker-образи під непривілейованим{" "}
-                          <code className="text-[10px]">UID 1001</code>.
-                        </>
-                      )}
-                    </li>
-                    <li>
-                      {isCs ? (
-                        <>
-                          Publikace interních HTTP/TCP služeb přes{" "}
-                          <strong className="text-white print:text-black">
-                            Cloudflare Zero-Trust Tunnels
-                          </strong>{" "}
-                          s TLS terminací a{" "}
-                          <strong className="text-white print:text-black">
-                            0 otevřenými příchozími WAN porty
-                          </strong>
-                          , SSH key-only hardening.
-                        </>
-                      ) : (
-                        <>
-                          Публікація внутрішніх сервісів через{" "}
-                          <strong className="text-white print:text-black">
-                            Cloudflare Zero-Trust Tunnels
-                          </strong>{" "}
-                          із TLS-термінацією та{" "}
-                          <strong className="text-white print:text-black">
-                            0 відкритих вхідних WAN-портів
-                          </strong>
-                          , SSH key-only hardening.
+                          та multi-stage Alpine Docker контейнери (non-root).
                         </>
                       )}
                     </li>
                     <li>
                       {isCs
-                        ? "24/7 orchestrace Docker Compose stacků: Home Assistant, Mosquitto MQTT, Zigbee2MQTT a Frigate NVR (lokální AI detekce obrazu)."
-                        : "24/7 оркестрація Docker Compose стеків: Home Assistant, Mosquitto MQTT, Zigbee2MQTT та Frigate NVR (локальна AI-детекція відео)."}
+                        ? "Zabezpečený přístup přes Cloudflare Zero-Trust Tunnels (0 otevřených WAN portů, SSH key-only) a provoz Docker Compose služeb (Home Assistant, Mosquitto MQTT, Zigbee2MQTT, Frigate NVR)."
+                        : "Безпечний доступ через Cloudflare Zero-Trust Tunnels (0 відкритих WAN-портів, SSH key-only) та робота Docker Compose сервісів (Home Assistant, Mosquitto MQTT, Zigbee2MQTT, Frigate NVR)."}
                     </li>
                   </ul>
                 </div>
 
-                {/* Role 2: Network Engineering */}
-                <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5">
+                {/* Home Project 2: MikroTik Networking Lab */}
+                <div className="border-l-2 border-zinc-700 print:border-zinc-400 pl-3.5">
                   <div className="flex items-center justify-between gap-2 mb-0.5">
                     <h3 className="text-xs sm:text-[13px] font-bold text-white print:text-black">
-                      Network Engineer — MikroTik L2/L3 &amp; Enterprise Lab
+                      {isCs
+                        ? "Domácí síťová laboratoř — MikroTik VPN, OSPF & VLAN"
+                        : "Домашня мережева лабораторія — MikroTik VPN, OSPF & VLAN"}
                     </h3>
-                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600 shrink-0">
-                      2023 — {isCs ? "Současnost" : "Тепер. час"}
+                    <span className="text-[10px] font-mono text-amber-400/90 print:text-zinc-600 shrink-0">
+                      {isCs ? "Domácí projekt (Home Lab)" : "Домашній проєкт (Home Lab)"}
                     </span>
                   </div>
-                  <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1">
+                  <p className="text-[11px] text-zinc-400 print:text-zinc-700 font-medium mb-1">
                     MikroTik RouterOS · WireGuard VPN · OSPF · VRF · 802.1Q VLAN · Wireshark
                   </p>
                   <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside leading-relaxed">
                     <li>
                       {isCs
-                        ? "Konfigurace šifrovaného WireGuard / Site-to-Site VPN tunelu mezi dvěma MikroTik routery, dynamické směrování OSPF a izolace směrovacích tabulek pomocí VRF."
-                        : "Конфігурація шифрованого WireGuard / Site-to-Site VPN тунелю між двома MikroTik роутерами, динамічна маршрутизація OSPF та ізоляція таблиць через VRF."}
+                        ? "Praktický domácí projekt pro ověření znalostí ze Cisco CCNA: šifrovaný WireGuard Site-to-Site tunel mezi dvěma MikroTik routery, dynamické směrování OSPF a izolace tabulek pomocí VRF."
+                        : "Власний домашній проєкт для практичного закріплення знань Cisco CCNA: шифрований WireGuard Site-to-Site тунель між двома MikroTik роутерами, динамічна маршрутизація OSPF та ізоляція таблиць VRF."}
                     </li>
                     <li>
                       {isCs
-                        ? "802.1Q VLAN segmentace (izolované CZ a UA VLAN s policy-based routingem), pravidla Firewall/NAT/Mangle a paketová diagnostika ve Wiresharku."
-                        : "802.1Q VLAN сегментація (ізольовані CZ та UA VLAN із policy-based routing), правила Firewall/NAT/Mangle та аналіз трафіку у Wireshark."}
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Role 3: ISSS Live IT Support */}
-                <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5">
-                  <div className="flex items-center justify-between gap-2 mb-0.5">
-                    <h3 className="text-xs sm:text-[13px] font-bold text-white print:text-black">
-                      IT Support &amp; Network Operations — Konference ISSS
-                    </h3>
-                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600 shrink-0">
-                      2024 — {isCs ? "Současnost" : "Тепер. час"}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1">
-                    {isCs
-                      ? "Mezinárodní konference ISSS Hradec Králové · Každoroční výběr SŠ Kyberna"
-                      : "Міжнародна конференція ISSS Градець-Кралове · Щорічний відбір SŠ Kyberna"}
-                  </p>
-                  <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside leading-relaxed">
-                    <li>
-                      {isCs
-                        ? "Opakovaně nominován vedením školy pro spolehlivost, klidnou komunikaci a schopnost okamžitě vyřešit L1/L2 síťové, AV a OS incidenty přímo v přednáškových sálech."
-                        : "Неодноразово номінований керівництвом школи за надійність, чітку комунікацію та здатність миттєво усувати L1/L2 мережеві, AV та системні інциденти у залах конференції."}
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Role 4: Software & Full-Stack */}
-                <div className="border-l-2 border-amber-400 print:border-zinc-400 pl-3.5">
-                  <div className="flex items-center justify-between gap-2 mb-0.5">
-                    <h3 className="text-xs sm:text-[13px] font-bold text-white print:text-black">
-                      C# (.NET) &amp; Full-Stack Web Developer (4+ komerční produkce)
-                    </h3>
-                    <span className="text-[10px] font-mono text-zinc-400 print:text-zinc-600 shrink-0">
-                      2023 — {isCs ? "Současnost" : "Тепер. час"}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-amber-400/90 print:text-zinc-700 font-medium mb-1">
-                    C# (.NET, OOP/SOLID, Reflection) · Next.js 15 · TypeScript · Node.js
-                  </p>
-                  <ul className="text-[11px] text-zinc-300 print:text-zinc-700 space-y-1 list-disc list-inside leading-relaxed">
-                    <li>
-                      <strong className="text-white print:text-black">C# (.NET):</strong>{" "}
-                      {isCs
-                        ? "Pokročilé OOP & SOLID, Design Patterns, Generics, LINQ, async/await paralelismus a metaprogramování přes System.Reflection."
-                        : "Поглиблене ООП & SOLID, Design Patterns, Generics, LINQ, async/await паралелізм і метапрограмування через System.Reflection."}
-                    </li>
-                    <li>
-                      <strong className="text-white print:text-black">
-                        {isCs ? "Komerční nasazení:" : "Комерційні релізи:"}
-                      </strong>{" "}
-                      <code>bowlingovyclubsv.cz</code>,{" "}
-                      <code>luxury-cleaning-solutions.ca</code> (Kanada),{" "}
-                      <code>nikita-box.cz</code>, <code>honzapokusil.cz</code> + vlastní
-                      streamovací File Server (HTTP 206 Range).
+                        ? "Segmentace sítě přes 802.1Q VLAN (oddělené CZ a UA VLAN s policy-based routingem), konfigurace Firewall/NAT/Mangle a analýza paketů ve Wiresharku."
+                        : "Сегментація мережі через 802.1Q VLAN (окремі CZ та UA VLAN із policy-based routing), налаштування Firewall/NAT/Mangle та аналіз пакетів у Wireshark."}
                     </li>
                   </ul>
                 </div>

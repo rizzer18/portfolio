@@ -42,8 +42,8 @@ export const translations = {
       { label: "🎧 Live Ops & L2 Support (ISSS)", color: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" },
       { label: "💻 Next.js 15 & Streaming API", color: "border-zinc-700 bg-zinc-900/60 text-zinc-200" },
     ],
-    heroInfraTitle: "Produkční telemetrie (Self-Hosted)",
-    heroInfraStatus: "24/7 Online",
+    heroInfraTitle: "Vlastní Home Lab (Ukázka dovedností)",
+    heroInfraStatus: "24/7 Home Lab",
     heroInfraRows: [
       { label: "🐧 Linux + Docker", value: "CI/CD Runner · Non-root" },
       { label: "🌐 MikroTik L3", value: "WireGuard · OSPF · CZ/UA VLAN" },
@@ -71,7 +71,7 @@ export const translations = {
       "MikroTik OSPF/VRF/VLAN, Windows Server AD DS & GPO, Cloudflare Zero-Trust",
       "), vývoj v ",
       "C# (.NET, OOP, návrhové vzory, LINQ, async/await, System.Reflection) a TypeScriptu",
-      " a schopnost řešit kritické incidenty pod tlakem — každoročně potvrzenou v týmu ",
+      " a schopnost řešit kritické incidenty pod tlakem — třikrát v řadě (2024–2026) potvrzenou v týmu ",
       "IT Support na mezinárodní konferenci ISSS",
       ".",
     ],
@@ -84,7 +84,7 @@ export const translations = {
       { label: "DevOps & CI/CD", desc: "Linux · Docker Compose · GitHub Actions · Zero-Trust", tag: "Infra as Code" },
       { label: "L2/L3 Sítě & Security", desc: "MikroTik · OSPF · VRF · WireGuard · 802.1Q VLAN", tag: "2× Cisco CCNA" },
       { label: "C# (.NET) & Full-Stack", desc: "OOP/SOLID · LINQ · Reflection · Next.js 15 · REST", tag: ".NET & TS" },
-      { label: "SysAdmin & Live Ops", desc: "AD DS & GPO · VMware · ISSS SLA Support · MQTT/HA", tag: "ISSS 2024+" },
+      { label: "SysAdmin & Live Ops", desc: "AD DS & GPO · VMware · ISSS SLA Support · MQTT/HA", tag: "ISSS 2024–26" },
     ],
     aboutCta: "Kontaktujte mě",
 
@@ -95,7 +95,7 @@ export const translations = {
     projectsDesc: "Žádné školní makety — reálně běžící komerční aplikace pro klienty v ČR a Kanadě + vlastní 24/7 serverový klastr.",
     filterAll: "Vše",
     filterWeb: "Komerční weby (4)",
-    filterInfra: "Infrastruktura (1)",
+    filterInfra: "Home Lab (1)",
     projectLiveBtn: "Otevřít produkci",
     projectViewBtn: "Detail architektury",
     projectLiveStatus: "200 OK · Prod",
@@ -105,9 +105,9 @@ export const translations = {
     projectsBannerCta: "Chcete probrat architekturu? Napište mi",
     projects: [
       {
-        title: "Home Lab, CI/CD & Zero-Trust Infra",
-        category: "Linux · Docker · MikroTik VPN · GitHub Actions",
-        description: "Produkční domácí Linux server (24/7): multi-stage Docker kontejnery (non-root), automatický CI/CD deploy přes systemd GitHub Runner, Cloudflare Zero-Trust tunely (0 otevřených portů), Frigate AI NVR, Home Assistant + Zigbee2MQTT a MikroTik WireGuard site-to-site VPN s CZ/UA VLAN izolací.",
+        title: "Domácí Linux Server, CI/CD & MikroTik Home Lab",
+        category: "Domácí projekt (Ukázka dovedností) · Linux · Docker · MikroTik",
+        description: "Vlastní domácí server a síťová laboratoř, na kterých si prakticky ověřuji své dovednosti: multi-stage Docker kontejnery (non-root), automatický CI/CD deploy přes vlastní GitHub Runner, Cloudflare Zero-Trust tunely (0 otevřených portů), Home Assistant + Frigate NVR a MikroTik WireGuard VPN s OSPF/VRF a CZ/UA VLANy.",
       },
       {
         title: "Bowlingový Club SV",
@@ -200,14 +200,14 @@ export const translations = {
     expDesc: "Kombinace produkčního DevOps provozu, živého IT Supportu pod SLA a komerčního vývoje.",
     expCards: [
       {
-        tag: "Live Event Ops · 2024—současnost (každoročně)",
+        tag: "Live Event Ops · Ročníky 2024, 2025, 2026",
         title: "IT Support & Network Ops — Konference ISSS",
-        desc: "Každoročně nominován vedením SŠ Kyberna do technického týmu mezinárodní konference ISSS (Hradec Králové). Okamžitá diagnostika L1/L2 síťových, AV a klientských incidentů v živém sálovém provozu pod vysokým časovým tlakem.",
+        desc: "Během studia na SŠ Kyberna třikrát v řadě (v termínech konání ročníků 2024, 2025 a 2026) vybrán vedením školy do technického týmu mezinárodní konference ISSS v Hradci Králové. Okamžitá diagnostika L1/L2 síťových, AV a klientských incidentů v živém sálovém provozu.",
       },
       {
-        tag: "DevOps & SysAdmin · 2023—současnost",
-        title: "Linux, Docker CI/CD & MikroTik Engineer",
-        desc: "Návrh a 24/7 správa vlastního Linux serveru: multi-stage Docker stacky, vlastní systemd GitHub Actions runner, Cloudflare Zero-Trust bez otevřených portů a MikroTik site-to-site VPN s OSPF/VRF a izolovanými CZ/UA VLANy.",
+        tag: "Domácí projekty (Home Lab) · Praktická ukázka dovedností",
+        title: "Vlastní Linux Server, Docker CI/CD & MikroTik Lab",
+        desc: "Domácí technické projekty jako praktické potvrzení mých dovedností: 24/7 domácí Linux server s Dockerem, vlastní GitHub Actions runner, Cloudflare Zero-Trust tunely a domácí MikroTik síť (WireGuard VPN, OSPF, VRF a izolované CZ/UA VLANy).",
       },
       {
         tag: "Software & Web Engineer · 2023—současnost",
@@ -324,8 +324,8 @@ export const translations = {
       { label: "🎧 Live Ops & L2 Support (ISSS)", color: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" },
       { label: "💻 Next.js 15 & Streaming API", color: "border-zinc-700 bg-zinc-900/60 text-zinc-200" },
     ],
-    heroInfraTitle: "Продакшн телеметрія (Self-Hosted)",
-    heroInfraStatus: "24/7 Online",
+    heroInfraTitle: "Власний Home Lab (Підтвердження вмінь)",
+    heroInfraStatus: "24/7 Home Lab",
     heroInfraRows: [
       { label: "🐧 Linux + Docker", value: "CI/CD Runner · Non-root" },
       { label: "🌐 MikroTik L3", value: "WireGuard · OSPF · CZ/UA VLAN" },
@@ -353,7 +353,7 @@ export const translations = {
       "MikroTik OSPF/VRF/VLAN, Windows Server AD DS & GPO, Cloudflare Zero-Trust",
       "), розробку на ",
       "C# (.NET, ООП, патерни, LINQ, async/await, System.Reflection) і TypeScript",
-      " та вміння миттєво гасити інциденти під навантаженням — щороку підтверджене в команді ",
+      " та вміння миттєво гасити інциденти під навантаженням — три роки поспіль (2024–2026) підтверджене в команді ",
       "IT Support міжнародної конференції ISSS",
       ".",
     ],
@@ -366,7 +366,7 @@ export const translations = {
       { label: "DevOps & CI/CD", desc: "Linux · Docker Compose · GitHub Actions · Zero-Trust", tag: "Infra as Code" },
       { label: "L2/L3 Мережі & Security", desc: "MikroTik · OSPF · VRF · WireGuard · 802.1Q VLAN", tag: "2× Cisco CCNA" },
       { label: "C# (.NET) & Full-Stack", desc: "ООП/SOLID · LINQ · Reflection · Next.js 15 · REST", tag: ".NET & TS" },
-      { label: "SysAdmin & Live Ops", desc: "AD DS & GPO · VMware · ISSS SLA Support · MQTT/HA", tag: "ISSS 2024+" },
+      { label: "SysAdmin & Live Ops", desc: "AD DS & GPO · VMware · ISSS SLA Support · MQTT/HA", tag: "ISSS 2024–26" },
     ],
     aboutCta: "Зв'язатися",
 
@@ -377,7 +377,7 @@ export const translations = {
     projectsDesc: "Жодних навчальних макетів — реальні комерційні платформи для клієнтів у Чехії та Канаді + власний 24/7 серверний кластер.",
     filterAll: "Всі",
     filterWeb: "Комерційні сайти (4)",
-    filterInfra: "Інфраструктура (1)",
+    filterInfra: "Home Lab (1)",
     projectLiveBtn: "Відкрити продакшн",
     projectViewBtn: "Деталі архітектури",
     projectLiveStatus: "200 OK · Prod",
@@ -387,9 +387,9 @@ export const translations = {
     projectsBannerCta: "Обговоримо архітектуру чи вакансію?",
     projects: [
       {
-        title: "Home Lab, CI/CD & Zero-Trust Infra",
-        category: "Linux · Docker · MikroTik VPN · GitHub Actions",
-        description: "Власний 24/7 Linux-сервер: multi-stage Docker контейнери (non-root), автоматичний CI/CD деплой через systemd GitHub Runner, Cloudflare Zero-Trust тунелі (0 відкритих портів), Frigate AI NVR, Home Assistant + Zigbee2MQTT та MikroTik WireGuard site-to-site VPN із CZ/UA VLAN ізоляцією.",
+        title: "Домашній Linux-сервер, CI/CD & MikroTik Home Lab",
+        category: "Домашній проєкт (Підтвердження вмінь) · Linux · Docker · MikroTik",
+        description: "Власний домашній сервер і мережева лабораторія для практичного підтвердження моїх вмінь: multi-stage Docker контейнери (non-root), автоматичний CI/CD деплой через власний GitHub Runner, Cloudflare Zero-Trust тунелі (0 відкритих портів), Home Assistant + Frigate NVR та MikroTik WireGuard VPN з OSPF/VRF і CZ/UA VLAN.",
       },
       {
         title: "Bowlingový Club SV",
@@ -482,14 +482,14 @@ export const translations = {
     expDesc: "Поєднання продакшн DevOps-інфраструктури, живого IT Support під SLA та комерційної розробки.",
     expCards: [
       {
-        tag: "Live Event Ops · 2024—теперішній час (щороку)",
+        tag: "Live Event Ops · Роки 2024, 2025, 2026",
         title: "IT Support & Network Ops — Конференція ISSS",
-        desc: "Щороку відбирався керівництвом SŠ Kyberna до техкоманди міжнародної конференції ISSS (Градець-Кралове). Миттєва діагностика L1/L2 мережевих, AV та клієнтських інцидентів у живому ефірі під високим тиском часу.",
+        desc: "Під час навчання в SŠ Kyberna три роки поспіль (у дні проведення конференції у 2024, 2025 та 2026 рр.) відбирався керівництвом школи до техкоманди міжнародної конференції ISSS у Градець-Кралові. Миттєва діагностика L1/L2 мережевих, AV та клієнтських інцидентів у живому залі.",
       },
       {
-        tag: "DevOps & SysAdmin · 2023—теперішній час",
-        title: "Linux, Docker CI/CD & MikroTik Engineer",
-        desc: "Проєктування та 24/7 супровід власного Linux-сервера: multi-stage Docker стеки, власний systemd GitHub Actions runner, Cloudflare Zero-Trust без відкритих портів і MikroTik site-to-site VPN з OSPF/VRF та ізольованими CZ/UA VLAN.",
+        tag: "Домашні проєкти (Home Lab) · Підтвердження вмінь",
+        title: "Власний Linux-сервер, Docker CI/CD & MikroTik Lab",
+        desc: "Домашні технічні проєкти як практичне підтвердження моїх навичок: 24/7 домашній Linux-сервер із Docker, власний GitHub Actions runner, Cloudflare Zero-Trust тунелі та домашня мережа на MikroTik (WireGuard VPN, OSPF, VRF та ізольовані CZ/UA VLAN).",
       },
       {
         tag: "Software & Web Engineer · 2023—теперішній час",

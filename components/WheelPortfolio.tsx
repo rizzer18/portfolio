@@ -188,14 +188,7 @@ export default function WheelPortfolio() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const leftDrumRef = useRef<HTMLDivElement>(null);
-  const mainBlockStageRef = useRef<HTMLDivElement>(null);
   const scrollerRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const wheelCooldownRef = useRef<number>(0);
-  const edgeAccumRef = useRef<number>(0);
-  const lastMidScrollTimeRef = useRef<number>(0);
-  const dragStartYRef = useRef<number | null>(null);
-  const mobileTouchStartXRef = useRef<number | null>(null);
 
   const wheelNodes = [
     {
@@ -248,7 +241,6 @@ export default function WheelPortfolio() {
     setDirection(dir);
     activeIndexRef.current = normalized;
     setActiveIndex(normalized);
-    edgeAccumRef.current = 0;
 
     const targetScroller = scrollerRefs.current[normalized];
     if (targetScroller) {
@@ -280,115 +272,16 @@ export default function WheelPortfolio() {
     }
   }, [selectNode]);
 
-  // Direct mouse wheel rotation on the Left 3D Drum
-  useEffect(() => {
-    const el = leftDrumRef.current;
-    if (!el) return;
-
-    const onWheel = (e: WheelEvent) => {
-      if (window.innerWidth < 1024) return;
-      e.preventDefault();
-      const now = Date.now();
-      if (now - wheelCooldownRef.current < 400) return;
-      if (Math.abs(e.deltaY) < 12) return;
-
-      wheelCooldownRef.current = now;
-      stepWheel(e.deltaY > 0 ? 1 : -1);
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [stepWheel]);
-
-  // Smart 3D Drum Scroll on the Main Content Stage
-  useEffect(() => {
-    const stageEl = mainBlockStageRef.current;
-    if (!stageEl) return;
-
-    const onWheel = (e: WheelEvent) => {
-      if (window.innerWidth < 1024 || previewCert) return;
-      const scroller = scrollerRefs.current[activeIndexRef.current];
-      if (!scroller) return;
-
-      const now = Date.now();
-      if (now - wheelCooldownRef.current < 500) {
-        e.preventDefault();
-        return;
-      }
-
-      const maxScroll = scroller.scrollHeight - scroller.clientHeight;
-      const hasOverflow = maxScroll > 6;
-
-      if (!hasOverflow) {
-        if (Math.abs(e.deltaY) < 15) return;
-        e.preventDefault();
-        wheelCooldownRef.current = now;
-        stepWheel(e.deltaY > 0 ? 1 : -1);
-        return;
-      }
-
-      const atTop = scroller.scrollTop <= 2;
-      const atBottom = scroller.scrollTop >= maxScroll - 4;
-
-      if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
-        lastMidScrollTimeRef.current = now;
-        edgeAccumRef.current = 0;
-        return;
-      }
-
-      if (now - lastMidScrollTimeRef.current < 170) {
-        edgeAccumRef.current = 0;
-        return;
-      }
-
-      e.preventDefault();
-      edgeAccumRef.current += e.deltaY;
-
-      if (Math.abs(edgeAccumRef.current) >= 70) {
-        const dir: 1 | -1 = edgeAccumRef.current > 0 ? 1 : -1;
-        edgeAccumRef.current = 0;
-        wheelCooldownRef.current = now;
-        stepWheel(dir);
-      }
-    };
-
-    stageEl.addEventListener("wheel", onWheel, { passive: false });
-    return () => stageEl.removeEventListener("wheel", onWheel);
-  }, [stepWheel, previewCert]);
-
-  // Keyboard navigation
+  // Close certificate modal on Escape
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && previewCert) {
         setPreviewCert(null);
-        return;
-      }
-      const tag = (e.target as HTMLElement)?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA") return;
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        stepWheel(1);
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        stepWheel(-1);
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [stepWheel, previewCert]);
-
-  // Pointer drag on left drum
-  const handlePointerDown = (e: React.PointerEvent) => {
-    dragStartYRef.current = e.clientY;
-  };
-  const handlePointerUp = (e: React.PointerEvent) => {
-    if (dragStartYRef.current === null) return;
-    const dy = e.clientY - dragStartYRef.current;
-    dragStartYRef.current = null;
-    if (Math.abs(dy) > 30) {
-      stepWheel(dy < 0 ? 1 : -1);
-    }
-  };
+  }, [previewCert]);
 
   // Contact Submit
   const handleContactSubmit = async (e: React.FormEvent) => {
@@ -444,10 +337,10 @@ export default function WheelPortfolio() {
       /* ── 01: OVERVIEW / ABOUT ME ── */
       case 0:
         return (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
+          <div className="space-y-4 xl:space-y-5">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-5 items-stretch">
               {/* Left 8 Cols: Compact Greeting, Bio & Stats */}
-              <div className="xl:col-span-8 flex flex-col justify-between space-y-3.5">
+              <div className="xl:col-span-8 flex flex-col justify-between space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/25 text-[10px] sm:text-[11px] font-medium text-amber-300 mb-2">
@@ -478,7 +371,7 @@ export default function WheelPortfolio() {
                 </div>
 
                 {/* High-Signal Engineering Bio */}
-                <div className="space-y-2.5 text-xs sm:text-[13.5px] text-zinc-200 leading-relaxed bg-zinc-900/50 border border-white/[0.06] rounded-xl p-3.5 sm:p-4">
+                <div className="space-y-3 text-xs sm:text-[13.5px] xl:text-sm text-zinc-200 leading-relaxed bg-zinc-900/50 border border-white/[0.06] rounded-xl p-4 xl:p-5">
                   <p>
                     {t.aboutBio1.map((part, i) =>
                       i % 2 === 0 ? (
@@ -495,7 +388,7 @@ export default function WheelPortfolio() {
                       )
                     )}
                   </p>
-                  <p className="text-zinc-300 text-xs sm:text-[13px] leading-relaxed">
+                  <p className="text-zinc-300 text-xs sm:text-[13px] xl:text-[13.5px] leading-relaxed">
                     {t.aboutBio2.map((part, i) =>
                       i % 2 === 0 ? (
                         part
@@ -509,13 +402,13 @@ export default function WheelPortfolio() {
                 </div>
 
                 {/* Compact 3-Metric Strip */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
                   {t.aboutStats.map((stat, i) => (
                     <div
                       key={i}
-                      className="bg-zinc-900/65 border border-zinc-800/90 rounded-xl px-2.5 py-2.5 text-center"
+                      className="bg-zinc-900/65 border border-zinc-800/90 rounded-xl px-3 py-3 text-center"
                     >
-                      <div className="text-base sm:text-xl font-extrabold text-gold-gradient leading-none">
+                      <div className="text-base sm:text-xl xl:text-2xl font-extrabold text-gold-gradient leading-none">
                         {stat.number}
                       </div>
                       <div className="text-[10px] sm:text-[11px] text-zinc-400 leading-tight mt-1">
@@ -527,9 +420,9 @@ export default function WheelPortfolio() {
               </div>
 
               {/* Right 4 Cols: Main Portrait (xl+) + Live Production Telemetry */}
-              <div className="xl:col-span-4 flex flex-col justify-between gap-3">
+              <div className="xl:col-span-4 flex flex-col justify-between gap-3.5">
                 <div className="hidden xl:block p-[1px] rounded-2xl bg-gradient-to-b from-amber-400/50 via-zinc-800 to-zinc-900 shadow-xl">
-                  <div className="relative w-full h-[172px] rounded-[15px] overflow-hidden bg-zinc-950 group">
+                  <div className="relative w-full h-[210px] rounded-[15px] overflow-hidden bg-zinc-950 group">
                     <Image
                       src="/images/roman-profile.jpg"
                       alt="Roman Roshkanyuk"
@@ -792,9 +685,19 @@ export default function WheelPortfolio() {
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shrink-0">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          {t.liveProduction}
+                        <span
+                          className={`inline-flex items-center gap-1 text-[9px] font-bold uppercase px-2 py-0.5 rounded-full shrink-0 ${
+                            project.type === "infra"
+                              ? "bg-amber-500/10 text-amber-300 border border-amber-500/30"
+                              : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
+                          }`}
+                        >
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                              project.type === "infra" ? "bg-amber-400" : "bg-emerald-400"
+                            }`}
+                          />
+                          {project.type === "infra" ? "Home Lab" : t.liveProduction}
                         </span>
                         <span className="text-[10px] font-mono text-zinc-500 truncate">
                           {project.domain}
@@ -806,7 +709,7 @@ export default function WheelPortfolio() {
                       <p className="text-[9.5px] font-bold uppercase tracking-wider text-amber-400/90 mt-0.5 mb-1.5">
                         {project.category}
                       </p>
-                      <p className="text-[11px] text-zinc-300 leading-relaxed mb-2.5 line-clamp-3">
+                      <p className="text-[11.5px] text-zinc-300 leading-relaxed mb-2.5 line-clamp-4">
                         {project.description}
                       </p>
                     </div>
@@ -1355,18 +1258,13 @@ export default function WheelPortfolio() {
       </div>
 
       {/* ── MAIN STAGE ── */}
-      <main className="flex-1 max-w-[1440px] w-full mx-auto px-3 sm:px-6 xl:px-10 py-3 lg:py-0 flex flex-col lg:flex-row gap-5 xl:gap-7 items-center relative z-10 lg:h-[calc(100vh-3.5rem)] min-h-0">
+      <main className="flex-1 max-w-[1500px] w-full mx-auto px-3 sm:px-6 xl:px-10 py-3 lg:py-0 flex flex-col lg:flex-row gap-5 xl:gap-8 items-center relative z-10 lg:h-[calc(100vh-3.5rem)] min-h-0">
         {/* ═══════════════════════════════════════════════════════════════════
-            LEFT RAIL: COMPACT 3D VERTICAL CYLINDER WHEEL (Desktop lg+)
+            LEFT RAIL: REDESIGNED 3D ORBITAL CAROUSEL WITH TOP & BOTTOM BUTTONS
         ═══════════════════════════════════════════════════════════════════ */}
-        <aside
-          ref={leftDrumRef}
-          onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
-          className="hidden lg:flex lg:w-[210px] xl:w-[230px] shrink-0 flex-col items-center justify-center h-full select-none relative"
-        >
+        <aside className="hidden lg:flex lg:w-[245px] xl:w-[265px] shrink-0 flex-col items-center justify-center h-full select-none relative">
           {/* Compact Core Avatar Badge */}
-          <div className="flex items-center gap-2.5 w-full px-3 py-2 mb-4 rounded-xl bg-zinc-900/60 border border-white/[0.07] backdrop-blur-md">
+          <div className="flex items-center gap-2.5 w-full px-3 py-2 mb-3 rounded-xl bg-zinc-900/70 border border-white/[0.08] backdrop-blur-md shadow-lg">
             <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-amber-400/50 shrink-0">
               <Image
                 src="/images/roman-profile.jpg"
@@ -1377,25 +1275,70 @@ export default function WheelPortfolio() {
                 className="object-cover object-[50%_32%]"
               />
             </div>
-            <div className="min-w-0">
-              <div className="text-[11px] font-bold text-white truncate">Roman Roshkanyuk</div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[11.5px] font-bold text-white truncate">
+                  Roman Roshkanyuk
+                </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              </div>
               <div className="text-[9.5px] font-mono text-amber-400 truncate">
                 VUT FEKT · 1. ročník
               </div>
             </div>
           </div>
 
-          {/* 3D Vertical Cylinder Barrel Selector */}
-          <div
-            style={{ perspective: "900px" }}
-            className="relative w-full h-[300px] flex items-center justify-center"
+          {/* TOP CAROUSEL BUTTON (▲ UP) */}
+          <button
+            type="button"
+            onClick={() => stepWheel(-1)}
+            aria-label={lang === "cs" ? "Předchozí sekce" : "Попередня секція"}
+            className="w-full h-9 px-3 rounded-xl bg-zinc-900/85 hover:bg-zinc-800/95 border border-zinc-800/90 hover:border-amber-400/55 flex items-center justify-between gap-2 text-zinc-300 hover:text-white transition-all cursor-pointer group active:scale-[0.98] shadow-md mb-2"
           >
-            <div className="absolute left-3 top-3 bottom-3 w-[2px] bg-gradient-to-b from-transparent via-amber-400/35 to-transparent pointer-events-none" />
+            <span className="w-6 h-6 rounded-lg bg-amber-400/15 group-hover:bg-amber-400 text-amber-400 group-hover:text-black flex items-center justify-center transition-colors shrink-0">
+              <ChevronUp size={14} strokeWidth={2.5} />
+            </span>
+            <span className="text-[10.5px] font-semibold truncate flex-1 text-left">
+              {prevNode.title}
+            </span>
+            <span className="text-[9.5px] font-mono font-bold text-zinc-500 group-hover:text-amber-300 shrink-0">
+              {prevNode.num}
+            </span>
+          </button>
 
-            {/* Connector Beam to Main 3D Drum */}
-            <div className="absolute right-[-20px] xl:right-[-26px] top-1/2 -translate-y-1/2 flex items-center pointer-events-none z-30">
-              <div className="w-2 h-2 rotate-45 border-t-2 border-r-2 border-amber-400 mr-0.5" />
-              <div className="w-5 xl:w-7 h-[2px] bg-gradient-to-r from-amber-400 to-transparent shadow-[0_0_10px_rgba(251,191,36,0.9)]" />
+          {/* 3D Orbital Carousel Selector */}
+          <div
+            style={{ perspective: "950px" }}
+            className="relative w-full h-[328px] xl:h-[346px] flex items-center justify-center"
+          >
+            {/* Subtle Ambient Center Glow */}
+            <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 h-16 rounded-2xl bg-amber-400/[0.08] blur-xl pointer-events-none" />
+
+            {/* Decorative Curved Orbital Arc (Left Outside Edge — never cuts cards) */}
+            <svg
+              viewBox="0 0 24 320"
+              fill="none"
+              className="absolute -left-3.5 top-3 bottom-3 w-5 h-[calc(100%-24px)] pointer-events-none opacity-65"
+            >
+              <path
+                d="M20 8 C2 90, 2 230, 20 312"
+                stroke="url(#orbitalGrad)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+              <defs>
+                <linearGradient id="orbitalGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="rgba(251,191,36,0)" />
+                  <stop offset="50%" stopColor="rgba(251,191,36,0.65)" />
+                  <stop offset="100%" stopColor="rgba(251,191,36,0)" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Connector Beam to Main Taller Block */}
+            <div className="absolute right-[-22px] xl:right-[-32px] top-1/2 -translate-y-1/2 flex items-center pointer-events-none z-30">
+              <div className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.95)]" />
+              <div className="w-5 xl:w-7 h-[2px] bg-gradient-to-r from-amber-400 to-transparent shadow-[0_0_10px_rgba(251,191,36,0.85)]" />
             </div>
 
             {wheelNodes.map((node, idx) => {
@@ -1405,10 +1348,12 @@ export default function WheelPortfolio() {
 
               const absRel = Math.abs(rel);
               const isActive = rel === 0;
-              const rotateX = rel === 0 ? 0 : rel < 0 ? absRel * 32 : -absRel * 32;
-              const yOffset = rel === 0 ? 0 : rel * (absRel === 1 ? 64 : 56);
-              const scale = rel === 0 ? 1.03 : absRel === 1 ? 0.9 : 0.78;
-              const opacity = rel === 0 ? 1 : absRel === 1 ? 0.62 : 0.25;
+              const rotateX = rel === 0 ? 0 : rel < 0 ? absRel * 18 : -absRel * 18;
+              const yOffset =
+                rel === 0 ? 0 : rel === -1 ? -65 : rel === 1 ? 65 : rel === -2 ? -122 : 122;
+              const xOffset = rel === 0 ? 6 : absRel === 1 ? 0 : -6;
+              const scale = rel === 0 ? 1.02 : absRel === 1 ? 0.93 : 0.85;
+              const opacity = rel === 0 ? 1 : absRel === 1 ? 0.72 : 0.4;
               const zIndex = 20 - absRel * 5;
               const Icon = node.icon;
 
@@ -1418,6 +1363,7 @@ export default function WheelPortfolio() {
                   type="button"
                   onClick={() => selectNode(idx)}
                   animate={{
+                    x: xOffset,
                     y: yOffset,
                     rotateX,
                     scale,
@@ -1425,41 +1371,49 @@ export default function WheelPortfolio() {
                   }}
                   transition={DRUM_SPRING}
                   style={{ zIndex }}
-                  className={`absolute inset-x-0 flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-left cursor-pointer transition-colors will-composite ${
+                  className={`group absolute inset-x-0 flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-left cursor-pointer transition-colors will-composite overflow-hidden ${
                     isActive
-                      ? "bg-gradient-to-r from-amber-400 via-amber-400 to-amber-500 text-black shadow-[0_8px_28px_rgba(251,191,36,0.38)] ring-2 ring-amber-300/50"
-                      : "bg-[#121218]/90 border border-zinc-800/90 text-zinc-300 hover:border-amber-400/40 hover:text-white"
+                      ? "bg-gradient-to-r from-amber-500/[0.18] via-[#151520]/95 to-[#101017]/95 border border-amber-400/75 shadow-[0_12px_32px_-6px_rgba(245,158,11,0.32),inset_0_1px_0_rgba(255,255,255,0.08)]"
+                      : "bg-[#0e0e15]/90 border border-zinc-800/85 text-zinc-300 hover:border-amber-400/40 hover:bg-[#151520]"
                   }`}
                 >
+                  {/* Active Left Gold Laser Bar */}
+                  {isActive && (
+                    <span className="absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-r-full bg-gradient-to-b from-amber-300 via-amber-400 to-amber-500 shadow-[0_0_10px_rgba(251,191,36,0.95)]" />
+                  )}
+
                   <div
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                       isActive
-                        ? "bg-black/15 text-black"
-                        : "bg-zinc-900 border border-zinc-800 text-amber-400"
+                        ? "bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-black shadow-[0_0_16px_rgba(251,191,36,0.4)]"
+                        : "bg-zinc-900/95 border border-zinc-800 text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-400/35"
                     }`}
                   >
-                    <Icon size={15} strokeWidth={isActive ? 2.5 : 2} />
+                    <Icon size={15} strokeWidth={isActive ? 2.4 : 2} />
                   </div>
+
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-1">
+                    <div className="flex items-center justify-between gap-1.5">
                       <span
-                        className={`text-[11.5px] font-extrabold truncate ${
-                          isActive ? "text-black" : "text-zinc-100"
+                        className={`text-xs font-extrabold truncate ${
+                          isActive ? "text-white" : "text-zinc-200 group-hover:text-white"
                         }`}
                       >
                         {node.title}
                       </span>
                       <span
-                        className={`text-[9.5px] font-mono font-bold ${
-                          isActive ? "text-black/75" : "text-zinc-500"
+                        className={`text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md shrink-0 ${
+                          isActive
+                            ? "bg-amber-400/15 border border-amber-400/40 text-amber-300"
+                            : "text-zinc-500"
                         }`}
                       >
                         {node.num}
                       </span>
                     </div>
                     <p
-                      className={`text-[9.5px] truncate ${
-                        isActive ? "text-black/75 font-medium" : "text-zinc-500"
+                      className={`text-[10px] truncate mt-0.5 ${
+                        isActive ? "text-amber-300/90 font-medium" : "text-zinc-500"
                       }`}
                     >
                       {node.sub}
@@ -1470,38 +1424,71 @@ export default function WheelPortfolio() {
             })}
           </div>
 
-          <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/70 border border-zinc-800/80">
-            <button
-              onClick={() => stepWheel(-1)}
-              className="w-6 h-6 rounded-full bg-zinc-800 hover:bg-amber-400 text-zinc-300 hover:text-black flex items-center justify-center transition-colors cursor-pointer"
-              aria-label="Previous section"
-            >
-              <ChevronUp size={13} />
-            </button>
-            <span className="text-[9.5px] font-mono text-zinc-400 px-1">
-              {lang === "cs" ? "Kolečko / Klik" : "Скрол / Клік"}
+          {/* BOTTOM CAROUSEL BUTTON (▼ DOWN) */}
+          <button
+            type="button"
+            onClick={() => stepWheel(1)}
+            aria-label={lang === "cs" ? "Další sekce" : "Наступна секція"}
+            className="w-full h-9 px-3 rounded-xl bg-zinc-900/85 hover:bg-zinc-800/95 border border-zinc-800/90 hover:border-amber-400/55 flex items-center justify-between gap-2 text-zinc-300 hover:text-white transition-all cursor-pointer group active:scale-[0.98] shadow-md mt-2"
+          >
+            <span className="w-6 h-6 rounded-lg bg-amber-400/15 group-hover:bg-amber-400 text-amber-400 group-hover:text-black flex items-center justify-center transition-colors shrink-0">
+              <ChevronDown size={14} strokeWidth={2.5} />
             </span>
-            <button
-              onClick={() => stepWheel(1)}
-              className="w-6 h-6 rounded-full bg-zinc-800 hover:bg-amber-400 text-zinc-300 hover:text-black flex items-center justify-center transition-colors cursor-pointer"
-              aria-label="Next section"
-            >
-              <ChevronDown size={13} />
-            </button>
+            <span className="text-[10.5px] font-semibold truncate flex-1 text-left">
+              {nextNode.title}
+            </span>
+            <span className="text-[9.5px] font-mono font-bold text-zinc-500 group-hover:text-amber-300 shrink-0">
+              {nextNode.num}
+            </span>
+          </button>
+
+          {/* 5-Segment Quick Progress Strip */}
+          <div className="mt-3 flex items-center justify-center gap-1.5">
+            {wheelNodes.map((n, i) => {
+              const active = i === activeIndex;
+              return (
+                <button
+                  key={n.id}
+                  type="button"
+                  onClick={() => selectNode(i)}
+                  aria-label={n.title}
+                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                    active
+                      ? "w-7 bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]"
+                      : "w-2 bg-zinc-800 hover:bg-zinc-600"
+                  }`}
+                />
+              );
+            })}
           </div>
         </aside>
 
         {/* ═══════════════════════════════════════════════════════════════════
-            DESKTOP RIGHT STAGE (lg+): LIVE 5-CARD 3D CYLINDER WHEEL!
-            Moves identically to the Left 3D Wheel — all 5 blocks sit in 3D
-            depth (rel = -2, -1, 0, +1, +2) and glide physically toward & away!
+            DESKTOP RIGHT STAGE (lg+): TALL 3D DECK + TOP & BOTTOM BUTTONS
+            Scroll inside the card ONLY scrolls card content — never switches items!
         ═══════════════════════════════════════════════════════════════════ */}
-        <div
-          ref={mainBlockStageRef}
-          style={{ perspective: "1500px" }}
-          className="hidden lg:flex flex-1 w-full min-w-0 h-full items-center justify-center relative"
-        >
-          <div className="relative w-full max-w-[1060px] h-[63vh] max-h-[545px] min-h-[430px] flex items-center justify-center">
+        <div className="hidden lg:flex flex-1 w-full min-w-0 h-full py-3 xl:py-4 flex-col items-center justify-center gap-4 relative">
+          {/* TOP BUTTON ABOVE MAIN ITEM (▲) */}
+          <button
+            type="button"
+            onClick={() => stepWheel(-1)}
+            className="relative z-40 shrink-0 h-8 px-4 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800/90 hover:border-amber-400/60 shadow-lg flex items-center gap-2 transition-all cursor-pointer group active:scale-95"
+          >
+            <ChevronUp
+              size={14}
+              className="text-amber-400 group-hover:-translate-y-0.5 transition-transform"
+            />
+            <span className="text-[10px] font-mono font-bold text-amber-400">{prevNode.num}</span>
+            <span className="text-[11px] font-semibold text-zinc-300 group-hover:text-white">
+              {prevNode.title}
+            </span>
+          </button>
+
+          {/* TALL 3D ACTIVE ITEM STAGE */}
+          <div
+            style={{ perspective: "1600px" }}
+            className="relative flex-1 w-full max-w-[1120px] max-h-[800px] min-h-0 flex items-center justify-center"
+          >
             {wheelNodes.map((node, idx) => {
               let rel = idx - activeIndex;
               if (rel > NODE_COUNT / 2) rel -= NODE_COUNT;
@@ -1510,11 +1497,12 @@ export default function WheelPortfolio() {
               const absRel = Math.abs(rel);
               const isActive = rel === 0;
 
-              // Identical 3D cylinder mechanics to the Left Wheel!
-              const rotateX = rel === 0 ? 0 : rel < 0 ? absRel * 31 : -absRel * 31;
-              const yPct = rel === 0 ? "0%" : rel < 0 ? `${rel * (absRel === 1 ? 30 : 25)}%` : `${rel * (absRel === 1 ? 30 : 25)}%`;
-              const scale = rel === 0 ? 1 : absRel === 1 ? 0.89 : 0.78;
-              const opacity = rel === 0 ? 1 : absRel === 1 ? 0.36 : 0.11;
+              // Subtle 3D deck plates behind the tall active card (zero noisy text bleed)
+              const rotateX = rel === 0 ? 0 : rel < 0 ? absRel * 13 : -absRel * 13;
+              const yOffset =
+                rel === 0 ? 0 : rel === -1 ? -22 : rel === 1 ? 22 : rel === -2 ? -38 : 38;
+              const scale = rel === 0 ? 1 : absRel === 1 ? 0.965 : 0.93;
+              const opacity = rel === 0 ? 1 : absRel === 1 ? 0.55 : 0.22;
               const zIndex = 30 - absRel * 10;
 
               return (
@@ -1522,30 +1510,30 @@ export default function WheelPortfolio() {
                   key={node.id}
                   onClick={!isActive ? () => selectNode(idx) : undefined}
                   animate={{
-                    y: yPct,
+                    y: yOffset,
                     rotateX,
                     scale,
                     opacity,
                   }}
                   transition={DRUM_SPRING}
                   style={{ zIndex }}
-                  className={`absolute inset-0 flex flex-col rounded-[1.6rem] overflow-hidden will-composite transition-colors duration-300 ${
+                  className={`absolute inset-0 flex flex-col rounded-[1.5rem] overflow-hidden will-composite transition-colors duration-300 ${
                     isActive
-                      ? "bg-[#0e0e14]/95 border border-amber-400/35 shadow-[0_24px_75px_rgba(0,0,0,0.92),0_0_38px_-10px_rgba(251,191,36,0.22)] backdrop-blur-2xl"
-                      : "bg-[#111118]/90 border border-zinc-800/90 hover:border-amber-400/40 cursor-pointer select-none shadow-2xl"
+                      ? "bg-[#0e0e14]/95 border border-amber-400/35 shadow-[0_24px_75px_rgba(0,0,0,0.92),0_0_38px_-10px_rgba(251,191,36,0.2)] backdrop-blur-2xl"
+                      : "bg-[#12121a]/95 border border-zinc-800/90 hover:border-amber-400/40 cursor-pointer select-none shadow-xl"
                   }`}
                 >
                   {/* Top gold laser accent on active block */}
                   {isActive && (
-                    <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-amber-400/80 to-transparent pointer-events-none" />
+                    <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-amber-400/85 to-transparent pointer-events-none" />
                   )}
 
                   {/* Compact Block Header */}
                   <div
-                    className={`flex items-center justify-between px-6 py-2.5 border-b shrink-0 ${
+                    className={`flex items-center justify-between px-6 py-2.5 border-b shrink-0 transition-opacity duration-200 ${
                       isActive
-                        ? "border-white/[0.07] bg-zinc-950/60"
-                        : "border-white/[0.04] bg-zinc-950/80"
+                        ? "border-white/[0.07] bg-zinc-950/65 opacity-100"
+                        : "border-white/[0.04] bg-zinc-950/90 opacity-40"
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -1558,7 +1546,7 @@ export default function WheelPortfolio() {
                       />
                       <span
                         className={`text-[10.5px] font-mono uppercase tracking-widest font-bold ${
-                          isActive ? "text-amber-400" : "text-zinc-400"
+                          isActive ? "text-amber-400" : "text-zinc-500"
                         }`}
                       >
                         {node.num} // {node.title} — {node.sub}
@@ -1566,11 +1554,7 @@ export default function WheelPortfolio() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono text-zinc-500">
-                        {isActive
-                          ? `${idx + 1} / ${NODE_COUNT}`
-                          : lang === "cs"
-                          ? "Kliknutím otočit"
-                          : "Клік — прокрутити"}
+                        {idx + 1} / {NODE_COUNT}
                       </span>
                       <span
                         className={`w-2 h-2 rounded-full ${
@@ -1580,15 +1564,15 @@ export default function WheelPortfolio() {
                     </div>
                   </div>
 
-                  {/* Card Inner Body */}
+                  {/* Card Inner Body — normal vertical scroll only, hidden on background deck plates */}
                   <div
                     ref={(el) => {
                       scrollerRefs.current[idx] = el;
                     }}
-                    className={`flex-1 px-6 xl:px-8 py-4 sm:py-5 ${
+                    className={`flex-1 px-6 xl:px-8 py-5 xl:py-6 transition-opacity duration-200 ${
                       isActive
-                        ? "overflow-y-auto pointer-events-auto"
-                        : "overflow-hidden pointer-events-none"
+                        ? "overflow-y-auto pointer-events-auto opacity-100"
+                        : "overflow-hidden pointer-events-none opacity-0"
                     }`}
                   >
                     {renderSectionBody(idx)}
@@ -1597,34 +1581,36 @@ export default function WheelPortfolio() {
               );
             })}
           </div>
+
+          {/* BOTTOM BUTTON BELOW MAIN ITEM (▼) */}
+          <button
+            type="button"
+            onClick={() => stepWheel(1)}
+            className="relative z-40 shrink-0 h-8 px-4 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800/90 hover:border-amber-400/60 shadow-lg flex items-center gap-2 transition-all cursor-pointer group active:scale-95"
+          >
+            <span className="text-[10px] font-mono font-bold text-amber-400">{nextNode.num}</span>
+            <span className="text-[11px] font-semibold text-zinc-300 group-hover:text-white">
+              {nextNode.title}
+            </span>
+            <ChevronDown
+              size={14}
+              className="text-amber-400 group-hover:translate-y-0.5 transition-transform"
+            />
+          </button>
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════
-            MOBILE STAGE (< lg): COMPACT 3D TILT + SWIPE SUPPORT
+            MOBILE STAGE (< lg): BUTTON-ONLY SECTION SWITCHING
         ═══════════════════════════════════════════════════════════════════ */}
-        <div
-          style={{ perspective: "1100px" }}
-          onTouchStart={(e) => {
-            mobileTouchStartXRef.current = e.touches[0]?.clientX ?? null;
-          }}
-          onTouchEnd={(e) => {
-            if (mobileTouchStartXRef.current === null) return;
-            const dx = (e.changedTouches[0]?.clientX ?? 0) - mobileTouchStartXRef.current;
-            mobileTouchStartXRef.current = null;
-            if (Math.abs(dx) > 65) {
-              stepWheel(dx < 0 ? 1 : -1);
-            }
-          }}
-          className="lg:hidden w-full pb-16"
-        >
+        <div style={{ perspective: "1100px" }} className="lg:hidden w-full pb-16">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.section
               key={wheelNodes[activeIndex].id}
               custom={direction}
               initial={{
-                rotateX: direction > 0 ? -24 : 24,
-                y: direction > 0 ? 36 : -36,
-                scale: 0.95,
+                rotateX: direction > 0 ? -20 : 20,
+                y: direction > 0 ? 28 : -28,
+                scale: 0.96,
                 opacity: 0,
               }}
               animate={{
@@ -1634,12 +1620,12 @@ export default function WheelPortfolio() {
                 opacity: 1,
               }}
               exit={{
-                rotateX: direction > 0 ? 24 : -24,
-                y: direction > 0 ? -36 : 36,
-                scale: 0.95,
+                rotateX: direction > 0 ? 20 : -20,
+                y: direction > 0 ? -28 : 28,
+                scale: 0.96,
                 opacity: 0,
               }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              transition={{ duration: 0.24, ease: "easeOut" }}
               className="w-full rounded-2xl bg-[#0e0e14]/95 border border-amber-400/30 shadow-2xl overflow-hidden"
             >
               <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-zinc-950/60">
@@ -1650,7 +1636,7 @@ export default function WheelPortfolio() {
                   {activeIndex + 1}/{NODE_COUNT}
                 </span>
               </div>
-              <div className="p-4">{renderSectionBody(activeIndex)}</div>
+              <div className="p-4 sm:p-5">{renderSectionBody(activeIndex)}</div>
             </motion.section>
           </AnimatePresence>
         </div>
