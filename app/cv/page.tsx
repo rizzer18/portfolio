@@ -22,24 +22,24 @@ export default function CVPage() {
   };
 
   return (
-    <div className="min-h-screen text-[#f5f4f1] print:bg-white print:text-black py-6 sm:py-10 px-3 sm:px-6">
+    <div className="min-h-screen bg-[#070709] text-[#ededf0] print:bg-white print:text-black py-6 sm:py-10 px-3 sm:px-6">
       {/* Top Action Bar (Hidden on print) */}
-      <div className="max-w-4xl mx-auto mb-6 pb-4 border-b border-white/[0.1] flex flex-wrap items-center justify-between gap-3 print:hidden">
+      <div className="max-w-4xl mx-auto mb-6 pb-4 border-b border-[#191922] flex flex-wrap items-center justify-between gap-3 print:hidden">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-[13.5px] font-medium text-[#f5f4f1]/80 hover:text-[#f5f4f1] transition-colors"
+          className="inline-flex items-center gap-2 text-[13.5px] font-medium text-[#8e8e9a] hover:text-[#ededf0] transition-colors"
         >
           <ArrowLeft size={15} />
           <span>{isCs ? "Zpět na portfolio" : "Назад до портфоліо"}</span>
         </Link>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 p-0.5 rounded-full border border-white/[0.14] bg-white/[0.04] font-mono text-[11.5px]">
+          <div className="flex items-center gap-1 p-0.5 rounded-full border border-[#22222d] bg-[#0c0c11] font-mono text-[11.5px]">
             <button
               type="button"
               onClick={() => setLang("cs")}
               className={`px-2.5 py-1 rounded-full cursor-pointer transition-colors ${
-                isCs ? "bg-[#f5f4f1] text-[#100e0b] font-semibold" : "text-[#9b968f] hover:text-[#f5f4f1]"
+                isCs ? "bg-[#1d1d28] text-[#ededf0] font-semibold" : "text-[#7c7c88] hover:text-[#ededf0]"
               }`}
             >
               CZ
@@ -48,7 +48,7 @@ export default function CVPage() {
               type="button"
               onClick={() => setLang("uk")}
               className={`px-2.5 py-1 rounded-full cursor-pointer transition-colors ${
-                !isCs ? "bg-[#f5f4f1] text-[#100e0b] font-semibold" : "text-[#9b968f] hover:text-[#f5f4f1]"
+                !isCs ? "bg-[#1d1d28] text-[#ededf0] font-semibold" : "text-[#7c7c88] hover:text-[#ededf0]"
               }`}
             >
               UA
@@ -58,7 +58,7 @@ export default function CVPage() {
           <button
             type="button"
             onClick={handlePrint}
-            className="h-9 px-4 sm:px-5 rounded-full bg-[#f5f4f1] hover:bg-white text-[#100e0b] font-medium text-[13px] inline-flex items-center gap-2 transition-colors cursor-pointer"
+            className="h-9 px-4 sm:px-5 rounded-full bg-[#181822] hover:bg-[#222230] border border-[#2d2d3d] text-[#ededf0] font-medium text-[13px] inline-flex items-center gap-2 transition-colors cursor-pointer"
           >
             <Printer size={14} />
             <span>{isCs ? "Tisk / Uložit PDF" : "Друк / Зберегти PDF"}</span>
@@ -67,7 +67,7 @@ export default function CVPage() {
       </div>
 
       {/* Main CV Document Container (A4 Printable Layout) */}
-      <main className="max-w-4xl mx-auto rounded-2xl print:rounded-none border border-white/[0.14] print:border-none bg-[#15120e]/78 backdrop-blur-2xl print:bg-white p-5 sm:p-9 print:p-0 shadow-[0_26px_70px_rgba(0,0,0,0.6)] print:shadow-none">
+      <main className="max-w-4xl mx-auto rounded-2xl print:rounded-none border border-[#1b1b24] print:border-none bg-[#0b0b0f] print:bg-white p-5 sm:p-9 print:p-0 shadow-2xl print:shadow-none">
         {/* HEADER */}
         <header className="border-b border-white/[0.1] print:border-zinc-300 pb-6 mb-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
@@ -94,8 +94,8 @@ export default function CVPage() {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3fbf7f] print:bg-zinc-700 shrink-0" />
                   <span>
                     {isCs
-                      ? "VUT v Brně (FEKT) · 1. ročník Bc. · k dispozici pro part-time / spolupráci"
-                      : "VUT v Brně (FEKT) · 1-й курс · відкритий до співпраці / part-time"}
+                      ? "SŠ Kyberna · 2× Cisco CCNA · k dispozici pro part-time / spolupráci"
+                      : "SŠ Kyberna · 2× Cisco CCNA · відкритий до співпраці / part-time"}
                   </span>
                 </div>
               </div>
@@ -119,7 +119,7 @@ export default function CVPage() {
               </a>
               <div className="flex items-center gap-2 text-[#9b968f] print:text-zinc-600">
                 <MapPin size={12} className="text-[#3fbf7f] print:text-zinc-800 shrink-0" />
-                <span>Brno / Hradec Králové, ČR</span>
+                <span>Hradec Králové, ČR</span>
               </div>
               <a
                 href="https://github.com/rizzer18"
@@ -144,8 +144,8 @@ export default function CVPage() {
               </h2>
               <p className="text-[12.5px] text-[#f5f4f1]/75 print:text-zinc-800 leading-relaxed text-justify">
                 {isCs
-                  ? "Prakticky zaměřený student 1. ročníku VUT FEKT Brno a absolvent SŠ Kyberna (2026) se zaměřením na správu Linuxu, sítě (2× Cisco CCNA, MikroTik, Windows Server AD DS & GPO) a vývoj v C# (.NET) a TypeScriptu (Next.js). Své znalosti prokazuji na reálných komerčních webech pro klienty v ČR a Kanadě (4 projekty v provozu), tříleté praxi v IT Support týmu na konferenci ISSS (2024–2026) a vlastním domácím Home Labu (Linux server, Docker, vlastní GitHub Actions CI/CD, Cloudflare Zero-Trust a MikroTik VPN/OSPF/VLAN)."
-                  : "Практично орієнтований студент 1-го курсу VUT FEKT Brno та випускник SŠ Kyberna (2026) зі спеціалізацією на Linux, мережах (2× Cisco CCNA, MikroTik, Windows Server AD DS & GPO) та розробці на C# (.NET) і TypeScript (Next.js). Підтверджую свої навички 4 реальними комерційними сайтами для клієнтів у Чехії й Канаді, трирічним досвідом IT Support на конференції ISSS (2024–2026) та власними домашніми Home Lab проєктами (Linux-сервер, Docker, власний GitHub Actions CI/CD, Cloudflare Zero-Trust і MikroTik VPN/OSPF/VLAN)."}
+                  ? "Prakticky zaměřený inženýr se zaměřením na správu Linuxu, sítě (SŠ Kyberna, 2× Cisco CCNA, MikroTik, Windows Server AD DS & GPO) a vývoj v C# (.NET) a TypeScriptu (Next.js). Své znalosti prokazuji na reálných komerčních webech pro klienty v ČR a Kanadě (4 projekty v provozu), tříleté praxi v IT Support týmu na konferenci ISSS (2024–2026) a vlastním domácím Home Labu (Linux server, Docker, vlastní GitHub Actions CI/CD, Cloudflare Zero-Trust a MikroTik VPN/OSPF/VLAN)."
+                  : "Практично орієнтований інженер зі спеціалізацією на Linux, мережах (SŠ Kyberna, 2× Cisco CCNA, MikroTik, Windows Server AD DS & GPO) та розробці на C# (.NET) і TypeScript (Next.js). Підтверджую свої навички 4 реальними комерційними сайтами для клієнтів у Чехії й Канаді, трирічним досвідом IT Support на конференції ISSS (2024–2026) та власними домашніми Home Lab проєктами (Linux-сервер, Docker, власний GitHub Actions CI/CD, Cloudflare Zero-Trust і MikroTik VPN/OSPF/VLAN)."}
               </p>
             </section>
 
@@ -285,21 +285,8 @@ export default function CVPage() {
               <div className="space-y-3">
                 <div className="border border-white/[0.12] bg-white/[0.03] print:bg-transparent print:border-zinc-300 rounded-xl p-3.5">
                   <div className="flex items-center justify-between font-mono text-[10.5px] text-[#9b968f] print:text-zinc-700 mb-1">
-                    <span>2026 — {isCs ? "Současnost" : "Тепер. час"}</span>
-                    <span className="text-[#3fbf7f] print:text-zinc-700">1. ročník Bc.</span>
-                  </div>
-                  <h3 className="text-[13.5px] font-semibold text-[#f5f4f1] print:text-black">
-                    VUT v Brně — FEKT
-                  </h3>
-                  <p className="text-[12px] text-[#f5f4f1]/75 print:text-zinc-700">
-                    Telekomunikační a informační systémy
-                  </p>
-                </div>
-
-                <div className="border border-white/[0.12] bg-white/[0.03] print:bg-transparent print:border-zinc-300 rounded-xl p-3.5">
-                  <div className="flex items-center justify-between font-mono text-[10.5px] text-[#9b968f] print:text-zinc-700 mb-1">
                     <span>2022 — 2026</span>
-                    <span className="text-[#9b968f] print:text-zinc-600">Maturita 2026</span>
+                    <span className="text-[#3fbf7f] print:text-zinc-600">Maturita 2026</span>
                   </div>
                   <h3 className="text-[13.5px] font-semibold text-[#f5f4f1] print:text-black">
                     Střední škola Kyberna, Hradec Králové
@@ -402,7 +389,7 @@ export default function CVPage() {
                 <li className="flex justify-between">
                   <span>{isCs ? "Čeština" : "Чеська"}</span>
                   <span className="font-mono text-[#3fbf7f] print:text-zinc-700 text-[11px]">
-                    C1 (maturita, VUT Brno)
+                    C1 (maturita v ČR)
                   </span>
                 </li>
                 <li className="flex justify-between">
@@ -423,7 +410,7 @@ export default function CVPage() {
         </div>
 
         <footer className="mt-7 pt-4 border-t border-white/[0.1] print:border-zinc-300 text-center font-mono text-[11px] text-[#9b968f] print:text-zinc-500">
-          Roman Roshkanyuk · +420 605 447 445 · romanroskanuk74@gmail.com · github.com/rizzer18 · Brno, ČR
+          Roman Roshkanyuk · +420 605 447 445 · romanroskanuk74@gmail.com · github.com/rizzer18 · Hradec Králové, ČR
         </footer>
       </main>
     </div>

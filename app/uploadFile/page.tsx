@@ -275,20 +275,20 @@ export default function FileServerPage() {
   const downloadUrl = (name: string) => `/api/files/${encodeURIComponent(name)}?download=1`;
 
   return (
-    <div className="min-h-screen text-[#f5f4f1] overflow-x-hidden">
-      {/* Sticky Glass Header */}
-      <header className="sticky top-0 z-30 h-14 bg-[#100e0b]/72 backdrop-blur-xl border-b border-white/[0.08] px-4 sm:px-8">
+    <div className="min-h-screen bg-[#070709] text-[#ededf0] overflow-x-hidden">
+      {/* Sticky Solid Dark Header */}
+      <header className="sticky top-0 z-30 h-14 bg-[#070709]/95 border-b border-[#181820] px-4 sm:px-8">
         <div className="max-w-5xl mx-auto h-full flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-[#3fbf7f]" />
-            <h1 className="font-serif text-[22px] tracking-[-0.02em] text-[#f5f4f1]">
-              File Server <span className="text-[#9b968f]">· HTTP 206</span>
+            <h1 className="font-serif text-[22px] tracking-[-0.02em] text-[#ededf0]">
+              File Server <span className="text-[#7c7c88]">· HTTP 206</span>
             </h1>
           </div>
 
           <Link
             href="/"
-            className="h-9 px-4 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.12] inline-flex items-center gap-2 text-[13px] font-medium text-[#f5f4f1] transition-colors"
+            className="h-9 px-4 rounded-full bg-[#111117] hover:bg-[#191922] border border-[#23232f] inline-flex items-center gap-2 text-[13px] font-medium text-[#ededf0] transition-colors"
           >
             <ArrowLeft size={14} />
             <span>На портфоліо</span>
@@ -306,10 +306,10 @@ export default function FileServerPage() {
           }}
           onDragLeave={() => setDragOver(false)}
           onClick={() => fileInputRef.current?.click()}
-          className={`relative border border-dashed rounded-2xl p-8 sm:p-10 text-center cursor-pointer transition-all duration-300 mb-6 select-none backdrop-blur-xl ${
+          className={`relative border border-dashed rounded-2xl p-8 sm:p-10 text-center cursor-pointer transition-colors mb-6 select-none ${
             dragOver
-              ? "border-[#f5f4f1] bg-white/[0.10]"
-              : "border-white/[0.18] hover:border-white/[0.38] bg-[#161310]/60 hover:bg-[#161310]/80"
+              ? "border-[#3fbf7f] bg-[#0b1a12]"
+              : "border-[#22222d] hover:border-[#343445] bg-[#0b0b0f] hover:bg-[#0f0f15]"
           } ${uploading ? "pointer-events-none opacity-75" : ""}`}
         >
           <input
@@ -361,24 +361,24 @@ export default function FileServerPage() {
               placeholder="Пошук файлів..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#161310]/70 backdrop-blur-md border border-white/[0.14] rounded-full pl-9 pr-4 py-2 text-[13px] text-[#f5f4f1] placeholder:text-[#9b968f] focus:outline-none focus:border-white/[0.38] transition-colors"
+              className="w-full bg-[#0b0b0f] border border-[#1e1e28] rounded-full pl-9 pr-4 py-2 text-[13px] text-[#ededf0] placeholder:text-[#7c7c88] focus:outline-none focus:border-[#363648] transition-colors"
             />
           </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-3">
-            <span className="font-mono text-[#9b968f] text-[12px] whitespace-nowrap">
+            <span className="font-mono text-[#7c7c88] text-[12px] whitespace-nowrap">
               {filtered.length} файл{filtered.length === 1 ? "" : "ів"} ·{" "}
               {formatSize(totalFilteredSize)}
             </span>
 
-            <div className="flex items-center border border-white/[0.14] rounded-full p-0.5 bg-[#161310]/70 backdrop-blur-md">
+            <div className="flex items-center border border-[#1e1e28] rounded-full p-0.5 bg-[#0b0b0f]">
               <button
                 type="button"
                 onClick={() => setViewMode("list")}
                 className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                   viewMode === "list"
-                    ? "bg-[#f5f4f1] text-[#100e0b]"
-                    : "text-[#9b968f] hover:text-[#f5f4f1]"
+                    ? "bg-[#1e1e28] text-[#ededf0]"
+                    : "text-[#7c7c88] hover:text-[#ededf0]"
                 }`}
                 title="Список"
               >
@@ -389,8 +389,8 @@ export default function FileServerPage() {
                 onClick={() => setViewMode("grid")}
                 className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                   viewMode === "grid"
-                    ? "bg-[#f5f4f1] text-[#100e0b]"
-                    : "text-[#9b968f] hover:text-[#f5f4f1]"
+                    ? "bg-[#1e1e28] text-[#ededf0]"
+                    : "text-[#7c7c88] hover:text-[#ededf0]"
                 }`}
                 title="Плитка"
               >
@@ -402,22 +402,22 @@ export default function FileServerPage() {
 
         {/* File Container */}
         {loading ? (
-          <div className="rounded-2xl border border-white/[0.12] bg-[#161310]/65 backdrop-blur-xl py-20 text-center text-[#9b968f]">
-            <Loader2 size={24} className="mx-auto mb-3 animate-spin text-[#f5f4f1]" />
+          <div className="rounded-2xl border border-[#1b1b24] bg-[#0b0b0f] py-20 text-center text-[#7c7c88]">
+            <Loader2 size={24} className="mx-auto mb-3 animate-spin text-[#ededf0]" />
             <p className="text-[13px]">Завантаження списку файлів...</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="rounded-2xl border border-white/[0.12] bg-[#161310]/65 backdrop-blur-xl py-20 text-center text-[#9b968f]">
-            <FolderOpen size={32} className="mx-auto mb-3 text-[#9b968f]/60" />
-            <p className="font-serif text-xl text-[#f5f4f1]">
+          <div className="rounded-2xl border border-[#1b1b24] bg-[#0b0b0f] py-20 text-center text-[#7c7c88]">
+            <FolderOpen size={32} className="mx-auto mb-3 text-[#7c7c88]/60" />
+            <p className="font-serif text-xl text-[#ededf0]">
               {search ? "Нічого не знайдено" : "Файлів поки немає"}
             </p>
             {!search && (
-              <p className="text-[12.5px] mt-1 text-[#9b968f]">Завантаж перший файл вище</p>
+              <p className="text-[12.5px] mt-1 text-[#7c7c88]">Завантаж перший файл вище</p>
             )}
           </div>
         ) : viewMode === "list" ? (
-          <div className="rounded-2xl border border-white/[0.12] overflow-hidden bg-[#15120e]/72 backdrop-blur-xl">
+          <div className="rounded-2xl border border-[#1b1b24] overflow-hidden bg-[#0b0b0f]">
             <ul className="divide-y divide-white/[0.08]">
               <li className="grid grid-cols-[2.25rem_1fr_5.5rem_auto] sm:grid-cols-[2.25rem_1fr_6rem_9.5rem_8.5rem] gap-3 px-4 sm:px-5 py-3 font-mono text-[11px] text-[#9b968f] uppercase bg-black/25">
                 <span />
@@ -528,7 +528,7 @@ export default function FileServerPage() {
                 <div
                   key={file.name}
                   onClick={() => setPreviewIndex(idx)}
-                  className="group rounded-xl border border-white/[0.12] bg-[#15120e]/72 backdrop-blur-xl hover:border-white/[0.3] overflow-hidden flex flex-col cursor-pointer transition-all"
+                  className="group rounded-xl border border-[#1b1b24] bg-[#0b0b0f] hover:border-[#2e2e3e] overflow-hidden flex flex-col cursor-pointer transition-colors"
                 >
                   <div className="aspect-[4/3] bg-black/40 flex items-center justify-center overflow-hidden relative border-b border-white/[0.08]">
                     {isImg ? (
@@ -601,7 +601,7 @@ export default function FileServerPage() {
       {/* IN-BROWSER PREVIEW MODAL */}
       {activeFile && (
         <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex flex-col"
+          className="fixed inset-0 z-50 bg-black/90 flex flex-col"
           onClick={() => setPreviewIndex(null)}
         >
           <div

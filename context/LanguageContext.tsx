@@ -25,13 +25,13 @@ export const translations = {
 
     // ── ABOUT ───────────────────────────────────────────────────────────────
     aboutPhotoName: "Roman Roshkanyuk",
-    aboutPhotoBadge: "VUT FEKT · 1. ročník",
+    aboutPhotoBadge: "SŠ Kyberna · 2× Cisco CCNA",
     aboutBio1: [
       "Jsem ",
       "Roman Roshkanyuk",
       " — inženýr zaměřený na DevOps, síťovou infrastrukturu a vývoj softwaru (",
-      "VUT Brno FEKT — Telekomunikační a informační systémy",
-      ", absolvent SŠ Kyberna 2026). Nehledám jen teoretické úlohy — rozumím celému stacku od paketů ve Wiresharku a routovacích tabulek, přes jádro Linuxu, systemd a kontejnerizaci, až po paměťový model a reflexi v .NET.",
+      "SŠ Kyberna, Hradec Králové",
+      "). Nehledám jen teoretické úlohy — rozumím celému stacku od paketů ve Wiresharku a routovacích tabulek, přes jádro Linuxu, systemd a kontejnerizaci, až po paměťový model a reflexi v .NET.",
     ],
     aboutBio2: [
       "V praxi spojuji ",
@@ -100,7 +100,7 @@ export const translations = {
     tabsTitleParts: ["dovednosti", "certifikáty", "praxe"],
     tabsTitlePrefix: "Ověřené",
     tabsTitleConjunction: "a",
-    tabLabels: ["Stack", "Certifikáty & VUT", "Praxe"],
+    tabLabels: ["Stack", "Certifikáty & Vzdělání", "Praxe"],
     skillCats: [
       {
         title: "C# (.NET) & Backend Engineering",
@@ -125,26 +125,18 @@ export const translations = {
     ],
     skillLangsTitle: "Jazyková vybavenost",
     skillLangs: [
-      { lang: "Čeština", level: "C1 (maturitní zkouška, studium na VUT)" },
+      { lang: "Čeština", level: "C1 (maturitní zkouška v ČR)" },
       { lang: "Ukrajinština", level: "Rodilý mluvčí (C2)" },
       { lang: "Angličtina", level: "B1+ (technická dokumentace, RFC, CLI)" },
     ],
     schools: [
-      {
-        period: "2026 — Současnost",
-        badge: "1. ročník Bc.",
-        name: "VUT v Brně — FEKT",
-        desc: "Telekomunikační a informační systémy",
-        sub: "Síťové architektury, přenosové systémy, nízkoúrovňové programování a informační bezpečnost.",
-        active: true,
-      },
       {
         period: "2022 — 2026",
         badge: "Maturita 2026",
         name: "Střední škola Kyberna, Hradec Králové",
         desc: "Informační technologie — Síťová & systémová specializace",
         sub: "Praktická maturita: Windows Server (AD DS, GPO, IIS, DNS, DHCP, VPN, NAT), VMware, Cisco CCNA R&S, Linux a vývoj v C# (.NET).",
-        active: false,
+        active: true,
       },
     ],
     certsTitle: "Oficiální certifikáty",
@@ -239,13 +231,13 @@ export const translations = {
 
     // ── ABOUT ───────────────────────────────────────────────────────────────
     aboutPhotoName: "Roman Roshkanyuk",
-    aboutPhotoBadge: "VUT FEKT · 1-й курс",
+    aboutPhotoBadge: "SŠ Kyberna · 2× Cisco CCNA",
     aboutBio1: [
       "Я ",
       "Roman Roshkanyuk",
       " — інженер на стику DevOps, мережевої інфраструктури та розробки ПЗ (",
-      "VUT Brno FEKT — Телекомунікаційні та інформаційні системи",
-      ", випускник SŠ Kyberna 2026). Розумію систему на всіх рівнях: від аналізу пакетів у Wireshark і таблиць маршрутизації, через ядро Linux, systemd та ізоляцію контейнерів, до роботи з пам'яттю та рефлексією в .NET.",
+      "SŠ Kyberna, Градець-Кралове",
+      "). Розумію систему на всіх рівнях: від аналізу пакетів у Wireshark і таблиць маршрутизації, через ядро Linux, systemd та ізоляцію контейнерів, до роботи з пам'яттю та рефлексією в .NET.",
     ],
     aboutBio2: [
       "На практиці поєдную ",
@@ -314,7 +306,7 @@ export const translations = {
     tabsTitleParts: ["навички", "сертифікати", "досвід"],
     tabsTitlePrefix: "Підтверджені",
     tabsTitleConjunction: "та",
-    tabLabels: ["Стек", "Сертифікати & VUT", "Досвід"],
+    tabLabels: ["Стек", "Сертифікати & Освіта", "Досвід"],
     skillCats: [
       {
         title: "C# (.NET) & Backend Engineering",
@@ -339,26 +331,18 @@ export const translations = {
     ],
     skillLangsTitle: "Мовна підготовка",
     skillLangs: [
-      { lang: "Чеська", level: "C1 (матуріта, навчання у VUT Brno)" },
+      { lang: "Чеська", level: "C1 (матуріта в ЧР)" },
       { lang: "Українська", level: "Рідна мова (C2)" },
       { lang: "Англійська", level: "B1+ (технічна документація, RFC, CLI)" },
     ],
     schools: [
-      {
-        period: "2026 — Теперішній час",
-        badge: "1-й курс Бакалавр",
-        name: "VUT v Brně — FEKT",
-        desc: "Телекомунікаційні та інформаційні системи",
-        sub: "Мережеві архітектури, системи передачі даних, низькорівневе програмування та інформаційна безпека.",
-        active: true,
-      },
       {
         period: "2022 — 2026",
         badge: "Матуріта 2026",
         name: "Střední škola Kyberna, Градець-Кралове",
         desc: "Інформаційні технології — Мережева та системна спеціалізація",
         sub: "Практична матуріта: Windows Server (AD DS, GPO, IIS, DNS, DHCP, VPN, NAT), VMware, Cisco CCNA R&S, Linux та C# (.NET).",
-        active: false,
+        active: true,
       },
     ],
     certsTitle: "Офіційні сертифікати",
