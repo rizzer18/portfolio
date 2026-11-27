@@ -1,38 +1,20 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback, useMemo, memo } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import {
-  User,
-  Cpu,
-  Layers,
-  Award,
-  Send,
+  ArrowUpRight,
+  Check,
   Download,
   ExternalLink,
   Eye,
-  X,
-  ChevronUp,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ArrowRight,
-  Terminal,
-  Server,
-  Wifi,
-  Home,
-  Code,
-  CheckCircle2,
-  Shield,
   Mail,
   Phone,
-  Sparkles,
-  Trophy,
-  GraduationCap,
-  Briefcase,
-  FolderOpen,
+  Send,
+  Shield,
+  Terminal,
+  X,
 } from "lucide-react";
 import { useLanguage, type Lang, type Translations } from "../context/LanguageContext";
 
@@ -71,7 +53,7 @@ const CERTIFICATES: Certificate[] = [
     issuer: "Cisco Networking Academy",
     year: "2022",
     file: "/IT_Essentials_certificate_romanroskanuk74-gmail-com_f6ecc3a9-bf2d-4e90-a410-6c10abca6399.pdf",
-    badge: "Hardware & OS",
+    badge: "HW & OS",
   },
   {
     name: "ECDL Certificate",
@@ -89,86 +71,278 @@ const CERTIFICATES: Certificate[] = [
   },
 ];
 
-// Matches exact 0..4 order in LanguageContext.tsx
 const PROJECT_DOMAINS = [
-  "Self-Hosted Linux · Zero-Trust",
+  "self-hosted · zero-trust",
   "bowlingovyclubsv.cz",
   "luxury-cleaning-solutions.ca",
   "nikita-box.cz",
   "honzapokusil.cz",
 ];
 
-const PROJECT_TYPES: ("web" | "infra")[] = ["infra", "web", "web", "web", "web"];
-
 const PROJECT_TAGS = [
-  ["Docker Compose", "GitHub Actions CI/CD", "MikroTik WireGuard", "OSPF/VLAN", "Zero-Trust"],
-  ["Next.js", "TypeScript", "SSR/SSG", "Schema.org SEO", "Reservations"],
-  ["Next.js", "TypeScript", "Price Calculator", "Google Reviews", "Core Web Vitals"],
-  ["Next.js", "React", "i18n (CZ/UA)", "Tailwind CSS", "Responsive UI"],
-  ["Next.js", "React", "Modular UI", "Image Optimization", "Transitions"],
+  ["Docker Multi-Stage", "GitHub Actions CI/CD", "MikroTik WireGuard", "OSPF / VRF", "Cloudflare Zero-Trust"],
+  ["Next.js", "TypeScript", "SSR / SSG", "Schema.org SEO", "Lane Reservations"],
+  ["Next.js", "TypeScript", "Live Price Calculator", "Google Reviews", "Core Web Vitals"],
+  ["Next.js", "React", "i18n (CZ / UA)", "Tailwind CSS", "Responsive UI"],
+  ["Next.js", "React", "Modular Repertoire", "Image Optimization", "Editorial UI"],
 ];
 
 const PROJECT_URLS = [
-  "#infra",
+  "#credentials",
   "https://bowlingovyclubsv.cz/",
   "https://www.luxury-cleaning-solutions.ca/",
   "https://nikita-box.cz/",
   "https://honzapokusil.cz/",
 ];
 
-const TOOL_LOGOS = [
-  { name: "Docker", logo: "/images/docker.png", width: 84, height: 24 },
-  { name: "Figma", logo: "/images/figma.png", width: 68, height: 24 },
-  { name: "VS Code", logo: "/images/vscode.png", width: 92, height: 24 },
-  { name: "Swagger", logo: "/images/swagger.png", width: 80, height: 24 },
-  { name: "Node.js", logo: "/images/nodejs.png", width: 74, height: 24 },
-  { name: "WordPress", logo: "/images/wordpress.png", width: 84, height: 24 },
-];
+/**
+ * Crisp 8-bit pixel-art downward pointing hand SVG (#ffa1f7)
+ * matching Akash Tyagi's iconic footer illustration.
+ */
+function PixelPointingHand() {
+  return (
+    <svg
+      width="120"
+      height="144"
+      viewBox="0 0 16 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      shapeRendering="crispEdges"
+      aria-hidden="true"
+      className="select-none"
+    >
+      {/* Top cuff / wrist outline */}
+      <rect x="4" y="0" width="7" height="1" fill="#ffa1f7" />
+      <rect x="3" y="1" width="1" height="3" fill="#ffa1f7" />
+      <rect x="11" y="1" width="1" height="2" fill="#ffa1f7" />
+      {/* Left palm edge */}
+      <rect x="2" y="4" width="1" height="6" fill="#ffa1f7" />
+      {/* Thumb jutting right */}
+      <rect x="12" y="3" width="1" height="3" fill="#ffa1f7" />
+      <rect x="13" y="6" width="1" height="1" fill="#ffa1f7" />
+      <rect x="14" y="7" width="1" height="3" fill="#ffa1f7" />
+      <rect x="12" y="10" width="2" height="1" fill="#ffa1f7" />
+      <rect x="11" y="8" width="1" height="2" fill="#ffa1f7" />
+      {/* Curled fingers on left */}
+      <rect x="3" y="10" width="2" height="1" fill="#ffa1f7" />
+      <rect x="4" y="9" width="1" height="3" fill="#ffa1f7" />
+      <rect x="5" y="12" width="2" height="1" fill="#ffa1f7" />
+      <rect x="6" y="10" width="1" height="3" fill="#ffa1f7" />
+      <rect x="7" y="13" width="2" height="1" fill="#ffa1f7" />
+      {/* Extended index finger pointing straight down */}
+      <rect x="8" y="10" width="1" height="8" fill="#ffa1f7" />
+      <rect x="11" y="10" width="1" height="8" fill="#ffa1f7" />
+      <rect x="9" y="18" width="2" height="1" fill="#ffa1f7" />
+    </svg>
+  );
+}
 
-const TECH_TAGS = [
-  { name: "C# (.NET)", cat: "Web" },
-  { name: "System.Reflection", cat: "Web" },
-  { name: "OOP & SOLID", cat: "Web" },
-  { name: "Next.js 15", cat: "Web" },
-  { name: "TypeScript", cat: "Web" },
-  { name: "Node.js", cat: "Web" },
-  { name: "Linux (systemd)", cat: "Infra" },
-  { name: "Docker & Compose", cat: "Infra" },
-  { name: "GitHub Actions CI/CD", cat: "Infra" },
-  { name: "Cloudflare Zero-Trust", cat: "Infra" },
-  { name: "AD DS & GPO", cat: "Infra" },
-  { name: "VMware", cat: "Infra" },
-  { name: "MikroTik RouterOS", cat: "Network" },
-  { name: "OSPF & VRF", cat: "Network" },
-  { name: "WireGuard VPN", cat: "Network" },
-  { name: "802.1Q VLAN", cat: "Network" },
-  { name: "2× Cisco CCNA", cat: "Network" },
-  { name: "Wireshark", cat: "Network" },
-  { name: "Home Assistant & MQTT", cat: "IoT" },
-  { name: "Frigate AI NVR", cat: "IoT" },
-];
+/**
+ * Bespoke dark showcase visual frames for each of Roman's 5 real systems,
+ * styled like the rounded product mockups in Akash Tyagi's 60% right column.
+ */
+function ProjectVisualShowcase({ index, lang }: { index: number; lang: Lang }) {
+  const isCs = lang === "cs";
 
-const CAT_STYLES: Record<string, string> = {
-  Web: "border-violet-500/30 bg-violet-500/10 text-violet-300",
-  Infra: "border-sky-500/30 bg-sky-500/10 text-sky-300",
-  Network: "border-amber-500/30 bg-amber-500/10 text-amber-300",
-  IoT: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
-  Design: "border-rose-500/30 bg-rose-500/10 text-rose-300",
-};
+  if (index === 0) {
+    return (
+      <div className="p-5 sm:p-8 bg-gradient-to-b from-[#0b0b0d] to-[#050506]">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b border-[#181818] font-mono text-[11px]">
+          <div className="flex items-center gap-2 text-[#efe6d8]/80">
+            <Terminal size={13} className="text-[#ffa1f7]" />
+            <span>roman@homelab-edge ~ systemd · docker · routeros</span>
+          </div>
+          <div className="flex items-center gap-2 text-[#4dff00]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#4dff00]" />
+            <span>0 OPEN WAN PORTS · 24/7 ONLINE</span>
+          </div>
+        </div>
 
-const NODE_COUNT = 5;
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          <div className="rounded-lg border border-[#191919] bg-black p-4 space-y-2.5">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-[#ffa1f7]">
+              Edge &amp; CI/CD
+            </div>
+            <div className="text-[13px] font-semibold text-[#efe6d8]">
+              Cloudflare Zero-Trust + GitHub Runner
+            </div>
+            <div className="space-y-1 font-mono text-[11px] text-[#efe6d8]/50">
+              <div>• Tunnel ingress (TLS 1.3)</div>
+              <div>• systemd self-hosted runner</div>
+              <div>• Multi-stage non-root Alpine</div>
+            </div>
+          </div>
 
-const DRUM_SPRING = {
-  type: "spring" as const,
-  stiffness: 175,
-  damping: 24,
-  mass: 0.85,
-};
+          <div className="rounded-lg border border-[#191919] bg-black p-4 space-y-2.5">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-[#ffa1f7]">
+              L2/L3 Routing
+            </div>
+            <div className="text-[13px] font-semibold text-[#efe6d8]">
+              MikroTik RouterOS · WireGuard
+            </div>
+            <div className="space-y-1 font-mono text-[11px] text-[#efe6d8]/50">
+              <div>• Site-to-Site WireGuard VPN</div>
+              <div>• Dynamic OSPF + VRF tables</div>
+              <div>• 802.1Q CZ / UA policy VLANs</div>
+            </div>
+          </div>
 
-const ContactSection = memo(function ContactSection({
+          <div className="rounded-lg border border-[#191919] bg-black p-4 space-y-2.5">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-[#ffa1f7]">
+              Services &amp; Telemetry
+            </div>
+            <div className="text-[13px] font-semibold text-[#efe6d8]">
+              Docker Compose · AI NVR &amp; IoT
+            </div>
+            <div className="space-y-1 font-mono text-[11px] text-[#efe6d8]/50">
+              <div>• Home Assistant + Mosquitto</div>
+              <div>• Zigbee2MQTT coordinator</div>
+              <div>• Frigate NVR + SSH key-only</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <div className="p-6 sm:p-10 bg-[radial-gradient(ellipse_at_top,#17131c_0%,#060607_70%)]">
+        <div className="max-w-xl mx-auto space-y-6">
+          <div className="flex items-center justify-between text-[11px] font-mono text-[#efe6d8]/45">
+            <span>BOWLINGOVÝ CLUB SV · TÝNIŠTĚ NAD ORLICÍ</span>
+            <span className="text-[#4dff00]">CWV 99/100</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#efe6d8]">
+              {isCs ? "Online rezervace drah & turnajů." : "Онлайн-бронювання доріжок і турнірів."}
+            </div>
+            <p className="text-[13px] text-[#efe6d8]/50">
+              Next.js SSR/SSG · Schema.org LocalBusiness · Dynamic Pricing
+            </p>
+          </div>
+          <div className="grid grid-cols-4 gap-2 pt-2">
+            {["Dráha 01", "Dráha 02", "Dráha 03", "Dráha 04"].map((lane, i) => (
+              <div
+                key={lane}
+                className={`rounded-lg border p-3 text-center font-mono text-[11px] ${
+                  i === 1
+                    ? "border-[#ffa1f7]/60 bg-[#ffa1f7]/10 text-[#ffa1f7]"
+                    : "border-[#1b1b1b] bg-black/70 text-[#efe6d8]/65"
+                }`}
+              >
+                <div className="font-semibold">{lane}</div>
+                <div className="text-[10px] opacity-70 mt-0.5">
+                  {i === 1 ? "19:00 ✓" : "Volno"}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (index === 2) {
+    return (
+      <div className="p-6 sm:p-10 bg-[radial-gradient(ellipse_at_top_right,#111a1d_0%,#060607_72%)]">
+        <div className="max-w-xl mx-auto space-y-6">
+          <div className="flex items-center justify-between text-[11px] font-mono text-[#efe6d8]/45">
+            <span>EDMONTON, ALBERTA · CANADA</span>
+            <span className="text-[#ffa1f7]">★ 5.0 GOOGLE REVIEWS</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+            <div className="sm:col-span-7 space-y-2">
+              <div className="text-xl sm:text-2xl font-semibold tracking-tight text-[#efe6d8]">
+                Luxury Cleaning Solutions
+              </div>
+              <p className="text-[13px] text-[#efe6d8]/50 leading-relaxed">
+                {isCs
+                  ? "Interaktivní kalkulačka ceny v reálném čase a konverzní B2B/B2C pipeline."
+                  : "Інтерактивний калькулятор вартості в реальному часі та B2B/B2C лідогенерація."}
+              </p>
+            </div>
+            <div className="sm:col-span-5 rounded-xl border border-[#1d1d1d] bg-black/85 p-4 font-mono space-y-2">
+              <div className="text-[10px] uppercase text-[#efe6d8]/40">Instant Estimate</div>
+              <div className="text-2xl font-semibold text-[#efe6d8]">$185 CAD</div>
+              <div className="text-[10px] text-[#4dff00]">Deep Clean · 3 BR · Eco</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (index === 3) {
+    return (
+      <div className="p-6 sm:p-10 bg-[radial-gradient(ellipse_at_bottom_left,#1a1216_0%,#060607_70%)]">
+        <div className="max-w-xl mx-auto space-y-5">
+          <div className="flex items-center justify-between text-[11px] font-mono text-[#efe6d8]/45">
+            <span>BOXING CLUB NIKITA · HRADEC KRÁLOVÉ</span>
+            <span className="px-2 py-0.5 rounded border border-[#242424] text-[#efe6d8]/80">
+              CZ / UA i18n
+            </span>
+          </div>
+          <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#efe6d8]">
+            {isCs ? "Tréninkové rozvrhy, ceníky & nábor." : "Розклад тренувань, абонементи та набір."}
+          </div>
+          <div className="grid grid-cols-3 gap-2.5 font-mono text-[11px]">
+            {[
+              { day: "MON / WED", group: "Junioři & Nábor", time: "16:30" },
+              { day: "TUE / THU", group: "Závodní & Sparing", time: "18:00" },
+              { day: "FRI", group: "Kondiční box", time: "17:30" },
+            ].map((slot) => (
+              <div key={slot.day} className="rounded-lg border border-[#1c1c1c] bg-black/80 p-3">
+                <div className="text-[10px] text-[#ffa1f7]">{slot.day}</div>
+                <div className="text-[#efe6d8] font-sans font-medium text-[12px] mt-1">
+                  {slot.group}
+                </div>
+                <div className="text-[#efe6d8]/45 mt-0.5">{slot.time}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 sm:p-10 bg-[radial-gradient(ellipse_at_center,#151412_0%,#060606_75%)]">
+      <div className="max-w-xl mx-auto space-y-5">
+        <div className="flex items-center justify-between text-[11px] font-mono text-[#efe6d8]/45">
+          <span>TDHP · CONTEMPORARY DANCE THEATRE</span>
+          <span>REPERTOIRE &amp; WORKSHOPS</span>
+        </div>
+        <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#efe6d8]">
+          Taneční divadlo Honzy Pokusila
+        </div>
+        <div className="grid grid-cols-2 gap-3 pt-1">
+          <div className="rounded-lg border border-[#1d1d1d] bg-black/75 p-3.5">
+            <div className="font-mono text-[10px] text-[#ffa1f7] uppercase">Repertoár</div>
+            <div className="text-[13px] font-medium text-[#efe6d8] mt-1">
+              {isCs ? "Inscenace & premiéry" : "Вистави та прем'єри"}
+            </div>
+          </div>
+          <div className="rounded-lg border border-[#1d1d1d] bg-black/75 p-3.5">
+            <div className="font-mono text-[10px] text-[#ffa1f7] uppercase">Ateliér</div>
+            <div className="text-[13px] font-medium text-[#efe6d8] mt-1">
+              {isCs ? "Kurzy & taneční workshopy" : "Курси та танцювальні воркшопи"}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const ContactModal = memo(function ContactModal({
+  open,
+  onClose,
   lang,
   t,
 }: {
+  open: boolean;
+  onClose: () => void;
   lang: Lang;
   t: Translations;
 }) {
@@ -183,7 +357,18 @@ const ContactSection = memo(function ContactSection({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitError(null);
@@ -216,136 +401,122 @@ const ContactSection = memo(function ContactSection({
   };
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-          {t.contactTitle[0]}
-          <span className="text-gold-gradient">{t.contactTitle[1]}</span>
-          {t.contactTitle[2]}
-        </h2>
-        <p className="text-xs text-zinc-400 mt-0.5">{t.contactSubtitle}</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-        <div className="lg:col-span-5 space-y-2.5">
-          <a
-            href="mailto:romanroskanuk74@gmail.com"
-            className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900/70 border border-zinc-800 hover:border-amber-400/50 transition-all group"
+    <div
+      className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-xl bg-black border border-[#1f1f1f] rounded-2xl overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-[#161616]">
+          <span className="font-pixel uppercase text-[20px] sm:text-[22px] tracking-[-0.5px] text-[#efe6d8]">
+            {lang === "cs" ? "KONTAKT →" : "КОНТАКТ →"}
+          </span>
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 rounded-full border border-[#1f1f1f] text-[#efe6d8]/60 hover:text-[#ffa1f7] hover:border-[#ffa1f7]/40 transition-colors cursor-pointer"
+            aria-label="Close"
           >
-            <div className="p-2 rounded-lg bg-amber-400/10 text-amber-400">
-              <Mail size={16} />
-            </div>
-            <div className="min-w-0">
-              <div className="text-[9.5px] uppercase tracking-wider text-zinc-500 font-semibold">
-                {t.emailLabel}
-              </div>
-              <div className="text-xs font-semibold text-white group-hover:text-amber-300 truncate">
-                romanroskanuk74@gmail.com
-              </div>
-            </div>
-          </a>
-
-          <a
-            href="tel:+420605447445"
-            className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900/70 border border-zinc-800 hover:border-amber-400/50 transition-all group"
-          >
-            <div className="p-2 rounded-lg bg-amber-400/10 text-amber-400">
-              <Phone size={16} />
-            </div>
-            <div>
-              <div className="text-[9.5px] uppercase tracking-wider text-zinc-500 font-semibold">
-                {t.phoneLabel}
-              </div>
-              <div className="text-xs font-semibold text-white group-hover:text-amber-300">
-                +420 605 447 445
-              </div>
-            </div>
-          </a>
-
-          <div className="hidden sm:block relative w-full h-32 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950">
-            <Image
-              src="/images/classroom.png"
-              alt="Roman Roshkanyuk — ISSS & Team"
-              fill
-              sizes="360px"
-              className="object-cover"
-            />
-          </div>
+            <X size={16} />
+          </button>
         </div>
 
-        <form onSubmit={handleContactSubmit} className="lg:col-span-7 space-y-2.5">
-          <input
-            type="text"
-            name="subject"
-            value={formData.subject}
-            onChange={(e) => setFormData((p) => ({ ...p, subject: e.target.value }))}
-            placeholder={t.formSubject}
-            required
-            className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
-              placeholder={t.formName}
-              required
-              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-            />
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
-              placeholder={t.formPhone}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-            />
+        <div className="p-5 sm:p-6 space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-mono text-[12px]">
+            <a
+              href="mailto:romanroskanuk74@gmail.com"
+              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-[#181818] bg-[#070707] text-[#efe6d8]/80 hover:border-[#ffa1f7]/50 hover:text-[#ffa1f7] transition-colors truncate"
+            >
+              <Mail size={14} className="text-[#ffa1f7] shrink-0" />
+              <span className="truncate">romanroskanuk74@gmail.com</span>
+            </a>
+            <a
+              href="tel:+420605447445"
+              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-[#181818] bg-[#070707] text-[#efe6d8]/80 hover:border-[#ffa1f7]/50 hover:text-[#ffa1f7] transition-colors"
+            >
+              <Phone size={14} className="text-[#ffa1f7] shrink-0" />
+              <span>+420 605 447 445</span>
+            </a>
           </div>
 
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
-            placeholder={t.formEmail}
-            required
-            className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
-          />
-
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
-            placeholder={t.formMessage}
-            rows={3}
-            required
-            className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/85 border border-zinc-800 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors resize-none"
-          />
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-2.5 px-5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-xs sm:text-sm shadow-gold-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 transition-all"
-          >
-            <span>{isSubmitting ? t.formSending : t.formSend}</span>
-            <Send size={14} />
-          </button>
-
-          {isSubmitted && (
-            <div className="flex items-center gap-2 text-xs text-amber-300 bg-amber-400/10 border border-amber-400/30 p-2.5 rounded-xl">
-              <CheckCircle2 size={14} className="text-amber-400" />
-              <span>{t.formSuccess}</span>
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={(e) => setFormData((p) => ({ ...p, subject: e.target.value }))}
+              placeholder={t.formSubject}
+              required
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#070707] border border-[#1a1a1a] text-[13px] text-[#efe6d8] placeholder-[#efe6d8]/35 focus:outline-none focus:border-[#ffa1f7] transition-colors"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
+                placeholder={t.formName}
+                required
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070707] border border-[#1a1a1a] text-[13px] text-[#efe6d8] placeholder-[#efe6d8]/35 focus:outline-none focus:border-[#ffa1f7] transition-colors"
+              />
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
+                placeholder={t.formPhone}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070707] border border-[#1a1a1a] text-[13px] text-[#efe6d8] placeholder-[#efe6d8]/35 focus:outline-none focus:border-[#ffa1f7] transition-colors"
+              />
             </div>
-          )}
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+              placeholder={t.formEmail}
+              required
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#070707] border border-[#1a1a1a] text-[13px] text-[#efe6d8] placeholder-[#efe6d8]/35 focus:outline-none focus:border-[#ffa1f7] transition-colors"
+            />
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
+              placeholder={t.formMessage}
+              rows={4}
+              required
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#070707] border border-[#1a1a1a] text-[13px] text-[#efe6d8] placeholder-[#efe6d8]/35 focus:outline-none focus:border-[#ffa1f7] transition-colors resize-none"
+            />
 
-          {submitError && (
-            <div className="text-xs text-red-300 bg-red-500/10 border border-red-500/30 p-2.5 rounded-xl">
-              ⚠ {submitError}
+            <div className="flex items-center justify-between gap-3 pt-1">
+              <span className="text-[12px] text-[#efe6d8]/45">
+                {lang === "cs" ? "Odpovídám obratem." : "Відповідаю оперативно."}
+              </span>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="h-9 px-5 rounded-full bg-[#ffa1f7] hover:opacity-90 text-black font-semibold text-[13.5px] tracking-[-0.02em] inline-flex items-center gap-2 cursor-pointer disabled:opacity-60 transition-all"
+              >
+                <span>{isSubmitting ? t.formSending : t.formSend}</span>
+                <Send size={13} />
+              </button>
             </div>
-          )}
-        </form>
+
+            {isSubmitted && (
+              <div className="flex items-center gap-2 text-[12.5px] text-[#4dff00] bg-[#4dff00]/10 border border-[#4dff00]/30 p-3 rounded-xl">
+                <Check size={14} />
+                <span>{t.formSuccess}</span>
+              </div>
+            )}
+
+            {submitError && (
+              <div className="text-[12.5px] text-red-300 bg-red-500/10 border border-red-500/30 p-3 rounded-xl">
+                {submitError}
+              </div>
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );
@@ -353,1351 +524,622 @@ const ContactSection = memo(function ContactSection({
 
 export default function WheelPortfolio() {
   const { t, lang, setLang } = useLanguage();
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [direction, setDirection] = useState<number>(1);
-  const activeIndexRef = useRef<number>(0);
+  const isCs = lang === "cs";
 
-  // Sub-states inside sections
-  const [projectFilter, setProjectFilter] = useState<"all" | "web" | "infra">("all");
-  const [qualFilter, setQualFilter] = useState<"all" | "certs" | "skills" | "edu">("all");
+  const [clockText, setClockText] = useState<string>("");
+  const [emailCopied, setEmailCopied] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
   const [previewCert, setPreviewCert] = useState<Certificate | null>(null);
 
-  const scrollerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // Live Prague/Brno local clock (tabular-nums, Akash Tyagi top-right header style)
+  useEffect(() => {
+    const updateClock = () => {
+      try {
+        const formatted = new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+          timeZone: "Europe/Prague",
+        }).format(new Date());
+        setClockText(formatted);
+      } catch {
+        const now = new Date();
+        setClockText(
+          now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
+        );
+      }
+    };
+    updateClock();
+    const timer = setInterval(updateClock, 15000);
+    return () => clearInterval(timer);
+  }, []);
 
-  const wheelNodes = useMemo(
-    () => [
-      {
-        id: "about",
-        num: "01",
-        title: lang === "cs" ? "O mně" : "Про мене",
-        sub: lang === "cs" ? "Inženýrský profil" : "Інженерний профіль",
-        icon: User,
-      },
-      {
-        id: "services",
-        num: "02",
-        title: lang === "cs" ? "Architektura" : "Архітектура",
-        sub: lang === "cs" ? "DevOps, Sítě & C#" : "DevOps, Мережі & C#",
-        icon: Cpu,
-      },
-      {
-        id: "projects",
-        num: "03",
-        title: lang === "cs" ? "Produkce" : "Продакшн",
-        sub: lang === "cs" ? "5 živých nasazení" : "5 живих релізів",
-        icon: Layers,
-      },
-      {
-        id: "skills-section",
-        num: "04",
-        title: lang === "cs" ? "Certifikáty & Praxe" : "Сертифікати & Досвід",
-        sub: lang === "cs" ? "CCNA, VUT & ISSS" : "CCNA, VUT & ISSS",
-        icon: Award,
-      },
-      {
-        id: "contact",
-        num: "05",
-        title: lang === "cs" ? "Kontakt" : "Контакт",
-        sub: lang === "cs" ? "Přímé spojení" : "Прямий зв'язок",
-        icon: Send,
-      },
-    ],
-    [lang]
-  );
-
-  const selectNode = useCallback((nextIdx: number, explicitDir?: number) => {
-    const normalized = ((nextIdx % NODE_COUNT) + NODE_COUNT) % NODE_COUNT;
-    const prevIdx = activeIndexRef.current;
-    if (normalized === prevIdx) return;
-
-    let diff = normalized - prevIdx;
-    if (diff > NODE_COUNT / 2) diff -= NODE_COUNT;
-    if (diff < -NODE_COUNT / 2) diff += NODE_COUNT;
-
-    const dir = explicitDir ?? (diff > 0 ? 1 : -1);
-    setDirection(dir);
-    activeIndexRef.current = normalized;
-    setActiveIndex(normalized);
-
-    const targetScroller = scrollerRefs.current[normalized];
-    if (targetScroller) {
-      targetScroller.scrollTop = 0;
+  // Open contact modal if URL hash is #contact
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#contact") {
+      setContactOpen(true);
     }
   }, []);
 
-  const stepWheel = useCallback(
-    (delta: 1 | -1) => {
-      selectNode(activeIndexRef.current + delta, delta);
-    },
-    [selectNode]
-  );
-
-  // Sync initial URL hash
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (!hash) return;
-    const map: Record<string, number> = {
-      hero: 0,
-      about: 0,
-      services: 1,
-      projects: 2,
-      "skills-section": 3,
-      contact: 4,
-    };
-    if (map[hash] !== undefined) {
-      selectNode(map[hash]);
-    }
-  }, [selectNode]);
-
   // Close certificate modal on Escape
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && previewCert) {
-        setPreviewCert(null);
-      }
+    if (!previewCert) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPreviewCert(null);
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [previewCert]);
 
-  const projects = useMemo(
-    () =>
-      t.projects.map((p, i) => ({
-        id: i + 1,
-        title: p.title,
-        domain: PROJECT_DOMAINS[i],
-        category: p.category,
-        type: PROJECT_TYPES[i],
-        description: p.description,
-        tags: PROJECT_TAGS[i],
-        liveUrl: PROJECT_URLS[i],
-      })),
-    [t.projects]
-  );
-
-  const filteredProjects = useMemo(
-    () =>
-      projects.filter((p) => (projectFilter === "all" ? true : p.type === projectFilter)),
-    [projects, projectFilter]
-  );
-
-  // Renders compact, high-density content for any section index (0..4)
-  const renderSectionBody = (sectionIdx: number) => {
-    switch (sectionIdx) {
-      /* ── 01: OVERVIEW / ABOUT ME ── */
-      case 0:
-        return (
-          <div className="space-y-4 xl:space-y-5">
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-5 items-stretch">
-              {/* Left 8 Cols: Compact Greeting, Bio & Stats */}
-              <div className="xl:col-span-8 flex flex-col justify-between space-y-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/25 text-[10px] sm:text-[11px] font-medium text-amber-300 mb-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="truncate max-w-[250px] sm:max-w-none">{t.heroStatus}</span>
-                    </div>
-                    <h1 className="text-2xl sm:text-3xl xl:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                      {t.heroGreeting},{" "}
-                      <span className="text-gold-gradient">Roman Roshkanyuk</span>
-                    </h1>
-                    <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-                      <span className="text-amber-400 font-bold">{t.heroSubtitle}</span>
-                      <span className="hidden sm:inline"> · {t.heroSubtitleDesc}</span>
-                    </p>
-                  </div>
-
-                  {/* Compact Mobile Avatar beside title (< xl) */}
-                  <div className="xl:hidden relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-amber-400/45 shrink-0">
-                    <Image
-                      src="/images/roman-profile.jpg"
-                      alt="Roman Roshkanyuk"
-                      fill
-                      sizes="80px"
-                      priority
-                      className="object-cover object-[50%_32%]"
-                    />
-                  </div>
-                </div>
-
-                {/* High-Signal Engineering Bio */}
-                <div className="space-y-3 text-xs sm:text-[13.5px] xl:text-sm text-zinc-200 leading-relaxed bg-zinc-900/50 border border-white/[0.06] rounded-xl p-4 xl:p-5">
-                  <p>
-                    {t.aboutBio1.map((part, i) =>
-                      i % 2 === 0 ? (
-                        part
-                      ) : (
-                        <span
-                          key={i}
-                          className={
-                            i === 1 ? "text-white font-bold" : "text-amber-400 font-semibold"
-                          }
-                        >
-                          {part}
-                        </span>
-                      )
-                    )}
-                  </p>
-                  <p className="text-zinc-300 text-xs sm:text-[13px] xl:text-[13.5px] leading-relaxed">
-                    {t.aboutBio2.map((part, i) =>
-                      i % 2 === 0 ? (
-                        part
-                      ) : (
-                        <span key={i} className="text-white font-semibold">
-                          {part}
-                        </span>
-                      )
-                    )}
-                  </p>
-                </div>
-
-                {/* Compact 3-Metric Strip */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                  {t.aboutStats.map((stat, i) => (
-                    <div
-                      key={i}
-                      className="bg-zinc-900/65 border border-zinc-800/90 rounded-xl px-3 py-3 text-center"
-                    >
-                      <div className="text-base sm:text-xl xl:text-2xl font-extrabold text-gold-gradient leading-none">
-                        {stat.number}
-                      </div>
-                      <div className="text-[10px] sm:text-[11px] text-zinc-400 leading-tight mt-1">
-                        {stat.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right 4 Cols: Main Portrait (xl+) + Live Production Telemetry */}
-              <div className="xl:col-span-4 flex flex-col justify-between gap-3.5">
-                <div className="hidden xl:block p-[1px] rounded-2xl bg-gradient-to-b from-amber-400/50 via-zinc-800 to-zinc-900 shadow-xl">
-                  <div className="relative w-full h-[210px] rounded-[15px] overflow-hidden bg-zinc-950 group">
-                    <Image
-                      src="/images/roman-profile.jpg"
-                      alt="Roman Roshkanyuk"
-                      fill
-                      sizes="340px"
-                      priority
-                      className="object-cover object-[50%_30%] group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-                    <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-bold text-white drop-shadow">
-                        {t.aboutPhotoName}
-                      </span>
-                      <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-black/70 text-amber-300 border border-amber-400/40">
-                        {t.aboutPhotoBadge}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3.5 rounded-xl bg-zinc-950/90 border border-zinc-800/90 font-mono text-[11px] space-y-1.5">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-zinc-800/80">
-                    <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                      <Terminal size={12} className="text-amber-400" />
-                      {t.heroInfraTitle}
-                    </span>
-                    <span className="text-[10px] text-emerald-400 font-sans flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      {t.heroInfraStatus}
-                    </span>
-                  </div>
-                  {t.heroInfraRows.map((row, idx) => (
-                    <div key={idx} className="flex items-center justify-between gap-2">
-                      <span className="text-zinc-400 truncate">{row.label}</span>
-                      <span
-                        className={`text-right shrink-0 ${
-                          idx === 1
-                            ? "text-amber-400"
-                            : idx === 2
-                            ? "text-emerald-400"
-                            : "text-zinc-200"
-                        }`}
-                      >
-                        {row.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* 4 Compact Engineering Pillars */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
-              {t.aboutDomains.map((d, i) => (
-                <div
-                  key={i}
-                  className="bg-zinc-900/55 border border-zinc-800/80 rounded-xl p-3 hover:border-amber-400/35 transition-colors"
-                >
-                  <span className="text-[9px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/20">
-                    {d.tag}
-                  </span>
-                  <div className="text-xs font-bold text-white mt-1.5 mb-0.5 leading-snug">
-                    {d.label}
-                  </div>
-                  <div className="text-[10.5px] text-zinc-400 leading-snug">{d.desc}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Compact CTA Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <Link
-                  href="/cv"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-xs shadow-gold-sm transition-all"
-                >
-                  <Download size={14} />
-                  <span>{t.heroCvBtn}</span>
-                </Link>
-                <button
-                  onClick={() => selectNode(2, 1)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-zinc-900 border border-zinc-700 hover:border-amber-400/50 text-zinc-200 text-xs font-semibold transition-all cursor-pointer"
-                >
-                  <span>{lang === "cs" ? "Produkční projekty" : "Продакшн-проєкти"}</span>
-                  <ArrowRight size={13} className="text-amber-400" />
-                </button>
-                <button
-                  onClick={() => selectNode(3, 1)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-zinc-900 border border-zinc-700 hover:border-amber-400/50 text-zinc-200 text-xs font-semibold transition-all cursor-pointer"
-                >
-                  <span>{lang === "cs" ? "Certifikáty (6)" : "Сертифікати (6)"}</span>
-                  <Award size={13} className="text-amber-400" />
-                </button>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <a
-                  href="https://github.com/rizzer18"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                  className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-amber-400 hover:border-amber-400/50 transition-all"
-                >
-                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                    />
-                  </svg>
-                </a>
-                <a
-                  href="https://www.instagram.com/roshka_jr/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                  className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-amber-400 hover:border-amber-400/50 transition-all"
-                >
-                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        );
-
-      /* ── 02: ARCHITECTURE & STACK ── */
-      case 1:
-        return (
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                {t.servicesTitle[0]}
-                <span className="text-gold-gradient">{t.servicesTitle[1]}</span>
-              </h2>
-              <p className="text-xs text-zinc-400 mt-0.5">{t.servicesDesc}</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {t.services.map((svc, idx) => (
-                <div
-                  key={idx}
-                  className="bg-zinc-900/60 border border-zinc-800/90 hover:border-amber-400/45 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between transition-colors"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/25 text-amber-400 font-mono text-[10px] font-bold">
-                        {svc.num}
-                      </span>
-                      {idx === 0 && <Wifi size={16} className="text-amber-400" />}
-                      {idx === 1 && <Server size={16} className="text-sky-400" />}
-                      {idx === 2 && <Code size={16} className="text-violet-400" />}
-                      {idx === 3 && <Home size={16} className="text-emerald-400" />}
-                    </div>
-                    <h3 className="text-sm font-bold text-white">{svc.title}</h3>
-                    <p className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-1.5">
-                      {svc.subtitle}
-                    </p>
-                    <p className="text-[11.5px] text-zinc-300 leading-relaxed mb-2.5">
-                      {svc.description}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-1 pt-2 border-t border-zinc-800/80">
-                    {svc.highlights.map((h, hi) => (
-                      <span
-                        key={hi}
-                        className="text-[10px] px-2 py-0.5 rounded-full bg-zinc-950 text-zinc-300 border border-zinc-800"
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="pt-2.5 border-t border-zinc-800/80 space-y-2.5">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                  {t.techLabel}
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  {TOOL_LOGOS.map((tool) => (
-                    <div
-                      key={tool.name}
-                      className="px-2.5 py-1 rounded-lg bg-zinc-900/80 border border-zinc-800 flex items-center justify-center"
-                    >
-                      <Image
-                        src={tool.logo}
-                        alt={tool.name}
-                        width={tool.width}
-                        height={tool.height}
-                        className="max-h-4 w-auto object-contain"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {TECH_TAGS.map((item) => (
-                  <span
-                    key={item.name}
-                    className={`text-[10.5px] font-medium px-2.5 py-0.5 rounded-full border ${
-                      CAT_STYLES[item.cat]
-                    }`}
-                  >
-                    {item.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      /* ── 03: PRODUCTION PROJECTS ── */
-      case 2:
-        return (
-          <div className="space-y-3.5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-              <div>
-                <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
-                  <span>{t.projectsTitle1}</span>
-                  <span className="text-gold-gradient">{t.projectsTitle2}</span>
-                  <Trophy size={19} className="text-amber-400" />
-                </h2>
-                <p className="text-[11.5px] text-zinc-400 mt-0.5">{t.projectsDesc}</p>
-              </div>
-
-              <div className="flex items-center gap-1 bg-zinc-900 border border-zinc-800 rounded-full p-0.5 self-start shrink-0">
-                {(
-                  [
-                    { id: "all", label: `${t.filterAll} (${projects.length})` },
-                    { id: "web", label: t.filterWeb },
-                    { id: "infra", label: t.filterInfra },
-                  ] as const
-                ).map((f) => (
-                  <button
-                    key={f.id}
-                    onClick={() => setProjectFilter(f.id)}
-                    className={`px-2.5 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                      projectFilter === f.id
-                        ? "bg-amber-400 text-black"
-                        : "text-zinc-400 hover:text-white"
-                    }`}
-                  >
-                    {f.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {filteredProjects.map((project) => {
-                const isExternal = project.liveUrl.startsWith("http");
-                return (
-                  <div
-                    key={project.id}
-                    className="group rounded-xl border border-zinc-800/90 hover:border-amber-400/50 bg-zinc-900/55 p-3.5 flex flex-col justify-between transition-all"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <span
-                          className={`inline-flex items-center gap-1 text-[9px] font-bold uppercase px-2 py-0.5 rounded-full shrink-0 ${
-                            project.type === "infra"
-                              ? "bg-amber-500/10 text-amber-300 border border-amber-500/30"
-                              : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                          }`}
-                        >
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full animate-pulse ${
-                              project.type === "infra" ? "bg-amber-400" : "bg-emerald-400"
-                            }`}
-                          />
-                          {project.type === "infra" ? "Home Lab" : t.liveProduction}
-                        </span>
-                        <span className="text-[10px] font-mono text-zinc-500 truncate">
-                          {project.domain}
-                        </span>
-                      </div>
-                      <h3 className="text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors leading-snug">
-                        {project.title}
-                      </h3>
-                      <p className="text-[9.5px] font-bold uppercase tracking-wider text-amber-400/90 mt-0.5 mb-1.5">
-                        {project.category}
-                      </p>
-                      <p className="text-[11.5px] text-zinc-300 leading-relaxed mb-2.5 line-clamp-4">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    <div>
-                      <div className="flex flex-wrap gap-1 mb-2.5">
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-[9.5px] px-1.5 py-0.5 rounded bg-zinc-950 text-zinc-300 border border-zinc-800"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="flex items-center justify-between pt-2 border-t border-zinc-800/80">
-                        {isExternal ? (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-black text-[11px] font-bold transition-colors"
-                          >
-                            <span>{t.projectLiveBtn}</span>
-                            <ExternalLink size={12} />
-                          </a>
-                        ) : (
-                          <button
-                            onClick={() => selectNode(1, -1)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white text-[11px] font-bold transition-colors cursor-pointer"
-                          >
-                            <span>{t.projectViewBtn}</span>
-                            <Server size={12} className="text-amber-400" />
-                          </button>
-                        )}
-                        <span className="text-[10px] font-mono text-zinc-500">
-                          {isExternal ? t.projectLiveStatus : t.projectSelfHosted}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        );
-
-      /* ── 04: CERTIFICATES, SKILLS & EXPERIENCE ── */
-      case 3:
-        return (
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5">
-              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                {t.tabsTitlePrefix}{" "}
-                <span className="text-gold-gradient">{t.tabsTitleParts[0]}</span>,{" "}
-                <span className="text-gold-gradient">{t.tabsTitleParts[1]}</span>{" "}
-                {t.tabsTitleConjunction}{" "}
-                <span className="text-gold-gradient">{t.tabsTitleParts[2]}</span>
-              </h2>
-
-              <div className="flex items-center gap-1 bg-zinc-900 border border-zinc-800 rounded-full p-0.5 self-start shrink-0 overflow-x-auto no-scrollbar max-w-full">
-                {(
-                  [
-                    { id: "all", label: lang === "cs" ? "Vše" : "Все" },
-                    {
-                      id: "certs",
-                      label: `${lang === "cs" ? "Certifikáty" : "Сертифікати"} (6)`,
-                    },
-                    { id: "skills", label: t.tabLabels[0] },
-                    {
-                      id: "edu",
-                      label: lang === "cs" ? "VUT & Praxe" : "VUT & Досвід",
-                    },
-                  ] as const
-                ).map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setQualFilter(tab.id)}
-                    className={`px-2.5 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                      qualFilter === tab.id
-                        ? "bg-amber-400 text-black"
-                        : "text-zinc-400 hover:text-white"
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {(qualFilter === "all" || qualFilter === "edu") && (
-              <div className="space-y-2.5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {t.schools.map((school, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-zinc-900/60 border border-zinc-800/90 rounded-xl p-3.5"
-                    >
-                      <div className="flex items-center justify-between gap-2 mb-1">
-                        <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
-                          <GraduationCap size={13} />
-                          {school.period}
-                        </span>
-                        <span
-                          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
-                            school.active
-                              ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                              : "bg-zinc-800 border-zinc-700 text-zinc-300"
-                          }`}
-                        >
-                          {school.badge}
-                        </span>
-                      </div>
-                      <h3 className="text-xs sm:text-sm font-bold text-white">{school.name}</h3>
-                      <p className="text-[11px] text-zinc-300">{school.desc}</p>
-                      <p className="text-[10.5px] text-zinc-500 mt-1 leading-snug">{school.sub}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-                  {t.expCards.map((card, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-zinc-900/50 border border-zinc-800/80 rounded-xl p-3.5"
-                    >
-                      <span className="text-[9.5px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
-                        {card.tag}
-                      </span>
-                      <h4 className="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
-                        <Briefcase size={12} className="text-amber-400 shrink-0" />
-                        <span>{card.title}</span>
-                      </h4>
-                      <p className="text-[11px] text-zinc-300 leading-relaxed">{card.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {(qualFilter === "all" || qualFilter === "certs") && (
-              <div>
-                <h3 className="text-[11px] font-bold uppercase tracking-wider text-zinc-300 mb-2 flex items-center gap-1.5">
-                  <Shield size={13} className="text-amber-400" />
-                  <span>
-                    {t.certsTitle} ({CERTIFICATES.length})
-                  </span>
-                </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                  {CERTIFICATES.map((cert, i) => (
-                    <div
-                      key={i}
-                      onClick={() => setPreviewCert(cert)}
-                      className="bg-zinc-900/70 border border-zinc-800/90 hover:border-amber-400/50 rounded-xl p-3 flex flex-col justify-between gap-2.5 cursor-pointer group transition-all"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400">
-                            {cert.badge}
-                          </span>
-                          <span className="text-[10px] text-zinc-500 font-mono">{cert.year}</span>
-                        </div>
-                        <p className="text-xs font-bold text-white group-hover:text-amber-300 transition-colors leading-snug">
-                          {cert.name}
-                        </p>
-                        <p className="text-[10px] text-zinc-400">{cert.issuer}</p>
-                      </div>
-
-                      <div
-                        className="flex items-center gap-1.5 pt-2 border-t border-zinc-800/70"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <button
-                          type="button"
-                          onClick={() => setPreviewCert(cert)}
-                          className="flex-1 inline-flex items-center justify-center gap-1 py-1 rounded-lg bg-amber-400/15 hover:bg-amber-400 text-amber-300 hover:text-black text-[11px] font-bold transition-all cursor-pointer"
-                        >
-                          <Eye size={12} />
-                          <span>{t.certView}</span>
-                        </button>
-                        <a
-                          href={cert.file}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all"
-                          title="Open"
-                        >
-                          <ExternalLink size={12} />
-                        </a>
-                        <a
-                          href={cert.file}
-                          download
-                          className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all"
-                          title={t.certDownload}
-                        >
-                          <Download size={12} />
-                        </a>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {(qualFilter === "all" || qualFilter === "skills") && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                {t.skillCats.map((cat, ci) => (
-                  <div
-                    key={ci}
-                    className="bg-zinc-900/55 border border-zinc-800/80 rounded-xl p-3"
-                  >
-                    <h4 className="text-[10.5px] font-bold text-amber-400 uppercase tracking-wider mb-2">
-                      {cat.title}
-                    </h4>
-                    <div className="flex flex-wrap gap-1">
-                      {cat.items.map((item) => (
-                        <span
-                          key={item}
-                          className="text-[10.5px] px-2 py-0.5 rounded bg-zinc-800/90 text-zinc-200 border border-zinc-700/40"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-
-                <div className="bg-zinc-900/55 border border-zinc-800/80 rounded-xl p-3">
-                  <h4 className="text-[10.5px] font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <CheckCircle2 size={12} />
-                    {t.skillLangsTitle}
-                  </h4>
-                  <ul className="text-[11px] text-zinc-300 space-y-1">
-                    {t.skillLangs.map((l, i) => (
-                      <li key={i} className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                        <span>
-                          <strong className="text-white">{l.lang}</strong> — {l.level}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-
-      /* ── 05: CONTACT ── */
-      default:
-        return <ContactSection lang={lang} t={t} />;
+  const handleCopyEmail = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText("romanroskanuk74@gmail.com");
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2200);
+    } catch {
+      window.location.href = "mailto:romanroskanuk74@gmail.com";
     }
-  };
+  }, []);
 
-  const prevNode = wheelNodes[(activeIndex - 1 + NODE_COUNT) % NODE_COUNT];
-  const nextNode = wheelNodes[(activeIndex + 1) % NODE_COUNT];
+  const expertiseItems = isCs
+    ? [
+        "DEVOPS, LINUX & DOCKER CI/CD",
+        "SÍTĚ L2/L3 (CCNA & MIKROTIK)",
+        "C# (.NET) & BACKEND ARCHITEKTURA",
+        "NEXT.JS & TYPESCRIPT SYSTÉMY",
+        "ENTERPRISE AD DS & LIVE IT OPS",
+      ]
+    : [
+        "DEVOPS, LINUX & DOCKER CI/CD",
+        "МЕРЕЖІ L2/L3 (CCNA & MIKROTIK)",
+        "C# (.NET) & BACKEND АРХІТЕКТУРА",
+        "NEXT.JS & TYPESCRIPT СИСТЕМИ",
+        "ENTERPRISE AD DS & LIVE IT OPS",
+      ];
 
   return (
-    <LazyMotion features={domAnimation} strict>
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#060609] text-white relative flex flex-col">
-      {/* Background Telemetry & Ambient Glows */}
-      <div className="fixed inset-0 bg-grid-pattern opacity-50 pointer-events-none" />
-      <div className="fixed top-1/2 left-[15%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(245,158,11,0.09)_0%,rgba(217,119,6,0.03)_45%,transparent_72%)] pointer-events-none" />
-      <div className="fixed bottom-[-12%] right-[12%] w-[520px] h-[520px] bg-[radial-gradient(circle,rgba(56,189,248,0.05)_0%,transparent_70%)] pointer-events-none" />
-
-      {/* ── TOP COMPACT HUD HEADER ── */}
-      <header className="relative z-40 h-14 shrink-0 border-b border-white/[0.06] bg-[#07070b]/90 backdrop-blur-xl px-3 sm:px-6 xl:px-10">
-        <div className="max-w-[1480px] h-full mx-auto flex items-center justify-between gap-2">
-          {/* Brand */}
-          <button
-            onClick={() => selectNode(0, -1)}
-            className="flex items-center gap-2.5 text-left group cursor-pointer min-w-0"
-          >
-            <div className="w-8 h-8 rounded-lg bg-zinc-900/90 border border-zinc-800 flex items-center justify-center text-amber-400 group-hover:border-amber-400/60 transition-all shrink-0">
-              <span className="font-mono font-bold text-[11px]">&lt;/&gt;</span>
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs sm:text-sm font-bold tracking-tight text-white group-hover:text-amber-300 transition-colors truncate">
-                  Roman Roshkanyuk
-                </span>
-                <span className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[9px] font-medium text-emerald-400 shrink-0">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  VUT FEKT
-                </span>
-              </div>
-              <p className="text-[9.5px] font-mono text-zinc-400 tracking-wider uppercase truncate">
-                DevOps · Network · C# (.NET)
-              </p>
-            </div>
-          </button>
-
-          {/* Right HUD Controls */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-900/70 border border-zinc-800/80 text-[11px] font-mono">
-              <span className="text-amber-400 font-bold">{wheelNodes[activeIndex].num}</span>
-              <span className="text-zinc-600">/</span>
-              <span className="text-zinc-500">05</span>
-              <span className="w-1 h-1 rounded-full bg-zinc-700 mx-0.5" />
-              <span className="text-zinc-300 font-sans font-medium">
-                {wheelNodes[activeIndex].title}
+    <div id="top" className="min-h-screen bg-black text-[#efe6d8] flex flex-col lg:flex-row">
+      {/* ═══════════════════════════════════════════════════════════════════════
+          LEFT PANE (40% STICKY EDITORIAL BIO, AVAILABILITY STRIP & LINKS)
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <aside className="w-full lg:w-[40%] lg:h-screen lg:sticky lg:top-0 border-b lg:border-b-0 lg:border-r border-[#141414] flex flex-col justify-between bg-black z-20 shrink-0">
+        {/* 1. Top Editorial Name + 3-Paragraph Justified Bio */}
+        <div className="flex-1 p-4 sm:p-5 flex flex-col xl:flex-row justify-between items-start gap-6 xl:gap-8">
+          <div className="flex items-center justify-between w-full xl:w-auto gap-3 shrink-0 xl:pr-4">
+            <a
+              href="#top"
+              className="inline-flex items-center gap-2.5 text-[15px] leading-[20px] font-semibold tracking-[-0.2px] text-[#efe6d8] hover:text-[#ffa1f7] transition-colors"
+            >
+              <span className="relative w-6 h-6 rounded-full overflow-hidden border border-[#262626] shrink-0">
+                <Image
+                  src="/images/roman-profile.jpg"
+                  alt="Roman Roshkanyuk"
+                  fill
+                  sizes="24px"
+                  priority
+                  className="object-cover object-[50%_30%]"
+                />
               </span>
-            </div>
+              <span>Roman Roshkanyuk</span>
+            </a>
 
-            {/* Language Switcher (CZ / UA) */}
-            <div className="flex items-center bg-zinc-900/90 border border-zinc-800 rounded-full p-0.5 text-[10.5px] font-bold">
+            {/* Mobile Language Switcher */}
+            <div className="flex xl:hidden items-center gap-1.5 font-mono text-[12px]">
               <button
+                type="button"
                 onClick={() => setLang("cs")}
-                className={`px-2 py-0.5 rounded-full transition-all cursor-pointer ${
-                  lang === "cs"
-                    ? "bg-amber-400 text-black shadow-gold-sm"
-                    : "text-zinc-400 hover:text-white"
+                className={`cursor-pointer transition-colors ${
+                  isCs ? "text-[#ffa1f7]" : "text-[#efe6d8]/40 hover:text-[#efe6d8]"
                 }`}
               >
                 CZ
               </button>
+              <span className="text-[#efe6d8]/25">/</span>
               <button
+                type="button"
                 onClick={() => setLang("uk")}
-                className={`px-2 py-0.5 rounded-full transition-all cursor-pointer ${
-                  lang === "uk"
-                    ? "bg-amber-400 text-black shadow-gold-sm"
-                    : "text-zinc-400 hover:text-white"
+                className={`cursor-pointer transition-colors ${
+                  !isCs ? "text-[#ffa1f7]" : "text-[#efe6d8]/40 hover:text-[#efe6d8]"
                 }`}
               >
                 UA
               </button>
             </div>
+          </div>
 
-            {/* File Server Shortcut */}
-            <Link
-              href="/uploadFile"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-zinc-900/80 border border-zinc-800 text-[11px] font-medium text-zinc-300 hover:text-amber-400 hover:border-amber-400/40 transition-all"
-              title="File Server"
+          <div className="max-w-[432px] space-y-4 text-[13px] leading-[16.5px] tracking-[-0.35px] font-medium text-[#efe6d8]/[0.48] text-justify">
+            {isCs ? (
+              <>
+                <p>
+                  Inženýr na pomezí DevOps, síťové infrastruktury a vývoje softwaru. Student{" "}
+                  <span className="text-[#efe6d8]/[0.82]">
+                    VUT v Brně (FEKT — Telekomunikační a informační systémy)
+                  </span>{" "}
+                  a absolvent <span className="text-[#efe6d8]/[0.82]">SŠ Kyberna (2026)</span> s
+                  přesahem od L2/L3 směrování a jádra Linuxu až po architekturu v{" "}
+                  <span className="text-[#efe6d8]/[0.82]">C# (.NET)</span> a{" "}
+                  <span className="text-[#efe6d8]/[0.82]">TypeScriptu</span>.
+                </p>
+                <p>
+                  Dodávám reálné produkční systémy pro klienty v ČR a Kanadě včetně{" "}
+                  <span className="text-[#efe6d8]/[0.82]">
+                    Bowlingový Club SV, Luxury Cleaning Solutions (Edmonton), Boxing Club Nikita a
+                    TDHP
+                  </span>
+                  . Tři roky v řadě (2024–2026) vybrán do týmu živé podpory mezinárodní konference{" "}
+                  <span className="text-[#efe6d8]/[0.82]">ISSS Hradec Králové</span>.
+                </p>
+                <p>
+                  Provozuji vlastní 24/7{" "}
+                  <span className="text-[#efe6d8]/[0.82]">Linux &amp; MikroTik Home Lab</span> se
+                  self-hosted GitHub Actions CI/CD runnerem, multi-stage Dockerem, Cloudflare
+                  Zero-Trust tunely, WireGuard VPN (OSPF/VRF/VLAN) a{" "}
+                  <span className="text-[#efe6d8]/[0.82]">2× certifikací Cisco CCNA</span>.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Інженер на стику DevOps, мережевої інфраструктури та розробки ПЗ. Студент{" "}
+                  <span className="text-[#efe6d8]/[0.82]">
+                    VUT v Brně (FEKT — Телекомунікаційні та інформаційні системи)
+                  </span>{" "}
+                  і випускник <span className="text-[#efe6d8]/[0.82]">SŠ Kyberna (2026)</span> із
+                  практичним розумінням стеку від L2/L3 маршрутизації та ядра Linux до{" "}
+                  <span className="text-[#efe6d8]/[0.82]">C# (.NET)</span> і{" "}
+                  <span className="text-[#efe6d8]/[0.82]">TypeScript</span>.
+                </p>
+                <p>
+                  Запустив у продакшн комерційні платформи для клієнтів у Чехії та Канаді:{" "}
+                  <span className="text-[#efe6d8]/[0.82]">
+                    Bowlingový Club SV, Luxury Cleaning Solutions (Едмонтон), Boxing Club Nikita та
+                    TDHP
+                  </span>
+                  . Три роки поспіль (2024–2026) у команді IT Support міжнародної конференції{" "}
+                  <span className="text-[#efe6d8]/[0.82]">ISSS Hradec Králové</span>.
+                </p>
+                <p>
+                  Підтримую власний 24/7{" "}
+                  <span className="text-[#efe6d8]/[0.82]">Linux &amp; MikroTik Home Lab</span> із
+                  self-hosted GitHub Actions CI/CD, multi-stage Docker, Cloudflare Zero-Trust,
+                  WireGuard VPN (OSPF/VRF/VLAN) та{" "}
+                  <span className="text-[#efe6d8]/[0.82]">2× сертифікатами Cisco CCNA</span>.
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* 2. Middle Availability & Neon Pastel Pink CTA Strip */}
+        <div className="border-t border-b border-[#141414] py-5 pl-4 pr-4 sm:pr-6 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-[6px] h-[6px] rounded-full bg-[#4dff00] shrink-0" />
+            <span className="text-[13px] leading-[16px] tracking-[-0.35px] font-medium text-[#efe6d8]/[0.72] truncate">
+              {isCs
+                ? "Otevřen pro part-time & IT projekty."
+                : "Відкритий до проєктів та ІТ-ролей."}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setContactOpen(true)}
+            className="group h-8 px-3.5 rounded-[40px] bg-[#ffa1f7] text-black text-[13.5px] leading-[16px] tracking-[-0.35px] font-semibold inline-flex items-center shrink-0 cursor-pointer transition-all duration-300"
+          >
+            <span>{isCs ? "Domluvit hovor" : "Зв'язатися"}</span>
+            <span className="inline-block max-w-0 opacity-0 overflow-hidden group-hover:max-w-[18px] group-hover:opacity-100 group-hover:ml-1.5 transition-all duration-300 ease-out">
+              →
+            </span>
+          </button>
+        </div>
+
+        {/* 3. Bottom Utility & Social Links (344px desktop height aligns exactly with Footer!) */}
+        <div className="h-[140px] sm:h-[180px] lg:h-[344px] p-4 sm:p-5 flex items-end justify-between gap-4">
+          <nav
+            aria-label="Links"
+            className="flex flex-wrap items-center gap-x-[18px] gap-y-2 text-[13px] leading-[16px] tracking-[-0.35px] font-medium text-[#efe6d8]/[0.48]"
+          >
+            <a
+              href="https://github.com/rizzer18"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#ffa1f7] transition-colors"
             >
-              <FolderOpen size={12} className="text-amber-400" />
-              <span className="hidden sm:inline">Files</span>
-            </Link>
-
-            {/* CV Link */}
-            <Link
-              href="/cv"
-              className="inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full bg-zinc-900 border border-zinc-700/80 text-[11px] font-bold text-zinc-200 hover:text-black hover:bg-amber-400 hover:border-amber-400 transition-all"
+              GitHub
+            </a>
+            <a
+              href="https://www.instagram.com/roshka_jr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#ffa1f7] transition-colors"
             >
-              CV
+              Instagram
+            </a>
+            <Link href="/cv" className="hover:text-[#ffa1f7] transition-colors">
+              CV / PDF
             </Link>
+            <Link href="/uploadFile" className="hover:text-[#ffa1f7] transition-colors">
+              Files
+            </Link>
+            <a href="tel:+420605447445" className="hover:text-[#ffa1f7] transition-colors">
+              +420 605 447 445
+            </a>
+          </nav>
 
-            {/* Contact Quick Jump */}
+          <div className="hidden xl:flex items-center gap-1.5 font-mono text-[12px] leading-[16px]">
             <button
-              onClick={() => selectNode(4, 1)}
-              className="hidden sm:inline-flex items-center gap-1 px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[11px] font-extrabold shadow-gold-sm hover:shadow-gold-md transition-all cursor-pointer"
+              type="button"
+              onClick={() => setLang("cs")}
+              className={`cursor-pointer transition-colors ${
+                isCs ? "text-[#efe6d8]" : "text-[#efe6d8]/40 hover:text-[#ffa1f7]"
+              }`}
             >
-              <Sparkles size={11} />
-              <span>{t.headerCta}</span>
+              CZ
+            </button>
+            <span className="text-[#efe6d8]/30">/</span>
+            <button
+              type="button"
+              onClick={() => setLang("uk")}
+              className={`cursor-pointer transition-colors ${
+                !isCs ? "text-[#efe6d8]" : "text-[#efe6d8]/40 hover:text-[#ffa1f7]"
+              }`}
+            >
+              UA
             </button>
           </div>
         </div>
-      </header>
+      </aside>
 
-      {/* ── MOBILE 3D MINI-DRUM DIAL (< lg) ── */}
-      <div className="lg:hidden sticky top-0 z-30 bg-[#08080c]/95 backdrop-blur-xl border-b border-white/[0.07] px-3 py-2">
-        {/* Mini 3D Drum Row: Prev tilted | Active Gold Pill | Next tilted */}
-        <div
-          style={{ perspective: "600px" }}
-          className="flex items-center justify-between gap-1.5 mb-2"
+      {/* ═══════════════════════════════════════════════════════════════════════
+          RIGHT PANE (60% VERTICAL STREAM: CLOCK/EMAIL, WORK, EXPERTISE, FOOTER)
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <main className="w-full lg:w-[60%] min-w-0 flex flex-col bg-black">
+        {/* Sticky Top Scrim Bar (Live Clock / One-Click Email Copy) */}
+        <header
+          style={{
+            background: "linear-gradient(180deg, #000000 8.36%, rgba(0,0,0,0) 100%)",
+          }}
+          className="sticky top-0 z-30 flex items-center justify-between lg:justify-end gap-2 px-4 sm:px-6 pt-[12px] pb-[52px] pointer-events-none"
         >
-          <button
-            onClick={() => stepWheel(-1)}
-            style={{ transform: "rotateY(22deg) scale(0.92)" }}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-zinc-900/80 border border-zinc-800/90 text-[10.5px] text-zinc-400 truncate max-w-[30%] cursor-pointer"
-          >
-            <ChevronLeft size={12} className="text-amber-400 shrink-0" />
-            <span className="truncate">{prevNode.title}</span>
-          </button>
-
-          <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-black font-extrabold text-xs shadow-gold-sm shrink-0">
-            <span className="font-mono text-[10px] bg-black/15 px-1.5 py-0.5 rounded">
-              {wheelNodes[activeIndex].num}
-            </span>
-            <span>{wheelNodes[activeIndex].title}</span>
+          <span className="lg:hidden pointer-events-auto font-mono text-[12px] text-[#efe6d8]/60">
+            Brno, CZ
+          </span>
+          <div className="pointer-events-auto flex items-center gap-2 font-mono text-[13px] leading-[20px]">
+            <span className="tabular-nums text-[#efe6d8]">{clockText || "—:—"}</span>
+            <span className="text-[#efe6d8]/40">/</span>
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              aria-live="polite"
+              className="inline-flex items-center gap-1.5 cursor-pointer group"
+              title={isCs ? "Zkopírovat e-mail" : "Скопіювати e-mail"}
+            >
+              <span className="text-[#efe6d8]/[0.48]">Email →</span>
+              <span className="text-[#efe6d8]/[0.72] group-hover:text-[#ffa1f7] transition-colors">
+                {emailCopied
+                  ? isCs
+                    ? "Zkopírováno ✓"
+                    : "Скопійовано ✓"
+                  : "romanroskanuk74@gmail.com"}
+              </span>
+            </button>
           </div>
+        </header>
 
-          <button
-            onClick={() => stepWheel(1)}
-            style={{ transform: "rotateY(-22deg) scale(0.92)" }}
-            className="flex items-center justify-end gap-1 px-2.5 py-1.5 rounded-xl bg-zinc-900/80 border border-zinc-800/90 text-[10.5px] text-zinc-400 truncate max-w-[30%] cursor-pointer"
-          >
-            <span className="truncate">{nextNode.title}</span>
-            <ChevronRight size={12} className="text-amber-400 shrink-0" />
-          </button>
+        {/* Editorial Negative Space above SELECTED WORK (matches Akash Tyagi viewport horizon) */}
+        <div className="h-[140px] sm:h-[220px] lg:h-[430px]" aria-hidden="true" />
+
+        {/* SELECTED WORK / 2023 — 2026 Pixel Display Divider */}
+        <div
+          id="work"
+          className="border-t border-b border-[#141414] py-4 pr-4 sm:pr-6 pl-5 sm:pl-6 flex items-center justify-between gap-4"
+        >
+          <h2 className="font-pixel uppercase text-[23px] sm:text-[26px] xl:text-[30px] leading-[32px] xl:leading-[40px] tracking-[-1px] text-[#efe6d8]/40">
+            {isCs ? "VYBRANÉ PROJEKTY" : "ВИБРАНІ ПРОЄКТИ"}
+          </h2>
+          <span className="font-pixel uppercase text-[23px] sm:text-[26px] xl:text-[30px] leading-[32px] xl:leading-[40px] tracking-[-1px] text-[#efe6d8]/40 shrink-0">
+            2023 — 2026
+          </span>
         </div>
 
-        {/* 5 Quick Tap Dots/Chips */}
-        <div className="grid grid-cols-5 gap-1">
-          {wheelNodes.map((n, idx) => {
-            const Icon = n.icon;
-            const isActive = idx === activeIndex;
+        {/* 5 Project Showcase Sections */}
+        <div>
+          {t.projects.map((proj, idx) => {
+            const url = PROJECT_URLS[idx];
+            const isExternal = url.startsWith("http");
+            const domain = PROJECT_DOMAINS[idx];
+            const tags = PROJECT_TAGS[idx];
+
             return (
-              <button
-                key={n.id}
-                onClick={() => selectNode(idx)}
-                className={`flex items-center justify-center gap-1 py-1 rounded-lg text-[10px] font-semibold transition-all cursor-pointer ${
-                  isActive
-                    ? "bg-amber-400/20 border border-amber-400/50 text-amber-300"
-                    : "bg-zinc-900/60 border border-zinc-800/70 text-zinc-500"
-                }`}
+              <article
+                key={idx}
+                className="border-b border-[#141414] py-16 sm:py-24 xl:py-[96px] flex flex-col items-center"
               >
-                <Icon size={11} />
-                <span className="font-mono">{n.num}</span>
-              </button>
+                <div className="w-[90%] max-w-[860px] space-y-5">
+                  {/* Top Bar: Project Title & Live URL */}
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-mono text-[12px] text-[#efe6d8]/35">
+                        0{idx + 1}
+                      </span>
+                      <h3 className="text-[15px] sm:text-[16px] font-semibold tracking-[-0.2px] text-[#efe6d8]">
+                        {proj.title}
+                      </h3>
+                    </div>
+
+                    {isExternal ? (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 font-mono text-[12px] text-[#efe6d8]/[0.65] hover:text-[#ffa1f7] transition-colors"
+                      >
+                        <span>{domain}</span>
+                        <ArrowUpRight size={13} />
+                      </a>
+                    ) : (
+                      <span className="font-mono text-[12px] text-[#4dff00]/80">{domain}</span>
+                    )}
+                  </div>
+
+                  {/* Showcase Artifact Card */}
+                  {isExternal ? (
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block rounded-[12px] border border-[#191817] hover:border-[#2c2a29] bg-[#060606] overflow-hidden transition-colors group"
+                    >
+                      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#141414] bg-[#090909]">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#242424]" />
+                          <span className="w-2 h-2 rounded-full bg-[#242424]" />
+                          <span className="w-2 h-2 rounded-full bg-[#242424]" />
+                        </div>
+                        <span className="font-mono text-[11px] text-[#efe6d8]/40 group-hover:text-[#efe6d8]/70 transition-colors">
+                          https://{domain}
+                        </span>
+                        <span className="font-mono text-[10.5px] text-[#ffa1f7] opacity-0 group-hover:opacity-100 transition-opacity">
+                          {isCs ? "Otevřít →" : "Відкрити →"}
+                        </span>
+                      </div>
+                      <ProjectVisualShowcase index={idx} lang={lang} />
+                    </a>
+                  ) : (
+                    <div className="rounded-[12px] border border-[#191817] bg-[#060606] overflow-hidden">
+                      <ProjectVisualShowcase index={idx} lang={lang} />
+                    </div>
+                  )}
+
+                  {/* Editorial Description + Tech Tags */}
+                  <div className="pt-1 flex flex-col md:flex-row md:items-start justify-between gap-4">
+                    <p className="max-w-[520px] text-[13px] leading-[18px] tracking-[-0.3px] text-[#efe6d8]/[0.48]">
+                      {proj.description}
+                    </p>
+                    <div className="flex flex-wrap md:justify-end gap-1.5 md:max-w-[280px] shrink-0">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-0.5 rounded-full border border-[#1a1a1a] font-mono text-[11px] text-[#efe6d8]/[0.55]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
             );
           })}
         </div>
-      </div>
 
-      {/* ── MAIN STAGE ── */}
-      <main className="flex-1 max-w-[1500px] w-full mx-auto px-3 sm:px-6 xl:px-10 py-3 lg:py-0 flex flex-col lg:flex-row gap-5 xl:gap-8 items-center relative z-10 lg:h-[calc(100vh-3.5rem)] min-h-0">
         {/* ═══════════════════════════════════════════════════════════════════
-            LEFT RAIL: REDESIGNED 3D ORBITAL CAROUSEL WITH TOP & BOTTOM BUTTONS
+            EXPERTISE → SECTION (EXACT AKASH TYAGI PIXEL LIST LAYOUT)
         ═══════════════════════════════════════════════════════════════════ */}
-        <aside className="hidden lg:flex lg:w-[245px] xl:w-[265px] shrink-0 flex-col items-center justify-center h-full select-none relative">
-          {/* Compact Core Avatar Badge */}
-          <div className="flex items-center gap-2.5 w-full px-3 py-2 mb-3 rounded-xl bg-zinc-900/70 border border-white/[0.08] backdrop-blur-md shadow-lg">
-            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-amber-400/50 shrink-0">
-              <Image
-                src="/images/roman-profile.jpg"
-                alt="Roman Roshkanyuk"
-                fill
-                sizes="40px"
-                priority
-                className="object-cover object-[50%_32%]"
-              />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between gap-1">
-                <span className="text-[11.5px] font-bold text-white truncate">
-                  Roman Roshkanyuk
-                </span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-              </div>
-              <div className="text-[9.5px] font-mono text-amber-400 truncate">
-                VUT FEKT · 1. ročník
-              </div>
-            </div>
+        <section className="border-b border-[#141414] px-5 sm:px-6 py-10 flex flex-col md:flex-row justify-between items-start gap-6">
+          <h2 className="font-pixel uppercase text-[24px] sm:text-[26px] xl:text-[30px] leading-[32px] xl:leading-[40px] tracking-[-1px] text-[#efe6d8]/40 shrink-0">
+            <span className="hidden md:inline">EXPERTISE →</span>
+            <span className="md:hidden">EXPERTISE ↓</span>
+          </h2>
+
+          <ul className="space-y-1 font-pixel uppercase text-[21px] sm:text-[25px] xl:text-[28px] leading-[32px] xl:leading-[40px] tracking-[-0.8px] text-[#ffa1f7]">
+            {expertiseItems.map((item) => (
+              <li key={item}>• {item}</li>
+            ))}
+          </ul>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            CREDENTIALS, VUT / ISSS & 6 OFFICIAL CERTIFICATES
+        ═══════════════════════════════════════════════════════════════════ */}
+        <section id="credentials" className="border-b border-[#141414]">
+          <div className="border-b border-[#141414] py-4 pr-4 sm:pr-6 pl-5 sm:pl-6 flex items-center justify-between gap-4">
+            <h2 className="font-pixel uppercase text-[22px] sm:text-[26px] xl:text-[30px] leading-[32px] xl:leading-[40px] tracking-[-1px] text-[#efe6d8]/40">
+              {isCs ? "CERTIFIKÁTY & PRAXE" : "СЕРТИФІКАТИ & ДОСВІД"}
+            </h2>
+            <span className="font-pixel uppercase text-[22px] sm:text-[26px] xl:text-[30px] leading-[32px] xl:leading-[40px] tracking-[-1px] text-[#efe6d8]/40 shrink-0">
+              6× PDF
+            </span>
           </div>
 
-          {/* TOP CAROUSEL BUTTON (▲ UP) */}
-          <button
-            type="button"
-            onClick={() => stepWheel(-1)}
-            aria-label={lang === "cs" ? "Předchozí sekce" : "Попередня секція"}
-            className="w-full h-9 px-3 rounded-xl bg-zinc-900/85 hover:bg-zinc-800/95 border border-zinc-800/90 hover:border-amber-400/55 flex items-center justify-between gap-2 text-zinc-300 hover:text-white transition-all cursor-pointer group active:scale-[0.98] shadow-md mb-2"
-          >
-            <span className="w-6 h-6 rounded-lg bg-amber-400/15 group-hover:bg-amber-400 text-amber-400 group-hover:text-black flex items-center justify-center transition-colors shrink-0">
-              <ChevronUp size={14} strokeWidth={2.5} />
-            </span>
-            <span className="text-[10.5px] font-semibold truncate flex-1 text-left">
-              {prevNode.title}
-            </span>
-            <span className="text-[9.5px] font-mono font-bold text-zinc-500 group-hover:text-amber-300 shrink-0">
-              {prevNode.num}
-            </span>
-          </button>
-
-          {/* 3D Orbital Carousel Selector */}
-          <div
-            style={{ perspective: "950px" }}
-            className="relative w-full h-[328px] xl:h-[346px] flex items-center justify-center"
-          >
-            {/* Subtle Ambient Center Glow */}
-            <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 h-16 rounded-2xl bg-amber-400/[0.08] blur-xl pointer-events-none" />
-
-            {/* Decorative Curved Orbital Arc (Left Outside Edge — never cuts cards) */}
-            <svg
-              viewBox="0 0 24 320"
-              fill="none"
-              className="absolute -left-3.5 top-3 bottom-3 w-5 h-[calc(100%-24px)] pointer-events-none opacity-65"
-            >
-              <path
-                d="M20 8 C2 90, 2 230, 20 312"
-                stroke="url(#orbitalGrad)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-              <defs>
-                <linearGradient id="orbitalGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgba(251,191,36,0)" />
-                  <stop offset="50%" stopColor="rgba(251,191,36,0.65)" />
-                  <stop offset="100%" stopColor="rgba(251,191,36,0)" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Connector Beam to Main Taller Block */}
-            <div className="absolute right-[-22px] xl:right-[-32px] top-1/2 -translate-y-1/2 flex items-center pointer-events-none z-30">
-              <div className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.95)]" />
-              <div className="w-5 xl:w-7 h-[2px] bg-gradient-to-r from-amber-400 to-transparent shadow-[0_0_10px_rgba(251,191,36,0.85)]" />
-            </div>
-
-            {wheelNodes.map((node, idx) => {
-              let rel = idx - activeIndex;
-              if (rel > NODE_COUNT / 2) rel -= NODE_COUNT;
-              if (rel < -NODE_COUNT / 2) rel += NODE_COUNT;
-
-              const absRel = Math.abs(rel);
-              const isActive = rel === 0;
-              const rotateX = rel === 0 ? 0 : rel < 0 ? absRel * 18 : -absRel * 18;
-              const yOffset =
-                rel === 0 ? 0 : rel === -1 ? -65 : rel === 1 ? 65 : rel === -2 ? -122 : 122;
-              const xOffset = rel === 0 ? 6 : absRel === 1 ? 0 : -6;
-              const scale = rel === 0 ? 1.02 : absRel === 1 ? 0.93 : 0.85;
-              const opacity = rel === 0 ? 1 : absRel === 1 ? 0.72 : 0.4;
-              const zIndex = 20 - absRel * 5;
-              const Icon = node.icon;
-
-              return (
-                <m.button
-                  key={node.id}
-                  type="button"
-                  onClick={() => selectNode(idx)}
-                  animate={{
-                    x: xOffset,
-                    y: yOffset,
-                    rotateX,
-                    scale,
-                    opacity,
-                  }}
-                  transition={DRUM_SPRING}
-                  style={{ zIndex }}
-                  className={`group absolute inset-x-0 flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-left cursor-pointer transition-colors will-composite overflow-hidden ${
-                    isActive
-                      ? "bg-gradient-to-r from-amber-500/[0.18] via-[#151520]/95 to-[#101017]/95 border border-amber-400/75 shadow-[0_12px_32px_-6px_rgba(245,158,11,0.32),inset_0_1px_0_rgba(255,255,255,0.08)]"
-                      : "bg-[#0e0e15]/90 border border-zinc-800/85 text-zinc-300 hover:border-amber-400/40 hover:bg-[#151520]"
-                  }`}
-                >
-                  {/* Active Left Gold Laser Bar */}
-                  {isActive && (
-                    <span className="absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-r-full bg-gradient-to-b from-amber-300 via-amber-400 to-amber-500 shadow-[0_0_10px_rgba(251,191,36,0.95)]" />
-                  )}
-
-                  <div
-                    className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                      isActive
-                        ? "bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-black shadow-[0_0_16px_rgba(251,191,36,0.4)]"
-                        : "bg-zinc-900/95 border border-zinc-800 text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-400/35"
-                    }`}
-                  >
-                    <Icon size={15} strokeWidth={isActive ? 2.4 : 2} />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-1.5">
-                      <span
-                        className={`text-xs font-extrabold truncate ${
-                          isActive ? "text-white" : "text-zinc-200 group-hover:text-white"
-                        }`}
-                      >
-                        {node.title}
-                      </span>
-                      <span
-                        className={`text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md shrink-0 ${
-                          isActive
-                            ? "bg-amber-400/15 border border-amber-400/40 text-amber-300"
-                            : "text-zinc-500"
-                        }`}
-                      >
-                        {node.num}
-                      </span>
-                    </div>
-                    <p
-                      className={`text-[10px] truncate mt-0.5 ${
-                        isActive ? "text-amber-300/90 font-medium" : "text-zinc-500"
+          {/* Education & ISSS Experience Hairline Rows */}
+          <div className="divide-y divide-[#141414]">
+            {t.schools.map((school, idx) => (
+              <div
+                key={idx}
+                className="px-5 sm:px-6 py-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2"
+              >
+                <div className="space-y-1 max-w-xl">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-[14px] font-semibold text-[#efe6d8]">{school.name}</span>
+                    <span
+                      className={`font-mono text-[10.5px] px-2 py-0.5 rounded-full border ${
+                        school.active
+                          ? "border-[#4dff00]/35 text-[#4dff00]"
+                          : "border-[#222222] text-[#efe6d8]/55"
                       }`}
                     >
-                      {node.sub}
-                    </p>
+                      {school.badge}
+                    </span>
                   </div>
-                </m.button>
-              );
-            })}
-          </div>
-
-          {/* BOTTOM CAROUSEL BUTTON (▼ DOWN) */}
-          <button
-            type="button"
-            onClick={() => stepWheel(1)}
-            aria-label={lang === "cs" ? "Další sekce" : "Наступна секція"}
-            className="w-full h-9 px-3 rounded-xl bg-zinc-900/85 hover:bg-zinc-800/95 border border-zinc-800/90 hover:border-amber-400/55 flex items-center justify-between gap-2 text-zinc-300 hover:text-white transition-all cursor-pointer group active:scale-[0.98] shadow-md mt-2"
-          >
-            <span className="w-6 h-6 rounded-lg bg-amber-400/15 group-hover:bg-amber-400 text-amber-400 group-hover:text-black flex items-center justify-center transition-colors shrink-0">
-              <ChevronDown size={14} strokeWidth={2.5} />
-            </span>
-            <span className="text-[10.5px] font-semibold truncate flex-1 text-left">
-              {nextNode.title}
-            </span>
-            <span className="text-[9.5px] font-mono font-bold text-zinc-500 group-hover:text-amber-300 shrink-0">
-              {nextNode.num}
-            </span>
-          </button>
-
-          {/* 5-Segment Quick Progress Strip */}
-          <div className="mt-3 flex items-center justify-center gap-1.5">
-            {wheelNodes.map((n, i) => {
-              const active = i === activeIndex;
-              return (
-                <button
-                  key={n.id}
-                  type="button"
-                  onClick={() => selectNode(i)}
-                  aria-label={n.title}
-                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                    active
-                      ? "w-7 bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]"
-                      : "w-2 bg-zinc-800 hover:bg-zinc-600"
-                  }`}
-                />
-              );
-            })}
-          </div>
-        </aside>
-
-        {/* ═══════════════════════════════════════════════════════════════════
-            DESKTOP RIGHT STAGE (lg+): TALL 3D DECK + TOP & BOTTOM BUTTONS
-            Scroll inside the card ONLY scrolls card content — never switches items!
-        ═══════════════════════════════════════════════════════════════════ */}
-        <div className="hidden lg:flex flex-1 w-full min-w-0 h-full py-3 xl:py-4 flex-col items-center justify-center gap-4 relative">
-          {/* TOP BUTTON ABOVE MAIN ITEM (▲) */}
-          <button
-            type="button"
-            onClick={() => stepWheel(-1)}
-            className="relative z-40 shrink-0 h-8 px-4 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800/90 hover:border-amber-400/60 shadow-lg flex items-center gap-2 transition-all cursor-pointer group active:scale-95"
-          >
-            <ChevronUp
-              size={14}
-              className="text-amber-400 group-hover:-translate-y-0.5 transition-transform"
-            />
-            <span className="text-[10px] font-mono font-bold text-amber-400">{prevNode.num}</span>
-            <span className="text-[11px] font-semibold text-zinc-300 group-hover:text-white">
-              {prevNode.title}
-            </span>
-          </button>
-
-          {/* TALL 3D ACTIVE ITEM STAGE */}
-          <div
-            style={{ perspective: "1600px" }}
-            className="relative flex-1 w-full max-w-[1120px] max-h-[800px] min-h-0 flex items-center justify-center"
-          >
-            {wheelNodes.map((node, idx) => {
-              let rel = idx - activeIndex;
-              if (rel > NODE_COUNT / 2) rel -= NODE_COUNT;
-              if (rel < -NODE_COUNT / 2) rel += NODE_COUNT;
-
-              const absRel = Math.abs(rel);
-              const isActive = rel === 0;
-
-              // Subtle 3D deck plates behind the tall active card (zero noisy text bleed)
-              const rotateX = rel === 0 ? 0 : rel < 0 ? absRel * 13 : -absRel * 13;
-              const yOffset =
-                rel === 0 ? 0 : rel === -1 ? -22 : rel === 1 ? 22 : rel === -2 ? -38 : 38;
-              const scale = rel === 0 ? 1 : absRel === 1 ? 0.965 : 0.93;
-              const opacity = rel === 0 ? 1 : absRel === 1 ? 0.55 : 0.22;
-              const zIndex = 30 - absRel * 10;
-
-              return (
-                <m.section
-                  key={node.id}
-                  onClick={!isActive ? () => selectNode(idx) : undefined}
-                  animate={{
-                    y: yOffset,
-                    rotateX,
-                    scale,
-                    opacity,
-                  }}
-                  transition={DRUM_SPRING}
-                  style={{ zIndex }}
-                  className={`absolute inset-0 flex flex-col rounded-[1.5rem] overflow-hidden will-composite transition-colors duration-300 ${
-                    isActive
-                      ? "bg-[#0e0e14]/95 border border-amber-400/35 shadow-[0_24px_75px_rgba(0,0,0,0.92),0_0_38px_-10px_rgba(251,191,36,0.2)] backdrop-blur-2xl"
-                      : "bg-[#12121a]/95 border border-zinc-800/90 hover:border-amber-400/40 cursor-pointer select-none shadow-xl"
-                  }`}
-                >
-                  {/* Top gold laser accent on active block */}
-                  {isActive && (
-                    <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-amber-400/85 to-transparent pointer-events-none" />
-                  )}
-
-                  {/* Compact Block Header */}
-                  <div
-                    className={`flex items-center justify-between px-6 py-2.5 border-b shrink-0 transition-opacity duration-200 ${
-                      isActive
-                        ? "border-white/[0.07] bg-zinc-950/65 opacity-100"
-                        : "border-white/[0.04] bg-zinc-950/90 opacity-40"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`w-2 h-2 rounded-full ${
-                          isActive
-                            ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.9)]"
-                            : "bg-zinc-600"
-                        }`}
-                      />
-                      <span
-                        className={`text-[10.5px] font-mono uppercase tracking-widest font-bold ${
-                          isActive ? "text-amber-400" : "text-zinc-500"
-                        }`}
-                      >
-                        {node.num} // {node.title} — {node.sub}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono text-zinc-500">
-                        {idx + 1} / {NODE_COUNT}
-                      </span>
-                      <span
-                        className={`w-2 h-2 rounded-full ${
-                          isActive ? "bg-emerald-400" : "bg-zinc-800"
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Card Inner Body — only mount active section DOM for 80% lower node count */}
-                  <div
-                    ref={(el) => {
-                      scrollerRefs.current[idx] = el;
-                    }}
-                    className={`flex-1 px-6 xl:px-8 py-5 xl:py-6 ${
-                      isActive
-                        ? "overflow-y-auto pointer-events-auto"
-                        : "overflow-hidden pointer-events-none"
-                    }`}
-                  >
-                    {isActive ? renderSectionBody(idx) : null}
-                  </div>
-                </m.section>
-              );
-            })}
-          </div>
-
-          {/* BOTTOM BUTTON BELOW MAIN ITEM (▼) */}
-          <button
-            type="button"
-            onClick={() => stepWheel(1)}
-            className="relative z-40 shrink-0 h-8 px-4 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800/90 hover:border-amber-400/60 shadow-lg flex items-center gap-2 transition-all cursor-pointer group active:scale-95"
-          >
-            <span className="text-[10px] font-mono font-bold text-amber-400">{nextNode.num}</span>
-            <span className="text-[11px] font-semibold text-zinc-300 group-hover:text-white">
-              {nextNode.title}
-            </span>
-            <ChevronDown
-              size={14}
-              className="text-amber-400 group-hover:translate-y-0.5 transition-transform"
-            />
-          </button>
-        </div>
-
-        {/* ═══════════════════════════════════════════════════════════════════
-            MOBILE STAGE (< lg): BUTTON-ONLY SECTION SWITCHING
-        ═══════════════════════════════════════════════════════════════════ */}
-        <div style={{ perspective: "1100px" }} className="lg:hidden w-full pb-16">
-          <AnimatePresence mode="wait" custom={direction}>
-            <m.section
-              key={wheelNodes[activeIndex].id}
-              custom={direction}
-              initial={{
-                rotateX: direction > 0 ? -20 : 20,
-                y: direction > 0 ? 28 : -28,
-                scale: 0.96,
-                opacity: 0,
-              }}
-              animate={{
-                rotateX: 0,
-                y: 0,
-                scale: 1,
-                opacity: 1,
-              }}
-              exit={{
-                rotateX: direction > 0 ? 20 : -20,
-                y: direction > 0 ? -28 : 28,
-                scale: 0.96,
-                opacity: 0,
-              }}
-              transition={{ duration: 0.24, ease: "easeOut" }}
-              className="w-full rounded-2xl bg-[#0e0e14]/95 border border-amber-400/30 shadow-2xl overflow-hidden"
-            >
-              <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-zinc-950/60">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold">
-                  {wheelNodes[activeIndex].num} // {wheelNodes[activeIndex].sub}
-                </span>
-                <span className="text-[10px] font-mono text-zinc-500">
-                  {activeIndex + 1}/{NODE_COUNT}
+                  <p className="text-[13px] text-[#efe6d8]/[0.72]">{school.desc}</p>
+                  <p className="text-[12.5px] text-[#efe6d8]/[0.45] leading-relaxed">{school.sub}</p>
+                </div>
+                <span className="font-mono text-[12px] text-[#efe6d8]/40 shrink-0">
+                  {school.period}
                 </span>
               </div>
-              <div className="p-4 sm:p-5">{renderSectionBody(activeIndex)}</div>
-            </m.section>
-          </AnimatePresence>
+            ))}
+
+            {/* ISSS Live IT Support Highlight */}
+            <div className="px-5 sm:px-6 py-6 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+              <div className="md:col-span-8 space-y-1.5">
+                <div className="font-mono text-[11px] text-[#ffa1f7] uppercase">
+                  {t.expCards[0].tag}
+                </div>
+                <h3 className="text-[14px] font-semibold text-[#efe6d8]">{t.expCards[0].title}</h3>
+                <p className="text-[13px] leading-[18px] text-[#efe6d8]/[0.48]">
+                  {t.expCards[0].desc}
+                </p>
+              </div>
+              <div className="md:col-span-4 relative h-28 rounded-xl overflow-hidden border border-[#1a1a1a]">
+                <Image
+                  src="/images/classroom.png"
+                  alt="Roman Roshkanyuk — ISSS & Team"
+                  fill
+                  sizes="260px"
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 6 Interactive Certificates Hairline Grid */}
+          <div className="border-t border-[#141414] grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 border-collapse">
+            {CERTIFICATES.map((cert, idx) => (
+              <div
+                key={cert.name}
+                onClick={() => setPreviewCert(cert)}
+                className={`p-5 sm:px-6 flex items-center justify-between gap-3 cursor-pointer group hover:bg-[#080808] transition-colors border-[#141414] ${
+                  idx % 2 === 0 ? "sm:border-r" : ""
+                } ${idx < CERTIFICATES.length - 2 ? "sm:border-b" : ""}`}
+              >
+                <div className="min-w-0 space-y-0.5">
+                  <div className="flex items-center gap-2 font-mono text-[10.5px] text-[#efe6d8]/40">
+                    <Shield size={11} className="text-[#ffa1f7] shrink-0" />
+                    <span>{cert.badge}</span>
+                    <span>·</span>
+                    <span>{cert.year}</span>
+                  </div>
+                  <div className="text-[13.5px] font-medium text-[#efe6d8] group-hover:text-[#ffa1f7] transition-colors truncate">
+                    {cert.name}
+                  </div>
+                  <div className="text-[12px] text-[#efe6d8]/40 truncate">{cert.issuer}</div>
+                </div>
+
+                <div
+                  className="flex items-center gap-1.5 shrink-0"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setPreviewCert(cert)}
+                    className="p-2 rounded-full border border-[#1d1d1d] text-[#efe6d8]/60 hover:text-[#ffa1f7] hover:border-[#ffa1f7]/40 transition-colors cursor-pointer"
+                    title={t.certView}
+                  >
+                    <Eye size={13} />
+                  </button>
+                  <a
+                    href={cert.file}
+                    download
+                    className="p-2 rounded-full border border-[#1d1d1d] text-[#efe6d8]/60 hover:text-[#ffa1f7] hover:border-[#ffa1f7]/40 transition-colors"
+                    title={t.certDownload}
+                  >
+                    <Download size={13} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            3D PERSPECTIVE ANIMATED WIREFRAME GRID ARTWORK
+        ═══════════════════════════════════════════════════════════════════ */}
+        <div
+          aria-hidden="true"
+          className="relative h-[240px] sm:h-[360px] perspective-wireframe-stage border-b border-[#141414]"
+        >
+          <div className="perspective-wireframe-plane" />
+          <div
+            style={{
+              background: "linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.65) 38%, transparent 100%)",
+            }}
+            className="absolute inset-0 pointer-events-none"
+          />
+          <div
+            style={{
+              background: "linear-gradient(to top, #000000 0%, transparent 28%)",
+            }}
+            className="absolute inset-0 pointer-events-none"
+          />
         </div>
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            FOOTER (100vh DESKTOP — ALIGNS HORIZONTALLY WITH LEFT 344px BLOCK)
+        ═══════════════════════════════════════════════════════════════════ */}
+        <footer className="lg:h-screen flex flex-col justify-between bg-black">
+          {/* Centered Pink Pixel-Art Downward Hand */}
+          <div className="flex-1 min-h-[260px] flex items-center justify-center p-8">
+            <PixelPointingHand />
+          </div>
+
+          {/* Middle Pixel CTA Band (Aligns cleanly with Left Availability Strip) */}
+          <div className="border-t border-b border-[#141414] py-4 px-5 sm:px-6 flex flex-wrap items-center justify-between gap-2 font-pixel uppercase text-[22px] sm:text-[26px] xl:text-[30px] leading-[32px] xl:leading-[40px] tracking-[-1px]">
+            <span className="text-[#efe6d8]/[0.72]">
+              {isCs ? "HLEDÁTE SPOLEHLIVÉHO INŽENÝRA?" : "ПОТРІБЕН НАДІЙНИЙ ІНЖЕНЕР?"}
+            </span>
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              className="font-pixel uppercase text-[#ffa1f7] hover:underline decoration-2 underline-offset-4 cursor-pointer transition-all"
+            >
+              {isCs ? "NAPIŠTE MI!" : "НАПИШІТЬ МЕНІ!"}
+            </button>
+          </div>
+
+          {/* Bottom 344px Copyright Block */}
+          <div className="h-[140px] sm:h-[180px] lg:h-[344px] p-4 sm:p-5 flex items-end justify-center lg:justify-end">
+            <span className="font-mono text-[13px] leading-[16px] tracking-[-0.35px] text-[#efe6d8]/[0.48] uppercase">
+              © 2026 ROMAN ROSHKANYUK
+            </span>
+          </div>
+        </footer>
       </main>
 
-      {/* ── MOBILE BOTTOM THUMB WHEEL BAR (< lg) ── */}
-      <div className="lg:hidden fixed bottom-3 inset-x-3 z-30 flex items-center justify-between px-3 py-2 rounded-2xl bg-zinc-950/95 border border-zinc-800/90 shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl">
-        <button
-          onClick={() => stepWheel(-1)}
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-200 active:bg-amber-400 active:text-black cursor-pointer"
-        >
-          <ChevronUp size={14} className="text-amber-400" />
-          <span className="truncate max-w-[90px]">{prevNode.title}</span>
-        </button>
+      {/* Contact Form Modal */}
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+        lang={lang}
+        t={t}
+      />
 
-        <span className="text-[10px] font-mono text-zinc-500">
-          {wheelNodes[activeIndex].num} / 05
-        </span>
-
-        <button
-          onClick={() => stepWheel(1)}
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-400 text-black text-xs font-extrabold cursor-pointer"
-        >
-          <span className="truncate max-w-[90px]">{nextNode.title}</span>
-          <ChevronDown size={14} />
-        </button>
-      </div>
-
-      {/* ── IN-BROWSER CERTIFICATE PDF MODAL (NO DOWNLOAD REQUIRED) ── */}
+      {/* In-Browser Certificate PDF Modal */}
       {previewCert && (
         <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex flex-col"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col"
           onClick={() => setPreviewCert(null)}
         >
           <div
-            className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 border-b border-zinc-800 bg-zinc-950/95"
+            className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-[#161616] bg-black"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="min-w-0">
-              <p className="text-xs sm:text-sm font-bold text-white truncate">
+              <p className="text-[13.5px] font-semibold text-[#efe6d8] truncate">
                 {previewCert.name}
               </p>
-              <p className="text-[11px] text-zinc-400">
+              <p className="font-mono text-[11px] text-[#efe6d8]/45">
                 {previewCert.issuer} · {previewCert.year}
               </p>
             </div>
@@ -1706,42 +1148,43 @@ export default function WheelPortfolio() {
                 href={previewCert.file}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 hover:border-amber-400/50"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#1f1f1f] text-[12px] text-[#efe6d8]/80 hover:border-[#ffa1f7]/50 hover:text-[#ffa1f7] transition-colors"
               >
-                <ExternalLink size={13} />
+                <ExternalLink size={12} />
                 <span className="hidden sm:inline">
-                  {lang === "cs" ? "Nová záložka" : "Нова вкладка"}
+                  {isCs ? "Nová záložka" : "Нова вкладка"}
                 </span>
               </a>
               <a
                 href={previewCert.file}
                 download
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 text-black text-xs font-bold"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#ffa1f7] text-black text-[12px] font-semibold"
               >
-                <Download size={13} />
-                <span className="hidden sm:inline">{t.certDownload}</span>
+                <Download size={12} />
+                <span>{t.certDownload}</span>
               </a>
               <button
+                type="button"
                 onClick={() => setPreviewCert(null)}
-                className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white cursor-pointer"
+                className="p-2 rounded-full border border-[#1f1f1f] text-[#efe6d8]/60 hover:text-[#ffa1f7] cursor-pointer"
+                aria-label="Close"
               >
-                <X size={17} />
+                <X size={16} />
               </button>
             </div>
           </div>
           <div
-            className="flex-1 p-2 sm:p-5 flex items-center justify-center"
+            className="flex-1 p-3 sm:p-6 flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             <iframe
               src={previewCert.file}
               title={previewCert.name}
-              className="w-full max-w-5xl h-full rounded-2xl border border-zinc-800 bg-white shadow-2xl"
+              className="w-full max-w-5xl h-full rounded-xl border border-[#1c1c1c] bg-white shadow-2xl"
             />
           </div>
         </div>
       )}
     </div>
-    </LazyMotion>
   );
 }

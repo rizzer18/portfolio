@@ -2,35 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-canvas: #000000;
+  --border-hairline: #141414;
+  --text-primary: #efe6d8;
+  --text-secondary: rgba(239, 230, 216, 0.72);
+  --text-muted: rgba(239, 230, 216, 0.48);
+  --text-header: rgba(239, 230, 216, 0.40);
+  --accent-pink: #ffa1f7;
+  --accent-live: #4dff00;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #000000;
+}
+
 body {
-  color: #ffffff;
-  background: #09090b;
+  color: #efe6d8;
+  background-color: #000000;
   overflow-x: hidden;
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-geist), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 ::selection {
-  background-color: #fbbf24;
+  background-color: #ffa1f7;
   color: #000000;
 }
 
-/* Custom scrollbar */
+/* Custom minimalist scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
   height: 0px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #1f1f1f;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ca8a04;
+  background: #ffa1f7;
 }
 
 /* Hide scrollbar utility */
@@ -45,21 +63,36 @@ body {
   scrollbar-width: none !important;
 }
 
-/* Subtle background grid pattern */
-.bg-grid-pattern {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
+/* 3D Perspective Diamond/Grid Wireframe Animation (Akash Tyagi Artwork Style) */
+@keyframes perspectiveGridMove {
+  0% {
+    transform: rotateX(65deg) translateY(0px);
+  }
+  100% {
+    transform: rotateX(65deg) translateY(40px);
+  }
 }
 
-/* Gradient text */
-.text-gold-gradient {
-  background: linear-gradient(135deg, #fef08a 0%, #fbbf24 50%, #d97706 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.perspective-wireframe-stage {
+  perspective: 320px;
+  overflow: hidden;
+  background: #000000;
 }
 
-/* Promote animated elements to their own GPU compositor layer */
-.will-composite {
-  will-change: transform, opacity;
+.perspective-wireframe-plane {
+  position: absolute;
+  inset: -120% -50% -20% -50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpolygon points='20,0 40,20 20,40 0,20' fill='none' stroke='rgba(239,230,216,0.34)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  transform-origin: 50% 60%;
+  animation: perspectiveGridMove 2.2s linear infinite;
+  will-change: transform;
+}
+
+@media print {
+  html,
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
 }

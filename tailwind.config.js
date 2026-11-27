@@ -9,11 +9,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#0c0c0e",
-        surface: "#141416",
-        "surface-card": "#18181b",
-        "surface-lighter": "#202024",
-        border: "#27272a",
+        background: "#000000",
+        surface: "#080808",
+        "surface-card": "#0a0a0a",
+        "surface-lighter": "#121212",
+        border: "#161616",
+        cream: {
+          DEFAULT: "#efe6d8",
+          secondary: "rgba(239, 230, 216, 0.72)",
+          muted: "rgba(239, 230, 216, 0.48)",
+          dim: "rgba(239, 230, 216, 0.40)",
+        },
+        accent: {
+          pink: "#ffa1f7",
+          live: "#4dff00",
+        },
         gold: {
           300: "#fde047",
           400: "#facc15",
@@ -25,7 +35,9 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ["var(--font-geist)", "var(--font-inter)", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "var(--font-jetbrains-mono)", "monospace"],
+        pixel: ["var(--font-pixel)", "var(--font-geist-mono)", "monospace"],
       },
       boxShadow: {
         'gold-sm': '0 0 15px -3px rgba(251, 191, 36, 0.25)',
