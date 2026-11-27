@@ -9,16 +9,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#100e0b",
-        surface: "#171410",
-        "surface-card": "#1c1914",
-        "surface-lighter": "#26221c",
-        border: "rgba(245, 244, 241, 0.12)",
+        background: "#070709",
+        surface: "#0c0c0f",
+        "surface-card": "#101014",
+        "surface-lighter": "#16161c",
+        border: "#1c1c22",
         paper: {
-          DEFAULT: "#f5f4f1",
-          warm: "#f0efed",
-          dim: "#9b968f",
-          muted: "#a39e96",
+          DEFAULT: "#ededf0",
+          warm: "#d8d8de",
+          dim: "#7c7c88",
+          muted: "#8e8e9a",
         },
         signal: {
           positive: "#3fbf7f",
@@ -35,9 +35,9 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ["var(--font-geist)", "var(--font-inter)", "sans-serif"],
+        sans: ["var(--font-inter)", "sans-serif"],
         serif: ["var(--font-serif)", "Georgia", "Times New Roman", "serif"],
-        mono: ["var(--font-geist-mono)", "var(--font-jetbrains-mono)", "monospace"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       boxShadow: {
         'gold-sm': '0 0 15px -3px rgba(251, 191, 36, 0.25)',

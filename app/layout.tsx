@@ -1,26 +1,7 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Inter,
-  JetBrains_Mono,
-  Source_Serif_4,
-} from "next/font/google";
+import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "../context/LanguageContext";
-import { AuraBackground } from "../components/AuraBackground";
-
-const geist = Geist({
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-  variable: "--font-geist",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-  variable: "--font-geist-mono",
-});
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "cyrillic"],
@@ -58,12 +39,10 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`dark ${geist.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`}
+      className={`dark ${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`}
     >
-      <body className="text-[#f5f4f1] min-h-screen antialiased selection:bg-[#f5f4f1] selection:text-[#100e0b] font-sans">
-        <AuraBackground>
-          <LanguageProvider>{children}</LanguageProvider>
-        </AuraBackground>
+      <body className="bg-[#070709] text-[#ededf0] min-h-screen antialiased selection:bg-[#272732] selection:text-white font-sans">
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

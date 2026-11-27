@@ -2,140 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Spectral Edge - Aura */
-/* Base color on BODY - blend modes composite against this */
+html {
+  scroll-behavior: smooth;
+  background-color: #070709;
+}
+
 body {
-  color: #f5f4f1;
-  background-color: #100e0b;
+  color: #ededf0;
+  background-color: #070709;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: var(--font-geist), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-html {
-  scroll-behavior: smooth;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 ::selection {
-  background-color: #f5f4f1;
-  color: #100e0b;
+  background-color: #272732;
+  color: #ffffff;
 }
 
-.aura-bg {
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh; /* height must be explicit - absolute layers add none */
-  /* NO background-color - layers blend against body */
-}
-
-/* Layer 1 - screen */
-.aura-layer-1 {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(59, 130, 246, 0.04) 32%,
-    rgba(6, 182, 212, 0.18) 45%,
-    rgba(34, 197, 94, 0.22) 51%,
-    rgba(250, 204, 21, 0.20) 57%,
-    rgba(244, 63, 94, 0.18) 64%,
-    transparent 82%
-  );
-  mix-blend-mode: screen;
-  filter: blur(75px); /* use 108px on desktop */
-  transform: translateZ(0);
-  will-change: transform;
-  pointer-events: none;
-}
-
-/* Layer 2 - screen */
-.aura-layer-2 {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    102deg,
-    transparent 38%,
-    rgba(255, 255, 255, 0.22) 46%,
-    rgba(125, 211, 252, 0.14) 51%,
-    transparent 60%
-  );
-  mix-blend-mode: screen;
-  filter: blur(40px); /* use 58px on desktop */
-  opacity: 0.85;
-  transform: translateZ(0);
-  will-change: transform;
-  pointer-events: none;
-}
-
-/* Layer 3 - screen */
-.aura-layer-3 {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 25% 65% at 92% 50%,
-    rgba(139, 92, 246, 0.16) 0%,
-    transparent 78%
-  );
-  mix-blend-mode: screen;
-  filter: blur(88px); /* use 126px on desktop */
-  opacity: 0.8;
-  transform: translateZ(0);
-  will-change: transform;
-  pointer-events: none;
-}
-
-@media (min-width: 768px) {
-  .aura-layer-1 {
-    filter: blur(108px);
-  }
-  .aura-layer-2 {
-    filter: blur(58px);
-  }
-  .aura-layer-3 {
-    filter: blur(126px);
-  }
-}
-
-/* Light theme adaptation */
-html.light .aura-layer-1,
-html.light .aura-layer-2,
-html.light .aura-layer-3,
-[data-theme="light"] .aura-layer-1,
-[data-theme="light"] .aura-layer-2,
-[data-theme="light"] .aura-layer-3 {
-  mix-blend-mode: multiply;
-}
-
-.aura-content {
-  position: relative;
-  z-index: 1;
-}
-
-/* Subtle micro-dot grid (Aira Hero dot matrix adapted for dark surface) */
+/* Zero-cost static dark subtle dot grid (no mask-image, no filter, no blend-mode) */
 .hero-dot-matrix {
-  background-image: radial-gradient(rgba(245, 244, 241, 0.10) 0.75px, transparent 1px);
-  background-size: 11px 11px;
-  mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
 
-/* Gentle floating notification animation */
-@keyframes softFloat {
-  0% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(-6px);
-  }
+/* Skip offscreen layout & paint for instant initial render and 120fps scrolling */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 680px;
 }
 
-.animate-soft-float {
-  animation: softFloat 5s ease-in-out infinite alternate;
-}
-
-/* Animated left-to-right editorial underline */
+/* Lightweight GPU-free underline hover */
 .editorial-link {
   position: relative;
 }
@@ -150,7 +48,7 @@ html.light .aura-layer-3,
   background-color: currentColor;
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.3s ease-out;
 }
 
 .editorial-link:hover::after {
@@ -158,23 +56,23 @@ html.light .aura-layer-3,
   transform-origin: left center;
 }
 
-/* Minimal scrollbar */
+/* Dark minimalist scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
   height: 0px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #100e0b;
+  background: #070709;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2b2722;
+  background: #1d1d24;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9b968f;
+  background: #32323e;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -189,13 +87,9 @@ html.light .aura-layer-3,
 }
 
 @media print {
+  html,
   body {
     background-color: #ffffff !important;
     color: #000000 !important;
-  }
-  .aura-layer-1,
-  .aura-layer-2,
-  .aura-layer-3 {
-    display: none !important;
   }
 }
