@@ -88,13 +88,13 @@ function formatDate(iso: string): string {
 function renderFileTypeIcon(name: string, size = 18) {
   const kind = getPreviewKind(name);
   const ext = getExt(name);
-  if (kind === "image") return <ImageIcon size={size} className="text-[#ffa1f7]" />;
-  if (kind === "video") return <Film size={size} className="text-[#ffa1f7]" />;
-  if (kind === "audio") return <Music size={size} className="text-[#4dff00]" />;
-  if (kind === "pdf") return <FileText size={size} className="text-[#ffa1f7]" />;
-  if (kind === "text") return <FileCode size={size} className="text-[#efe6d8]/80" />;
-  if (ARCHIVE_EXTS.has(ext)) return <Archive size={size} className="text-[#efe6d8]/70" />;
-  return <FileGeneric size={size} className="text-[#efe6d8]/50" />;
+  if (kind === "image") return <ImageIcon size={size} className="text-[#f5f4f1]" />;
+  if (kind === "video") return <Film size={size} className="text-violet-300" />;
+  if (kind === "audio") return <Music size={size} className="text-[#3fbf7f]" />;
+  if (kind === "pdf") return <FileText size={size} className="text-[#e8674a]" />;
+  if (kind === "text") return <FileCode size={size} className="text-sky-300" />;
+  if (ARCHIVE_EXTS.has(ext)) return <Archive size={size} className="text-amber-300" />;
+  return <FileGeneric size={size} className="text-[#9b968f]" />;
 }
 
 export default function FileServerPage() {
@@ -275,20 +275,20 @@ export default function FileServerPage() {
   const downloadUrl = (name: string) => `/api/files/${encodeURIComponent(name)}?download=1`;
 
   return (
-    <div className="min-h-screen bg-black text-[#efe6d8] overflow-x-hidden">
-      {/* Top Hairline Header */}
-      <header className="border-b border-[#141414] px-4 sm:px-8 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-[#4dff00]" />
-            <h1 className="font-pixel uppercase text-[22px] sm:text-[26px] tracking-[-0.8px] text-[#efe6d8]">
-              FILE SERVER
+    <div className="min-h-screen text-[#f5f4f1] overflow-x-hidden">
+      {/* Sticky Glass Header */}
+      <header className="sticky top-0 z-30 h-14 bg-[#100e0b]/72 backdrop-blur-xl border-b border-white/[0.08] px-4 sm:px-8">
+        <div className="max-w-5xl mx-auto h-full flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-[#3fbf7f]" />
+            <h1 className="font-serif text-[22px] tracking-[-0.02em] text-[#f5f4f1]">
+              File Server <span className="text-[#9b968f]">· HTTP 206</span>
             </h1>
           </div>
 
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-[13px] font-medium text-[#efe6d8]/[0.72] hover:text-[#ffa1f7] transition-colors"
+            className="h-9 px-4 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.12] inline-flex items-center gap-2 text-[13px] font-medium text-[#f5f4f1] transition-colors"
           >
             <ArrowLeft size={14} />
             <span>На портфоліо</span>
@@ -306,10 +306,10 @@ export default function FileServerPage() {
           }}
           onDragLeave={() => setDragOver(false)}
           onClick={() => fileInputRef.current?.click()}
-          className={`relative border border-dashed rounded-2xl p-8 sm:p-10 text-center cursor-pointer transition-all duration-300 mb-6 select-none ${
+          className={`relative border border-dashed rounded-2xl p-8 sm:p-10 text-center cursor-pointer transition-all duration-300 mb-6 select-none backdrop-blur-xl ${
             dragOver
-              ? "border-[#ffa1f7] bg-[#ffa1f7]/[0.06]"
-              : "border-[#1f1f1f] hover:border-[#ffa1f7]/60 bg-[#060606] hover:bg-[#090909]"
+              ? "border-[#f5f4f1] bg-white/[0.10]"
+              : "border-white/[0.18] hover:border-white/[0.38] bg-[#161310]/60 hover:bg-[#161310]/80"
           } ${uploading ? "pointer-events-none opacity-75" : ""}`}
         >
           <input
@@ -321,29 +321,29 @@ export default function FileServerPage() {
           />
           {uploading ? (
             <div className="space-y-3">
-              <Loader2 size={28} className="mx-auto text-[#ffa1f7] animate-spin" />
-              <p className="text-[#ffa1f7] font-medium text-[13px]">{uploadProgress}</p>
-              <div className="w-full max-w-xs mx-auto bg-[#161616] rounded-full h-1.5 overflow-hidden">
+              <Loader2 size={28} className="mx-auto text-[#f5f4f1] animate-spin" />
+              <p className="text-[#f5f4f1] font-medium text-[13.5px]">{uploadProgress}</p>
+              <div className="w-full max-w-xs mx-auto bg-white/[0.1] rounded-full h-1.5 overflow-hidden">
                 <div
-                  className="h-1.5 bg-[#ffa1f7] rounded-full transition-all duration-200"
+                  className="h-1.5 bg-[#3fbf7f] rounded-full transition-all duration-200"
                   style={{ width: `${uploadPercent}%` }}
                 />
               </div>
-              <p className="text-[#efe6d8]/45 text-xs font-mono">{uploadPercent}%</p>
+              <p className="text-[#9b968f] text-xs font-mono">{uploadPercent}%</p>
             </div>
           ) : (
             <div className="space-y-2">
-              <div className="w-11 h-11 mx-auto rounded-full border border-[#1f1f1f] bg-black flex items-center justify-center text-[#ffa1f7] mb-3">
+              <div className="w-11 h-11 mx-auto rounded-full border border-white/[0.16] bg-white/[0.06] flex items-center justify-center text-[#f5f4f1] mb-3">
                 <UploadCloud size={20} />
               </div>
-              <p className="text-[#efe6d8] font-medium text-[14px]">
+              <p className="font-serif text-xl sm:text-2xl text-[#f5f4f1]">
                 Перетягни файли сюди або{" "}
-                <span className="text-[#ffa1f7] underline underline-offset-4">
+                <span className="underline underline-offset-4 text-[#f5f4f1]">
                   натисни для вибору
                 </span>
               </p>
-              <p className="text-[#efe6d8]/[0.45] text-[12.5px]">
-                Будь-які файли · Клік по файлу відкриває перегляд без скачування
+              <p className="text-[#9b968f] text-[13px]">
+                Будь-які файли · Клік по файлу відкриває перегляд прямо в браузері
               </p>
             </div>
           )}
@@ -354,31 +354,31 @@ export default function FileServerPage() {
           <div className="relative flex-1 max-w-sm">
             <Search
               size={14}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#efe6d8]/40 pointer-events-none"
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9b968f] pointer-events-none"
             />
             <input
               type="text"
               placeholder="Пошук файлів..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#070707] border border-[#1a1a1a] rounded-full pl-9 pr-4 py-2 text-[13px] text-[#efe6d8] placeholder:text-[#efe6d8]/35 focus:outline-none focus:border-[#ffa1f7] transition-colors"
+              className="w-full bg-[#161310]/70 backdrop-blur-md border border-white/[0.14] rounded-full pl-9 pr-4 py-2 text-[13px] text-[#f5f4f1] placeholder:text-[#9b968f] focus:outline-none focus:border-white/[0.38] transition-colors"
             />
           </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-3">
-            <span className="font-mono text-[#efe6d8]/[0.48] text-[12px] whitespace-nowrap">
+            <span className="font-mono text-[#9b968f] text-[12px] whitespace-nowrap">
               {filtered.length} файл{filtered.length === 1 ? "" : "ів"} ·{" "}
               {formatSize(totalFilteredSize)}
             </span>
 
-            <div className="flex items-center border border-[#1a1a1a] rounded-full p-0.5 bg-[#070707]">
+            <div className="flex items-center border border-white/[0.14] rounded-full p-0.5 bg-[#161310]/70 backdrop-blur-md">
               <button
                 type="button"
                 onClick={() => setViewMode("list")}
                 className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                   viewMode === "list"
-                    ? "bg-[#ffa1f7] text-black"
-                    : "text-[#efe6d8]/50 hover:text-[#efe6d8]"
+                    ? "bg-[#f5f4f1] text-[#100e0b]"
+                    : "text-[#9b968f] hover:text-[#f5f4f1]"
                 }`}
                 title="Список"
               >
@@ -389,8 +389,8 @@ export default function FileServerPage() {
                 onClick={() => setViewMode("grid")}
                 className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                   viewMode === "grid"
-                    ? "bg-[#ffa1f7] text-black"
-                    : "text-[#efe6d8]/50 hover:text-[#efe6d8]"
+                    ? "bg-[#f5f4f1] text-[#100e0b]"
+                    : "text-[#9b968f] hover:text-[#f5f4f1]"
                 }`}
                 title="Плитка"
               >
@@ -402,24 +402,24 @@ export default function FileServerPage() {
 
         {/* File Container */}
         {loading ? (
-          <div className="rounded-2xl border border-[#161616] py-20 text-center text-[#efe6d8]/45">
-            <Loader2 size={24} className="mx-auto mb-3 animate-spin text-[#ffa1f7]" />
+          <div className="rounded-2xl border border-white/[0.12] bg-[#161310]/65 backdrop-blur-xl py-20 text-center text-[#9b968f]">
+            <Loader2 size={24} className="mx-auto mb-3 animate-spin text-[#f5f4f1]" />
             <p className="text-[13px]">Завантаження списку файлів...</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="rounded-2xl border border-[#161616] py-20 text-center text-[#efe6d8]/45">
-            <FolderOpen size={32} className="mx-auto mb-3 text-[#efe6d8]/30" />
-            <p className="font-medium text-[14px] text-[#efe6d8]">
+          <div className="rounded-2xl border border-white/[0.12] bg-[#161310]/65 backdrop-blur-xl py-20 text-center text-[#9b968f]">
+            <FolderOpen size={32} className="mx-auto mb-3 text-[#9b968f]/60" />
+            <p className="font-serif text-xl text-[#f5f4f1]">
               {search ? "Нічого не знайдено" : "Файлів поки немає"}
             </p>
             {!search && (
-              <p className="text-[12px] mt-1 text-[#efe6d8]/40">Завантаж перший файл вище</p>
+              <p className="text-[12.5px] mt-1 text-[#9b968f]">Завантаж перший файл вище</p>
             )}
           </div>
         ) : viewMode === "list" ? (
-          <div className="rounded-2xl border border-[#161616] overflow-hidden bg-black">
-            <ul className="divide-y divide-[#141414]">
-              <li className="grid grid-cols-[2.25rem_1fr_5.5rem_auto] sm:grid-cols-[2.25rem_1fr_6rem_9.5rem_8.5rem] gap-3 px-4 sm:px-5 py-3 font-mono text-[11px] text-[#efe6d8]/40 uppercase bg-[#060606]">
+          <div className="rounded-2xl border border-white/[0.12] overflow-hidden bg-[#15120e]/72 backdrop-blur-xl">
+            <ul className="divide-y divide-white/[0.08]">
+              <li className="grid grid-cols-[2.25rem_1fr_5.5rem_auto] sm:grid-cols-[2.25rem_1fr_6rem_9.5rem_8.5rem] gap-3 px-4 sm:px-5 py-3 font-mono text-[11px] text-[#9b968f] uppercase bg-black/25">
                 <span />
                 <span>Назва</span>
                 <span className="text-right">Розмір</span>
@@ -433,9 +433,9 @@ export default function FileServerPage() {
                   <li
                     key={file.name}
                     onClick={() => setPreviewIndex(idx)}
-                    className="grid grid-cols-[2.25rem_1fr_5.5rem_auto] sm:grid-cols-[2.25rem_1fr_6rem_9.5rem_8.5rem] gap-3 px-4 sm:px-5 py-3 items-center hover:bg-[#080808] transition-colors cursor-pointer group"
+                    className="grid grid-cols-[2.25rem_1fr_5.5rem_auto] sm:grid-cols-[2.25rem_1fr_6rem_9.5rem_8.5rem] gap-3 px-4 sm:px-5 py-3 items-center hover:bg-white/[0.05] transition-colors cursor-pointer group"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[#0c0c0c] border border-[#1c1c1c] flex items-center justify-center overflow-hidden shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-white/[0.06] border border-white/[0.1] flex items-center justify-center overflow-hidden shrink-0">
                       {isImg ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -451,21 +451,21 @@ export default function FileServerPage() {
 
                     <div className="min-w-0">
                       <span
-                        className="block text-[#efe6d8] group-hover:text-[#ffa1f7] text-[13px] font-medium truncate transition-colors"
+                        className="block text-[#f5f4f1] group-hover:opacity-80 text-[13.5px] font-medium truncate transition-opacity"
                         title={file.name}
                       >
                         {file.name}
                       </span>
-                      <span className="font-mono text-[11px] text-[#efe6d8]/40 sm:hidden">
+                      <span className="font-mono text-[11px] text-[#9b968f] sm:hidden">
                         {formatDate(file.uploadedAt)}
                       </span>
                     </div>
 
-                    <span className="text-[#efe6d8]/55 text-[12px] text-right font-mono">
+                    <span className="text-[#f5f4f1]/70 text-[12px] text-right font-mono">
                       {formatSize(file.size)}
                     </span>
 
-                    <span className="text-[#efe6d8]/40 text-[12px] text-right font-mono hidden sm:block">
+                    <span className="text-[#9b968f] text-[12px] text-right font-mono hidden sm:block">
                       {formatDate(file.uploadedAt)}
                     </span>
 
@@ -476,7 +476,7 @@ export default function FileServerPage() {
                       <button
                         type="button"
                         onClick={() => setPreviewIndex(idx)}
-                        className="p-1.5 rounded-full text-[#efe6d8]/50 hover:text-[#ffa1f7] transition-colors cursor-pointer"
+                        className="p-1.5 rounded-full text-[#9b968f] hover:text-[#f5f4f1] transition-colors cursor-pointer"
                         title="Переглянути"
                       >
                         <Eye size={14} />
@@ -486,7 +486,7 @@ export default function FileServerPage() {
                         href={inlineUrl(file.name)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-full text-[#efe6d8]/50 hover:text-[#ffa1f7] transition-colors"
+                        className="p-1.5 rounded-full text-[#9b968f] hover:text-[#f5f4f1] transition-colors"
                         title="У новій вкладці"
                       >
                         <ExternalLink size={14} />
@@ -495,7 +495,7 @@ export default function FileServerPage() {
                       <a
                         href={downloadUrl(file.name)}
                         download={file.name}
-                        className="p-1.5 rounded-full text-[#efe6d8]/50 hover:text-[#4dff00] transition-colors"
+                        className="p-1.5 rounded-full text-[#9b968f] hover:text-[#3fbf7f] transition-colors"
                         title="Скачати"
                       >
                         <Download size={14} />
@@ -505,7 +505,7 @@ export default function FileServerPage() {
                         type="button"
                         onClick={() => handleDelete(file.name)}
                         disabled={deletingFile === file.name}
-                        className="p-1.5 rounded-full text-[#efe6d8]/50 hover:text-red-400 transition-colors disabled:opacity-40 cursor-pointer"
+                        className="p-1.5 rounded-full text-[#9b968f] hover:text-[#e8674a] transition-colors disabled:opacity-40 cursor-pointer"
                         title="Видалити"
                       >
                         {deletingFile === file.name ? (
@@ -528,9 +528,9 @@ export default function FileServerPage() {
                 <div
                   key={file.name}
                   onClick={() => setPreviewIndex(idx)}
-                  className="group rounded-xl border border-[#181818] bg-[#060606] hover:border-[#ffa1f7]/50 overflow-hidden flex flex-col cursor-pointer transition-all"
+                  className="group rounded-xl border border-white/[0.12] bg-[#15120e]/72 backdrop-blur-xl hover:border-white/[0.3] overflow-hidden flex flex-col cursor-pointer transition-all"
                 >
-                  <div className="aspect-[4/3] bg-black flex items-center justify-center overflow-hidden relative border-b border-[#141414]">
+                  <div className="aspect-[4/3] bg-black/40 flex items-center justify-center overflow-hidden relative border-b border-white/[0.08]">
                     {isImg ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -542,24 +542,24 @@ export default function FileServerPage() {
                     ) : (
                       renderFileTypeIcon(file.name, 32)
                     )}
-                    <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="px-3 py-1 rounded-full bg-[#ffa1f7] text-black text-xs font-semibold inline-flex items-center gap-1">
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="px-3.5 py-1 rounded-full bg-[#f5f4f1] text-[#100e0b] text-xs font-medium inline-flex items-center gap-1">
                         <Eye size={12} /> Відкрити
                       </span>
                     </div>
                   </div>
                   <div className="p-3 flex-1 flex flex-col justify-between">
                     <p
-                      className="text-[12.5px] font-medium text-[#efe6d8] truncate mb-1"
+                      className="text-[12.5px] font-medium text-[#f5f4f1] truncate mb-1"
                       title={file.name}
                     >
                       {file.name}
                     </p>
                     <div
-                      className="flex items-center justify-between pt-2 border-t border-[#161616]"
+                      className="flex items-center justify-between pt-2 border-t border-white/[0.08]"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <span className="text-[11px] text-[#efe6d8]/45 font-mono">
+                      <span className="text-[11px] text-[#9b968f] font-mono">
                         {formatSize(file.size)}
                       </span>
                       <div className="flex items-center gap-1">
@@ -567,7 +567,7 @@ export default function FileServerPage() {
                           href={inlineUrl(file.name)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1 text-[#efe6d8]/50 hover:text-[#ffa1f7]"
+                          className="p-1 text-[#9b968f] hover:text-[#f5f4f1]"
                           title="Відкрити в новій вкладці"
                         >
                           <ExternalLink size={13} />
@@ -575,7 +575,7 @@ export default function FileServerPage() {
                         <a
                           href={downloadUrl(file.name)}
                           download={file.name}
-                          className="p-1 text-[#efe6d8]/50 hover:text-[#4dff00]"
+                          className="p-1 text-[#9b968f] hover:text-[#3fbf7f]"
                           title="Скачати"
                         >
                           <Download size={13} />
@@ -583,7 +583,7 @@ export default function FileServerPage() {
                         <button
                           type="button"
                           onClick={() => handleDelete(file.name)}
-                          className="p-1 text-[#efe6d8]/50 hover:text-red-400 cursor-pointer"
+                          className="p-1 text-[#9b968f] hover:text-[#e8674a] cursor-pointer"
                           title="Видалити"
                         >
                           <Trash2 size={13} />
@@ -601,20 +601,20 @@ export default function FileServerPage() {
       {/* IN-BROWSER PREVIEW MODAL */}
       {activeFile && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col"
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex flex-col"
           onClick={() => setPreviewIndex(null)}
         >
           <div
-            className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-[#161616] bg-black"
+            className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-white/[0.1] bg-[#14110e]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 min-w-0">
               {renderFileTypeIcon(activeFile.name, 18)}
               <div className="min-w-0">
-                <p className="text-[13.5px] font-semibold text-[#efe6d8] truncate max-w-[200px] sm:max-w-md">
+                <p className="font-serif text-[17px] text-[#f5f4f1] truncate max-w-[200px] sm:max-w-md">
                   {activeFile.name}
                 </p>
-                <p className="font-mono text-[11px] text-[#efe6d8]/45">
+                <p className="font-mono text-[11px] text-[#9b968f]">
                   {formatSize(activeFile.size)} · {formatDate(activeFile.uploadedAt)}
                 </p>
               </div>
@@ -622,22 +622,22 @@ export default function FileServerPage() {
 
             <div className="flex items-center gap-2">
               {getPreviewKind(activeFile.name) === "image" && (
-                <div className="hidden sm:flex items-center gap-1 mr-1 border border-[#1f1f1f] rounded-full px-2.5 py-1 bg-[#070707]">
+                <div className="hidden sm:flex items-center gap-1 mr-1 border border-white/[0.14] rounded-full px-2.5 py-1 bg-white/[0.04]">
                   <button
                     type="button"
                     onClick={() => setZoom((z) => Math.max(0.25, +(z - 0.25).toFixed(2)))}
-                    className="p-1 text-[#efe6d8]/70 hover:text-[#ffa1f7] cursor-pointer"
+                    className="p-1 text-[#f5f4f1]/75 hover:text-white cursor-pointer"
                     title="Зменшити"
                   >
                     <ZoomOut size={14} />
                   </button>
-                  <span className="text-xs font-mono text-[#efe6d8]/50 px-1.5">
+                  <span className="text-xs font-mono text-[#9b968f] px-1.5">
                     {Math.round(zoom * 100)}%
                   </span>
                   <button
                     type="button"
                     onClick={() => setZoom((z) => Math.min(4, +(z + 0.25).toFixed(2)))}
-                    className="p-1 text-[#efe6d8]/70 hover:text-[#ffa1f7] cursor-pointer"
+                    className="p-1 text-[#f5f4f1]/75 hover:text-white cursor-pointer"
                     title="Збільшити"
                   >
                     <ZoomIn size={14} />
@@ -645,7 +645,7 @@ export default function FileServerPage() {
                   <button
                     type="button"
                     onClick={() => setRotation((r) => (r + 90) % 360)}
-                    className="p-1 text-[#efe6d8]/70 hover:text-[#ffa1f7] cursor-pointer ml-1"
+                    className="p-1 text-[#f5f4f1]/75 hover:text-white cursor-pointer ml-1"
                     title="Повернути"
                   >
                     <RotateCw size={14} />
@@ -657,9 +657,9 @@ export default function FileServerPage() {
                 <button
                   type="button"
                   onClick={copyText}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#1f1f1f] text-xs text-[#efe6d8]/80 hover:border-[#ffa1f7]/50 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/[0.16] text-xs text-[#f5f4f1]/85 hover:bg-white/[0.08] cursor-pointer"
                 >
-                  {copied ? <Check size={13} className="text-[#4dff00]" /> : <Copy size={13} />}
+                  {copied ? <Check size={13} className="text-[#3fbf7f]" /> : <Copy size={13} />}
                   <span>{copied ? "Скопійовано" : "Копіювати"}</span>
                 </button>
               )}
@@ -668,7 +668,7 @@ export default function FileServerPage() {
                 href={inlineUrl(activeFile.name)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#1f1f1f] text-xs text-[#efe6d8]/80 hover:text-[#ffa1f7] hover:border-[#ffa1f7]/40 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/[0.16] text-xs text-[#f5f4f1]/85 hover:bg-white/[0.08] transition-colors"
               >
                 <ExternalLink size={13} />
                 <span className="hidden sm:inline">У новій вкладці</span>
@@ -677,7 +677,7 @@ export default function FileServerPage() {
               <a
                 href={downloadUrl(activeFile.name)}
                 download={activeFile.name}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#ffa1f7] hover:opacity-90 text-black text-xs font-semibold transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#f5f4f1] hover:bg-white text-[#100e0b] text-xs font-semibold transition-colors"
               >
                 <Download size={13} />
                 <span className="hidden sm:inline">Скачати</span>
@@ -686,10 +686,10 @@ export default function FileServerPage() {
               <button
                 type="button"
                 onClick={() => setPreviewIndex(null)}
-                className="p-2 rounded-full border border-[#1f1f1f] text-[#efe6d8]/60 hover:text-[#ffa1f7] cursor-pointer"
+                className="w-8 h-8 rounded-full border border-white/[0.16] flex items-center justify-center text-[#f5f4f1]/70 hover:text-[#f5f4f1] cursor-pointer"
                 title="Закрити (Esc)"
               >
-                <X size={16} />
+                <X size={15} />
               </button>
             </div>
           </div>
@@ -705,7 +705,7 @@ export default function FileServerPage() {
                       prev === null ? 0 : (prev - 1 + filtered.length) % filtered.length
                     );
                   }}
-                  className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black border border-[#242424] text-[#efe6d8] hover:border-[#ffa1f7] hover:text-[#ffa1f7] flex items-center justify-center cursor-pointer transition-all"
+                  className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#161310]/90 border border-white/[0.18] text-[#f5f4f1] hover:bg-white/[0.15] flex items-center justify-center cursor-pointer transition-all"
                   title="Попередній файл (←)"
                 >
                   <ChevronLeft size={18} />
@@ -718,7 +718,7 @@ export default function FileServerPage() {
                       prev === null ? 0 : (prev + 1) % filtered.length
                     );
                   }}
-                  className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black border border-[#242424] text-[#efe6d8] hover:border-[#ffa1f7] hover:text-[#ffa1f7] flex items-center justify-center cursor-pointer transition-all"
+                  className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#161310]/90 border border-white/[0.18] text-[#f5f4f1] hover:bg-white/[0.15] flex items-center justify-center cursor-pointer transition-all"
                   title="Наступний файл (→)"
                 >
                   <ChevronRight size={18} />
@@ -751,18 +751,16 @@ export default function FileServerPage() {
                   src={inlineUrl(activeFile.name)}
                   controls
                   autoPlay
-                  className="max-h-[78vh] max-w-full rounded-xl bg-black border border-[#1f1f1f]"
+                  className="max-h-[78vh] max-w-full rounded-xl bg-black border border-white/[0.16]"
                 />
               )}
 
               {getPreviewKind(activeFile.name) === "audio" && (
-                <div className="w-full max-w-md bg-black border border-[#1f1f1f] rounded-2xl p-8 text-center space-y-5">
-                  <div className="w-16 h-16 mx-auto rounded-full border border-[#4dff00]/30 flex items-center justify-center text-[#4dff00]">
+                <div className="w-full max-w-md bg-[#161310] border border-white/[0.16] rounded-2xl p-8 text-center space-y-5">
+                  <div className="w-16 h-16 mx-auto rounded-full border border-[#3fbf7f]/35 flex items-center justify-center text-[#3fbf7f]">
                     <Music size={30} />
                   </div>
-                  <p className="text-[13.5px] font-semibold text-[#efe6d8] break-all">
-                    {activeFile.name}
-                  </p>
+                  <p className="font-serif text-lg text-[#f5f4f1] break-all">{activeFile.name}</p>
                   <audio
                     key={activeFile.name}
                     src={inlineUrl(activeFile.name)}
@@ -778,18 +776,18 @@ export default function FileServerPage() {
                   key={activeFile.name}
                   src={inlineUrl(activeFile.name)}
                   title={activeFile.name}
-                  className="w-full h-[80vh] rounded-xl border border-[#1f1f1f] bg-white"
+                  className="w-full h-[80vh] rounded-xl border border-white/[0.16] bg-white"
                 />
               )}
 
               {getPreviewKind(activeFile.name) === "text" && (
-                <div className="w-full max-h-[78vh] overflow-auto rounded-xl border border-[#1f1f1f] bg-[#060606] p-5">
+                <div className="w-full max-h-[78vh] overflow-auto rounded-xl border border-white/[0.16] bg-[#12100d] p-5">
                   {textLoading ? (
-                    <div className="py-16 text-center text-[#efe6d8]/50">
-                      <Loader2 size={22} className="mx-auto mb-2 animate-spin text-[#ffa1f7]" />
+                    <div className="py-16 text-center text-[#9b968f]">
+                      <Loader2 size={22} className="mx-auto mb-2 animate-spin text-[#f5f4f1]" />
                     </div>
                   ) : (
-                    <pre className="text-xs sm:text-[13px] font-mono text-[#efe6d8]/85 whitespace-pre-wrap break-words leading-relaxed">
+                    <pre className="text-xs sm:text-[13px] font-mono text-[#f5f4f1]/85 whitespace-pre-wrap break-words leading-relaxed">
                       {textContent}
                     </pre>
                   )}
@@ -797,15 +795,15 @@ export default function FileServerPage() {
               )}
 
               {getPreviewKind(activeFile.name) === "other" && (
-                <div className="w-full max-w-md bg-black border border-[#1f1f1f] rounded-2xl p-8 text-center space-y-5">
-                  <div className="w-16 h-16 mx-auto rounded-full border border-[#242424] flex items-center justify-center">
+                <div className="w-full max-w-md bg-[#161310] border border-white/[0.16] rounded-2xl p-8 text-center space-y-5">
+                  <div className="w-16 h-16 mx-auto rounded-full border border-white/[0.16] flex items-center justify-center">
                     {renderFileTypeIcon(activeFile.name, 32)}
                   </div>
                   <div>
-                    <p className="text-[14px] font-semibold text-[#efe6d8] break-all mb-1">
+                    <p className="font-serif text-xl text-[#f5f4f1] break-all mb-1">
                       {activeFile.name}
                     </p>
-                    <p className="font-mono text-xs text-[#efe6d8]/45">
+                    <p className="font-mono text-xs text-[#9b968f]">
                       {formatSize(activeFile.size)} · {formatDate(activeFile.uploadedAt)}
                     </p>
                   </div>
@@ -814,7 +812,7 @@ export default function FileServerPage() {
                       href={inlineUrl(activeFile.name)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#242424] hover:border-[#ffa1f7]/50 text-[#efe6d8] text-xs font-medium transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.18] hover:bg-white/[0.08] text-[#f5f4f1] text-xs font-medium transition-colors"
                     >
                       <ExternalLink size={13} />
                       <span>Відкрити в браузері</span>
@@ -822,7 +820,7 @@ export default function FileServerPage() {
                     <a
                       href={downloadUrl(activeFile.name)}
                       download={activeFile.name}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#ffa1f7] text-black text-xs font-semibold transition-all"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#f5f4f1] text-[#100e0b] text-xs font-semibold transition-colors"
                     >
                       <Download size={13} />
                       <span>Скачати файл</span>

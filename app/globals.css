@@ -2,56 +2,181 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg-canvas: #000000;
-  --border-hairline: #141414;
-  --text-primary: #efe6d8;
-  --text-secondary: rgba(239, 230, 216, 0.72);
-  --text-muted: rgba(239, 230, 216, 0.48);
-  --text-header: rgba(239, 230, 216, 0.40);
-  --accent-pink: #ffa1f7;
-  --accent-live: #4dff00;
-}
-
-html {
-  scroll-behavior: smooth;
-  background-color: #000000;
-}
-
+/* Spectral Edge - Aura */
+/* Base color on BODY - blend modes composite against this */
 body {
-  color: #efe6d8;
-  background-color: #000000;
+  color: #f5f4f1;
+  background-color: #100e0b;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-geist), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-::selection {
-  background-color: #ffa1f7;
-  color: #000000;
+html {
+  scroll-behavior: smooth;
 }
 
-/* Custom minimalist scrollbar */
+::selection {
+  background-color: #f5f4f1;
+  color: #100e0b;
+}
+
+.aura-bg {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh; /* height must be explicit - absolute layers add none */
+  /* NO background-color - layers blend against body */
+}
+
+/* Layer 1 - screen */
+.aura-layer-1 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.04) 32%,
+    rgba(6, 182, 212, 0.18) 45%,
+    rgba(34, 197, 94, 0.22) 51%,
+    rgba(250, 204, 21, 0.20) 57%,
+    rgba(244, 63, 94, 0.18) 64%,
+    transparent 82%
+  );
+  mix-blend-mode: screen;
+  filter: blur(75px); /* use 108px on desktop */
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Layer 2 - screen */
+.aura-layer-2 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    102deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.22) 46%,
+    rgba(125, 211, 252, 0.14) 51%,
+    transparent 60%
+  );
+  mix-blend-mode: screen;
+  filter: blur(40px); /* use 58px on desktop */
+  opacity: 0.85;
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Layer 3 - screen */
+.aura-layer-3 {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 25% 65% at 92% 50%,
+    rgba(139, 92, 246, 0.16) 0%,
+    transparent 78%
+  );
+  mix-blend-mode: screen;
+  filter: blur(88px); /* use 126px on desktop */
+  opacity: 0.8;
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .aura-layer-1 {
+    filter: blur(108px);
+  }
+  .aura-layer-2 {
+    filter: blur(58px);
+  }
+  .aura-layer-3 {
+    filter: blur(126px);
+  }
+}
+
+/* Light theme adaptation */
+html.light .aura-layer-1,
+html.light .aura-layer-2,
+html.light .aura-layer-3,
+[data-theme="light"] .aura-layer-1,
+[data-theme="light"] .aura-layer-2,
+[data-theme="light"] .aura-layer-3 {
+  mix-blend-mode: multiply;
+}
+
+.aura-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle micro-dot grid (Aira Hero dot matrix adapted for dark surface) */
+.hero-dot-matrix {
+  background-image: radial-gradient(rgba(245, 244, 241, 0.10) 0.75px, transparent 1px);
+  background-size: 11px 11px;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
+}
+
+/* Gentle floating notification animation */
+@keyframes softFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-soft-float {
+  animation: softFloat 5s ease-in-out infinite alternate;
+}
+
+/* Animated left-to-right editorial underline */
+.editorial-link {
+  position: relative;
+}
+
+.editorial-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.editorial-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 7px;
   height: 0px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #100e0b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1f1f1f;
+  background: #2b2722;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffa1f7;
+  background: #9b968f;
 }
 
-/* Hide scrollbar utility */
 .no-scrollbar::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
@@ -63,36 +188,14 @@ body {
   scrollbar-width: none !important;
 }
 
-/* 3D Perspective Diamond/Grid Wireframe Animation (Akash Tyagi Artwork Style) */
-@keyframes perspectiveGridMove {
-  0% {
-    transform: rotateX(65deg) translateY(0px);
-  }
-  100% {
-    transform: rotateX(65deg) translateY(40px);
-  }
-}
-
-.perspective-wireframe-stage {
-  perspective: 320px;
-  overflow: hidden;
-  background: #000000;
-}
-
-.perspective-wireframe-plane {
-  position: absolute;
-  inset: -120% -50% -20% -50%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpolygon points='20,0 40,20 20,40 0,20' fill='none' stroke='rgba(239,230,216,0.34)' stroke-width='1'/%3E%3C/svg%3E");
-  background-size: 40px 40px;
-  transform-origin: 50% 60%;
-  animation: perspectiveGridMove 2.2s linear infinite;
-  will-change: transform;
-}
-
 @media print {
-  html,
   body {
     background-color: #ffffff !important;
     color: #000000 !important;
+  }
+  .aura-layer-1,
+  .aura-layer-2,
+  .aura-layer-3 {
+    display: none !important;
   }
 }

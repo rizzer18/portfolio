@@ -4,10 +4,11 @@ import {
   Geist_Mono,
   Inter,
   JetBrains_Mono,
-  Pixelify_Sans,
+  Source_Serif_4,
 } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "../context/LanguageContext";
+import { AuraBackground } from "../components/AuraBackground";
 
 const geist = Geist({
   subsets: ["latin", "latin-ext"],
@@ -33,11 +34,11 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
-const pixelify = Pixelify_Sans({
+const sourceSerif = Source_Serif_4({
   subsets: ["latin", "latin-ext", "cyrillic"],
   weight: ["400", "500"],
   display: "swap",
-  variable: "--font-pixel",
+  variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
@@ -57,10 +58,12 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`dark ${geist.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} ${pixelify.variable}`}
+      className={`dark ${geist.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`}
     >
-      <body className="bg-black text-[#efe6d8] min-h-screen antialiased selection:bg-[#ffa1f7] selection:text-black font-sans">
-        <LanguageProvider>{children}</LanguageProvider>
+      <body className="text-[#f5f4f1] min-h-screen antialiased selection:bg-[#f5f4f1] selection:text-[#100e0b] font-sans">
+        <AuraBackground>
+          <LanguageProvider>{children}</LanguageProvider>
+        </AuraBackground>
       </body>
     </html>
   );
