@@ -4,6 +4,7 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
+import { isFilesAuthorized } from "@/lib/filesAuth";
 
 export const maxDuration = 300;
 export const dynamic = "force-dynamic";
@@ -15,7 +16,10 @@ async function ensureUploadsDir() {
 }
 
 // GET — list all files using non-blocking parallel stat calls
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!isFilesAuthorized(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     await ensureUploadsDir();
     const names = await fsp.readdir(UPLOADS_DIR);
@@ -50,6 +54,9 @@ export async function GET() {
 
 // POST — zero-copy backpressure-aware streaming upload
 export async function POST(req: NextRequest) {
+  if (!isFilesAuthorized(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     await ensureUploadsDir();
     const formData = await req.formData();
@@ -78,6 +85,9 @@ export async function POST(req: NextRequest) {
 
 // DELETE — single non-blocking syscall
 export async function DELETE(req: NextRequest) {
+  if (!isFilesAuthorized(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { name } = await req.json();
     if (!name || typeof name !== "string") {

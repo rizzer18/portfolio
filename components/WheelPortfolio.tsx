@@ -12,7 +12,6 @@ import {
   Download,
   ExternalLink,
   Eye,
-  FolderOpen,
   Globe,
   Layers,
   Mail,
@@ -175,37 +174,37 @@ const ContactModal = memo(function ContactModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-3 sm:p-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-xl rounded-2xl bg-[#0c0c10] border border-[#22222b] shadow-2xl overflow-hidden"
+        className="w-full max-w-xl max-h-[92dvh] flex flex-col rounded-2xl bg-[#0c0c10] border border-[#22222b] shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#191920] bg-[#09090c]">
+        <div className="shrink-0 flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#191920] bg-[#09090c]">
           <div>
             <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#7c7c88] block">
               {lang === "cs" ? "Přímé spojení" : "Прямий зв'язок"}
             </span>
-            <h3 className="font-serif text-2xl text-[#ededf0] tracking-[-0.02em]">
+            <h3 className="font-serif text-xl sm:text-2xl text-[#ededf0] tracking-[-0.02em]">
               {lang === "cs" ? "Napište mi zprávu" : "Напишіть мені"}
             </h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-9 h-9 rounded-full border border-[#23232c] bg-[#121217] flex items-center justify-center text-[#8e8e9a] hover:text-white hover:border-[#343442] transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full border border-[#23232c] bg-[#121217] flex items-center justify-center text-[#8e8e9a] hover:text-white hover:border-[#343442] transition-colors cursor-pointer shrink-0"
             aria-label="Close"
           >
             <X size={16} />
           </button>
         </div>
 
-        <div className="p-6 space-y-5">
+        <div className="overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[12.5px]">
             <a
               href="mailto:romanroskanuk74@gmail.com"
-              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-[#1d1d25] bg-[#08080b] text-[#d8d8de] hover:border-[#32323f] transition-colors truncate"
+              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-[#1d1d25] bg-[#08080b] text-[#d8d8de] hover:border-[#32323f] transition-colors min-w-0"
             >
               <Mail size={14} className="text-[#3fbf7f] shrink-0" />
               <span className="truncate">romanroskanuk74@gmail.com</span>
@@ -227,7 +226,7 @@ const ContactModal = memo(function ContactModal({
               onChange={(e) => setFormData((p) => ({ ...p, subject: e.target.value }))}
               placeholder={t.formSubject}
               required
-              className="w-full px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
+              className="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[16px] sm:text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input
@@ -237,7 +236,7 @@ const ContactModal = memo(function ContactModal({
                 onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
                 placeholder={t.formName}
                 required
-                className="w-full px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
+                className="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[16px] sm:text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
               />
               <input
                 type="tel"
@@ -245,7 +244,7 @@ const ContactModal = memo(function ContactModal({
                 value={formData.phone}
                 onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
                 placeholder={t.formPhone}
-                className="w-full px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
+                className="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[16px] sm:text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
               />
             </div>
             <input
@@ -255,7 +254,7 @@ const ContactModal = memo(function ContactModal({
               onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
               placeholder={t.formEmail}
               required
-              className="w-full px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
+              className="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[16px] sm:text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors"
             />
             <textarea
               name="message"
@@ -264,18 +263,18 @@ const ContactModal = memo(function ContactModal({
               placeholder={t.formMessage}
               rows={4}
               required
-              className="w-full px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors resize-none"
+              className="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#08080b] border border-[#1e1e26] text-[16px] sm:text-[13.5px] text-[#ededf0] placeholder-[#6e6e7a] focus:outline-none focus:border-[#3a3a48] transition-colors resize-none"
             />
 
-            <div className="flex items-center justify-between gap-3 pt-1">
-              <span className="text-[12px] text-[#7c7c88] flex items-center gap-1.5">
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3 pt-1">
+              <span className="text-[12px] text-[#7c7c88] flex items-center justify-center sm:justify-start gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#3fbf7f]" />
                 <span>{lang === "cs" ? "Odpovídám obratem" : "Відповідаю оперативно"}</span>
               </span>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-5 py-2.5 rounded-full bg-[#ededf0] hover:bg-white text-[#070709] font-semibold text-[13.5px] inline-flex items-center gap-2 cursor-pointer disabled:opacity-60 transition-colors"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#ededf0] hover:bg-white text-[#070709] font-semibold text-[13.5px] inline-flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 transition-colors"
               >
                 <span>{isSubmitting ? t.formSending : t.formSend}</span>
                 <Send size={13} />
@@ -356,12 +355,12 @@ export default function WheelPortfolio() {
             >
               {isCs ? "Komerční produkce (4)" : "Комерційний веб (4)"}
             </a>
-            <Link
-              href="/uploadFile"
+            <a
+              href="#credentials"
               className="text-[#7c7c88] hover:text-[#ededf0] transition-colors whitespace-nowrap hidden sm:inline"
             >
-              File Server
-            </Link>
+              {isCs ? "Moje certifikáty (6)" : "Мої сертифікати (6)"}
+            </a>
           </div>
 
           <div className="flex items-center gap-4 shrink-0">
@@ -400,10 +399,10 @@ export default function WheelPortfolio() {
 
       {/* Sticky Solid Dark Navbar (zero backdrop-filter cost) */}
       <header className="sticky top-0 z-40 h-14 bg-[#070709]/95 border-b border-[#16161c]">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 h-full flex items-center justify-between gap-4">
-          <a href="#top" className="inline-flex items-center gap-2.5 group shrink-0">
-            <StarburstMark className="w-5 h-5 text-[#ededf0] group-hover:rotate-45 transition-transform duration-300" />
-            <span className="font-serif text-[21px] tracking-[-0.02em] text-[#ededf0]">
+        <div className="max-w-[1440px] mx-auto px-3.5 sm:px-8 lg:px-14 h-full flex items-center justify-between gap-2 sm:gap-4">
+          <a href="#top" className="inline-flex items-center gap-2 sm:gap-2.5 group min-w-0">
+            <StarburstMark className="w-4 h-4 sm:w-5 sm:h-5 text-[#ededf0] shrink-0 group-hover:rotate-45 transition-transform duration-300" />
+            <span className="font-serif text-[17px] sm:text-[21px] tracking-[-0.02em] text-[#ededf0] truncate">
               Roman Roshkanyuk
             </span>
           </a>
@@ -426,7 +425,7 @@ export default function WheelPortfolio() {
             </a>
           </nav>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             <Link
               href="/cv"
               className="hidden sm:inline-flex items-center h-9 px-4 rounded-full bg-[#111116] hover:bg-[#191921] border border-[#22222c] text-[13px] font-medium text-[#d8d8de] transition-colors"
@@ -436,24 +435,24 @@ export default function WheelPortfolio() {
             <button
               type="button"
               onClick={openContact}
-              className="h-9 px-4 sm:px-5 rounded-full bg-[#181820] hover:bg-[#22222d] border border-[#2d2d3b] text-[#ededf0] text-[13px] font-medium inline-flex items-center gap-2 transition-colors cursor-pointer"
+              className="h-8 sm:h-9 px-3 sm:px-5 rounded-full bg-[#181820] hover:bg-[#22222d] border border-[#2d2d3b] text-[#ededf0] text-[12px] sm:text-[13px] font-medium inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap transition-colors cursor-pointer"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#3fbf7f]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3fbf7f] shrink-0" />
               <span>{t.headerCta}</span>
             </button>
             <button
               type="button"
               onClick={() => setMobileNavOpen((v) => !v)}
-              className="lg:hidden w-9 h-9 rounded-full border border-[#22222c] bg-[#0f0f14] flex items-center justify-center text-[#ededf0] cursor-pointer"
+              className="lg:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#22222c] bg-[#0f0f14] flex items-center justify-center text-[#ededf0] shrink-0 cursor-pointer"
               aria-label="Toggle Menu"
             >
-              {mobileNavOpen ? <X size={17} /> : <Menu size={17} />}
+              {mobileNavOpen ? <X size={16} /> : <Menu size={16} />}
             </button>
           </div>
         </div>
 
         {mobileNavOpen && (
-          <div className="lg:hidden border-b border-[#1c1c24] bg-[#09090c] px-6 py-5 space-y-3 text-[14px]">
+          <div className="lg:hidden absolute top-full inset-x-0 z-50 max-h-[calc(100dvh-3.5rem)] overflow-y-auto border-b border-[#1c1c24] bg-[#09090c] shadow-2xl px-5 py-5 space-y-3 text-[14px]">
             <a
               href="#overview"
               onClick={() => setMobileNavOpen(false)}
@@ -488,14 +487,7 @@ export default function WheelPortfolio() {
                 onClick={() => setMobileNavOpen(false)}
                 className="px-4 py-2 rounded-full bg-[#121218] border border-[#24242f] text-[13px]"
               >
-                CV / PDF
-              </Link>
-              <Link
-                href="/uploadFile"
-                onClick={() => setMobileNavOpen(false)}
-                className="px-4 py-2 rounded-full bg-[#121218] border border-[#24242f] text-[13px]"
-              >
-                File Server
+                {t.heroCvBtn}
               </Link>
             </div>
           </div>
@@ -514,42 +506,42 @@ export default function WheelPortfolio() {
       >
         <div className="absolute inset-0 hero-dot-matrix pointer-events-none opacity-60" aria-hidden="true" />
 
-        <div className="relative max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 space-y-10 sm:space-y-12">
+        <div className="relative max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 space-y-8 sm:space-y-12">
           {/* Asymmetric 1.45fr / 1fr Editorial Header */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-6 lg:gap-12 items-end">
-            <h1 className="font-serif font-normal text-[clamp(38px,5vw,76px)] leading-[1.02] tracking-[-0.028em]">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-5 sm:gap-6 lg:gap-12 items-end">
+            <h1 className="font-serif font-normal text-[clamp(31px,7.2vw,76px)] leading-[1.04] tracking-[-0.028em] break-words">
               {isCs ? (
                 <>
-                  <span className="text-[#ededf0]">Spolehlivá infrastruktura</span>{" "}
+                  <span className="text-[#ededf0]">Stavím spolehlivou infrastrukturu</span>{" "}
                   <span className="text-[#6e6e7c] block sm:inline">od paketů až po kód.</span>
                 </>
               ) : (
                 <>
-                  <span className="text-[#ededf0]">Надійна інфраструктура</span>{" "}
+                  <span className="text-[#ededf0]">Будую надійну інфраструктуру</span>{" "}
                   <span className="text-[#6e6e7c] block sm:inline">від пакетів до коду.</span>
                 </>
               )}
             </h1>
 
-            <p className="text-[15.5px] sm:text-[17px] leading-[1.5] text-[#8e8e9a] max-w-xl lg:pb-1">
+            <p className="text-[14.5px] sm:text-[17px] leading-[1.52] text-[#8e8e9a] max-w-xl lg:pb-1">
               <span className="text-[#ededf0] font-medium">
                 {isCs
-                  ? "DevOps, Linux, sítě (2× Cisco CCNA / MikroTik) a vývoj v C# (.NET) & Next.js"
-                  : "DevOps, Linux, мережі (2× Cisco CCNA / MikroTik) та розробка на C# (.NET) і Next.js"}
+                  ? "Věnuji se DevOps, Linuxu, sítím (2× Cisco CCNA / MikroTik) a vývoji v C# (.NET) a Next.js"
+                  : "Я займаюся DevOps, Linux, мережами (2× Cisco CCNA / MikroTik) та розробкою на C# (.NET) і Next.js"}
               </span>{" "}
               {isCs
-                ? "— praktický přesah se 4+ komerčními nasazeními v ČR a Kanadě, 3 lety podpory na ISSS a vlastním 24/7 Home Labem."
-                : "— практичний досвід із 4+ комерційними релізами в Чехії та Канаді, 3 роками IT Support на ISSS та власним 24/7 Home Lab."}
+                ? "— postavil jsem 4+ komerční weby v ČR a Kanadě, 3 roky jsem pomáhal v IT Supportu na ISSS a doma provozuji 24/7 Home Lab."
+                : "— запустив 4+ комерційні сайти в Чехії та Канаді, 3 роки працював в IT Support на ISSS і вдома тримаю власний 24/7 Home Lab."}
             </p>
           </div>
 
           {/* 4-Card Deep Obsidian Bento Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_0.68fr] lg:grid-rows-2 gap-3.5 sm:gap-4">
             {/* TILE 01 — DevOps, Linux & CI/CD */}
-            <div className="lg:row-span-2 group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-gradient-to-b from-[#0e1017] via-[#0a0b0f] to-[#070709] p-5 sm:p-6 min-h-[370px] lg:min-h-[440px] flex flex-col justify-between transition-colors">
-              <div className="flex items-center justify-between gap-2">
+            <div className="lg:row-span-2 min-w-0 group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-gradient-to-b from-[#0e1017] via-[#0a0b0f] to-[#070709] p-4 sm:p-6 min-h-[310px] sm:min-h-[360px] lg:min-h-[440px] flex flex-col justify-between transition-colors">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium bg-[#12131a] border border-[#232532] text-[#d8d8de]">
-                  {isCs ? "01 · DevOps & Vlastní CI/CD" : "01 · DevOps & Власний CI/CD"}
+                  {isCs ? "01 · DevOps & Moje CI/CD" : "01 · DevOps & Мій CI/CD"}
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#3fbf7f]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3fbf7f]" />
@@ -558,7 +550,7 @@ export default function WheelPortfolio() {
               </div>
 
               {/* Solid Dark Icon Dock */}
-              <div className="my-7 flex items-center justify-center">
+              <div className="my-5 sm:my-7 flex items-center justify-center">
                 <div className="p-2.5 rounded-[20px] bg-[#111218] border border-[#232532] shadow-xl flex items-center gap-2.5">
                   <div className="w-14 h-14 rounded-[14px] bg-[#0a121c] border border-sky-500/25 flex flex-col items-center justify-center text-sky-400">
                     <Server size={21} />
@@ -573,13 +565,13 @@ export default function WheelPortfolio() {
 
               <div className="space-y-4">
                 <div>
-                  <h2 className="text-[22px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#ededf0]">
+                  <h2 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#ededf0]">
                     Linux, Docker &amp; Zero-Trust
                   </h2>
-                  <p className="text-[13.5px] leading-[1.5] text-[#8e8e9a] mt-1.5">
+                  <p className="text-[13px] sm:text-[13.5px] leading-[1.5] text-[#8e8e9a] mt-1.5">
                     {isCs
-                      ? "Self-hosted GitHub Actions runner pod systemd, multi-stage non-root Alpine obrazy a Cloudflare Tunnels s 0 otevřenými WAN porty."
-                      : "Self-hosted GitHub Actions runner під systemd, multi-stage non-root Alpine образи та Cloudflare Tunnels із 0 відкритих WAN-портів."}
+                      ? "Provozuji vlastní GitHub Actions runner pod systemd, stavím multi-stage non-root Alpine obrazy a publikuji přes Cloudflare Tunnels s 0 otevřenými porty."
+                      : "Підтримую власний GitHub Actions runner під systemd, збираю multi-stage non-root Alpine образи та публікую сервіси через Cloudflare Tunnels із 0 відкритих портів."}
                   </p>
                 </div>
 
@@ -588,8 +580,8 @@ export default function WheelPortfolio() {
                     href="#homelab"
                     className="h-10 pl-4 pr-1.5 rounded-full border border-[#262633] bg-[#111117] hover:bg-[#181822] hover:border-[#363648] inline-flex items-center gap-3 text-[13px] font-medium text-[#ededf0] transition-colors"
                   >
-                    <span>{isCs ? "Detail architektury" : "Деталі архітектури"}</span>
-                    <span className="w-7 h-7 rounded-full bg-[#22222e] text-[#ededf0] flex items-center justify-center">
+                    <span>{isCs ? "Můj Home Lab" : "Мій Home Lab"}</span>
+                    <span className="w-7 h-7 rounded-full bg-[#22222e] text-[#ededf0] flex items-center justify-center shrink-0">
                       <ArrowRight size={14} />
                     </span>
                   </a>
@@ -598,8 +590,8 @@ export default function WheelPortfolio() {
             </div>
 
             {/* TILE 02 — L2/L3 Networking & Cisco CCNA */}
-            <div className="lg:row-span-2 group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-gradient-to-b from-[#111015] via-[#0a0a0e] to-[#070709] p-5 sm:p-6 min-h-[370px] lg:min-h-[440px] flex flex-col justify-between transition-colors">
-              <div className="flex items-center justify-between gap-2">
+            <div className="lg:row-span-2 min-w-0 group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-gradient-to-b from-[#111015] via-[#0a0a0e] to-[#070709] p-4 sm:p-6 min-h-[310px] sm:min-h-[360px] lg:min-h-[440px] flex flex-col justify-between transition-colors">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium bg-[#121219] border border-[#232330] text-[#d8d8de]">
                   {isCs ? "02 · Sítě L2/L3 & Bezpečnost" : "02 · Мережі L2/L3 & Безпека"}
                 </span>
@@ -607,7 +599,7 @@ export default function WheelPortfolio() {
               </div>
 
               {/* Solid Dark Icon Dock */}
-              <div className="my-7 flex items-center justify-center">
+              <div className="my-5 sm:my-7 flex items-center justify-center">
                 <div className="p-2.5 rounded-[20px] bg-[#111218] border border-[#232532] shadow-xl flex items-center gap-2.5">
                   <div className="w-14 h-14 rounded-[14px] bg-[#17130c] border border-amber-500/25 flex flex-col items-center justify-center text-amber-400">
                     <Network size={21} />
@@ -622,13 +614,13 @@ export default function WheelPortfolio() {
 
               <div className="space-y-4">
                 <div>
-                  <h2 className="text-[22px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#ededf0]">
+                  <h2 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#ededf0]">
                     MikroTik, OSPF/VRF &amp; VLAN
                   </h2>
-                  <p className="text-[13.5px] leading-[1.5] text-[#8e8e9a] mt-1.5">
+                  <p className="text-[13px] sm:text-[13.5px] leading-[1.5] text-[#8e8e9a] mt-1.5">
                     {isCs
-                      ? "Šifrované WireGuard site-to-site tunely, dynamické směrování OSPF, izolace VRF tabulek, 802.1Q VLAN (CZ/UA) a AD DS / GPO."
-                      : "Шифровані WireGuard site-to-site тунелі, динамічна маршрутизація OSPF, ізоляція таблиць VRF, 802.1Q VLAN (CZ/UA) та AD DS / GPO."}
+                      ? "Stavím šifrované WireGuard site-to-site tunely, nastavuji dynamické směrování OSPF, izolaci VRF tabulek, 802.1Q VLAN (CZ/UA) i AD DS / GPO."
+                      : "Будую шифровані WireGuard site-to-site тунелі, налаштовую динамічну маршрутизацію OSPF, ізоляцію VRF, 802.1Q VLAN (CZ/UA) та AD DS / GPO."}
                   </p>
                 </div>
 
@@ -638,7 +630,7 @@ export default function WheelPortfolio() {
                     className="h-10 pl-4 pr-1.5 rounded-full border border-[#262633] bg-[#111117] hover:bg-[#181822] hover:border-[#363648] inline-flex items-center gap-3 text-[13px] font-medium text-[#ededf0] transition-colors"
                   >
                     <span>Cisco CCNA (2×)</span>
-                    <span className="w-7 h-7 rounded-full bg-[#22222e] text-[#ededf0] flex items-center justify-center">
+                    <span className="w-7 h-7 rounded-full bg-[#22222e] text-[#ededf0] flex items-center justify-center shrink-0">
                       <ArrowRight size={14} />
                     </span>
                   </a>
@@ -647,7 +639,7 @@ export default function WheelPortfolio() {
             </div>
 
             {/* TILE 03 — C# (.NET) & Backend */}
-            <div className="group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-[#0b0b0f] p-5 flex flex-col justify-between min-h-[212px] transition-colors">
+            <div className="min-w-0 group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-[#0b0b0f] p-4 sm:p-5 flex flex-col justify-between min-h-[200px] sm:min-h-[212px] transition-colors">
               <div className="flex items-center justify-between gap-2">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium bg-[#121218] border border-[#22222d] text-[#d8d8de]">
                   03 · C# (.NET) &amp; API
@@ -661,28 +653,28 @@ export default function WheelPortfolio() {
                 </h2>
                 <p className="text-[12.5px] leading-[1.45] text-[#8e8e9a] mt-1">
                   {isCs
-                    ? "Generics, LINQ, async/await, System.Reflection a vlastní HTTP 206 streamovací File Server."
-                    : "Generics, LINQ, async/await, System.Reflection та власний HTTP 206 потоковий File Server."}
+                    ? "V C# si zakládám na čistém OOP, Generics, LINQ, async/await, System.Reflection a HTTP 206 Range streaming API."
+                    : "У C# роблю акцент на чистому ООП, Generics, LINQ, async/await, System.Reflection та потоковому HTTP 206 Range API."}
                 </p>
 
                 <div className="mt-4 pt-3 border-t border-[#181820] flex items-center justify-between">
                   <span className="text-[12px] font-mono text-[#7c7c88]">.NET · TypeScript</span>
-                  <Link
-                    href="/uploadFile"
+                  <a
+                    href="#credentials"
                     className="w-8 h-8 rounded-full bg-[#191922] hover:bg-[#252532] border border-[#2a2a38] text-[#ededf0] flex items-center justify-center transition-colors"
-                    aria-label="Open File Server"
+                    aria-label="View technical stack"
                   >
                     <ArrowRight size={14} />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* TILE 04 — 4x Commercial Web Production */}
-            <div className="group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-[#0b0b0f] p-5 flex flex-col justify-between min-h-[212px] transition-colors">
+            <div className="min-w-0 group rounded-[10px] border border-[#1c1c24] hover:border-[#2c2c3a] bg-[#0b0b0f] p-4 sm:p-5 flex flex-col justify-between min-h-[200px] sm:min-h-[212px] transition-colors">
               <div className="flex items-center justify-between gap-2">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium bg-[#121218] border border-[#22222d] text-[#d8d8de]">
-                  {isCs ? "04 · Komerční weby" : "04 · Комерційний веб"}
+                  {isCs ? "04 · Moje komerční weby" : "04 · Мої комерційні сайти"}
                 </span>
                 <Globe size={17} className="text-[#3fbf7f]" />
               </div>
@@ -693,8 +685,8 @@ export default function WheelPortfolio() {
                 </h2>
                 <p className="text-[12.5px] leading-[1.45] text-[#8e8e9a] mt-1">
                   {isCs
-                    ? "Next.js 15 platformy s rezervacemi, kalkulačkami ceny, Schema.org SEO a i18n."
-                    : "Next.js 15 платформи з бронюванням, калькуляторами вартості, Schema.org SEO та i18n."}
+                    ? "Navrhl jsem a nasadil Next.js 15 platformy s rezervacemi, kalkulačkami ceny, Schema.org SEO a i18n."
+                    : "Спроєктував і запустив Next.js 15 платформи з бронюванням, калькуляторами вартості, Schema.org SEO та i18n."}
                 </p>
 
                 <div className="mt-4 pt-3 border-t border-[#181820] flex items-center justify-between">
@@ -787,14 +779,14 @@ export default function WheelPortfolio() {
       {/* ═══════════════════════════════════════════════════════════════════════
           4. SHOWCASE 01 (5fr / 7fr SPLIT) — HOME LAB, CI/CD & MIKROTIK
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section id="homelab" className="cv-auto bg-[#070709] py-20 sm:py-28 border-b border-[#16161c]">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          <div className="lg:col-span-5 space-y-6">
+      <section id="homelab" className="cv-auto bg-[#070709] py-16 sm:py-28 border-b border-[#16161c]">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
+          <div className="lg:col-span-5 min-w-0 space-y-5 sm:space-y-6">
             <span className="inline-flex items-center px-3.5 py-1 rounded-full text-[12px] font-medium border border-[#242430] bg-[#0f0f14] text-[#d8d8de]">
               01 · Home Lab · 24/7 Self-Hosted
             </span>
 
-            <h3 className="font-serif text-[32px] sm:text-[40px] leading-[1.05] tracking-[-0.025em] text-[#ededf0]">
+            <h3 className="font-serif text-[28px] sm:text-[40px] leading-[1.07] tracking-[-0.025em] text-[#ededf0]">
               {t.projects[0].title}
             </h3>
 
@@ -806,25 +798,27 @@ export default function WheelPortfolio() {
               {[
                 {
                   num: "01",
-                  text: "Self-hosted systemd GitHub Actions Runner + multi-stage Alpine Docker (non-root)",
+                  text: isCs
+                    ? "Nasadil jsem si vlastní systemd GitHub Actions Runner a multi-stage Alpine Docker (non-root)"
+                    : "Розгорнув власний systemd GitHub Actions Runner та multi-stage Alpine Docker (non-root)",
                 },
                 {
                   num: "02",
                   text: isCs
-                    ? "Cloudflare Zero-Trust Tunnels — publikace bez jediného otevřeného WAN portu"
-                    : "Cloudflare Zero-Trust Tunnels — публікація без жодного відкритого WAN-порту",
+                    ? "Služby publikuji přes Cloudflare Zero-Trust Tunnels — nemám otevřený ani jeden WAN port"
+                    : "Публікую сервіси через Cloudflare Zero-Trust Tunnels — без жодного відкритого WAN-порту",
                 },
                 {
                   num: "03",
                   text: isCs
-                    ? "MikroTik RouterOS: WireGuard Site-to-Site VPN, OSPF, VRF a 802.1Q CZ/UA VLAN"
-                    : "MikroTik RouterOS: WireGuard Site-to-Site VPN, OSPF, VRF та 802.1Q CZ/UA VLAN",
+                    ? "Na MikroTiku jsem nastavil WireGuard Site-to-Site VPN, OSPF, VRF a 802.1Q CZ/UA VLAN"
+                    : "На MikroTik налаштував WireGuard Site-to-Site VPN, OSPF, VRF та 802.1Q CZ/UA VLAN",
                 },
                 {
                   num: "04",
                   text: isCs
-                    ? "Home Assistant, Mosquitto MQTT, Zigbee2MQTT a Frigate AI NVR v Docker Compose"
-                    : "Home Assistant, Mosquitto MQTT, Zigbee2MQTT та Frigate AI NVR у Docker Compose",
+                    ? "V Docker Compose spravuji Home Assistant, Mosquitto MQTT, Zigbee2MQTT a Frigate AI NVR"
+                    : "У Docker Compose підтримую Home Assistant, Mosquitto MQTT, Zigbee2MQTT і Frigate AI NVR",
                 },
               ].map((pt) => (
                 <div key={pt.num} className="py-3 flex items-baseline gap-3.5">
@@ -853,15 +847,15 @@ export default function WheelPortfolio() {
             </div>
           </div>
 
-          {/* Right 7 Cols: Solid Obsidian Showcase + Alert Card */}
-          <div className="lg:col-span-7">
-            <div className="relative rounded-[10px] border border-[#1d1d26] bg-[#0b0b0f] p-5 sm:p-7 shadow-2xl">
+          {/* Right 7 Cols: Solid Obsidian Showcase + Alert Card (no overlap at any breakpoint) */}
+          <div className="lg:col-span-7 min-w-0">
+            <div className="rounded-[10px] border border-[#1d1d26] bg-[#0b0b0f] p-4 sm:p-7 shadow-2xl space-y-4">
               {/* Crisp Dark Status Alert Card */}
-              <div className="sm:absolute sm:top-5 sm:right-5 z-20 mb-5 sm:mb-0 max-w-[290px] rounded-[14px] bg-[#121219] border border-[#262635] px-4 py-3 shadow-xl">
+              <div className="w-full sm:max-w-[310px] sm:ml-auto rounded-[14px] bg-[#121219] border border-[#262635] px-4 py-3 shadow-xl">
                 <div className="flex items-center justify-between gap-3 text-[10.5px] font-mono uppercase tracking-wider text-[#8e8e9a]">
                   <span className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#3fbf7f]" />
-                    GITHUB RUNNER · PROD
+                    <span className="w-2 h-2 rounded-full bg-[#3fbf7f] shrink-0" />
+                    <span>GITHUB RUNNER · PROD</span>
                   </span>
                   <span>live</span>
                 </div>
@@ -873,17 +867,17 @@ export default function WheelPortfolio() {
                 </div>
               </div>
 
-              <div className="rounded-[10px] border border-[#181820] bg-[#060608] p-5 sm:p-6 font-mono text-[12px] space-y-5 sm:mt-14">
-                <div className="flex items-center justify-between pb-3 border-b border-[#15151c]">
-                  <div className="flex items-center gap-2 text-[#8e8e9a]">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#22222b]" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#22222b]" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#22222b]" />
-                    <span className="ml-2 text-[11px] text-[#7c7c88]">
+              <div className="rounded-[10px] border border-[#181820] bg-[#060608] p-4 sm:p-6 font-mono text-[12px] space-y-4 sm:space-y-5">
+                <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#15151c]">
+                  <div className="flex items-center gap-2 text-[#8e8e9a] min-w-0">
+                    <span className="hidden sm:inline-block w-2.5 h-2.5 rounded-full bg-[#22222b] shrink-0" />
+                    <span className="hidden sm:inline-block w-2.5 h-2.5 rounded-full bg-[#22222b] shrink-0" />
+                    <span className="hidden sm:inline-block w-2.5 h-2.5 rounded-full bg-[#22222b] shrink-0" />
+                    <span className="sm:ml-2 text-[11px] text-[#7c7c88] truncate">
                       GET /infra/topology — roman-homelab
                     </span>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-[#0c2016] border border-[#1b4630] text-[#3fbf7f] text-[10.5px]">
+                  <span className="px-2 py-0.5 rounded bg-[#0c2016] border border-[#1b4630] text-[#3fbf7f] text-[10.5px] shrink-0">
                     VERIFIED
                   </span>
                 </div>
@@ -916,17 +910,17 @@ export default function WheelPortfolio() {
       {/* ═══════════════════════════════════════════════════════════════════════
           5. SHOWCASE 02 & SUBGRID 03 / 04 — 4 LIVE COMMERCIAL WEB SYSTEMS
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section id="commercial" className="cv-auto bg-[#050507] py-20 sm:py-28 border-b border-[#16161c]">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 space-y-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            <div className="lg:col-span-7 order-2 lg:order-1">
+      <section id="commercial" className="cv-auto bg-[#050507] py-16 sm:py-28 border-b border-[#16161c]">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 space-y-16 sm:space-y-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-7 min-w-0 order-2 lg:order-1">
               <div className="rounded-[10px] border border-[#1c1c24] bg-[#0a0a0e] p-4 sm:p-7 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="inline-flex p-1 rounded-full bg-[#060608] border border-[#1a1a22]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                  <div className="grid grid-cols-1 sm:inline-flex p-1 gap-1 rounded-2xl sm:rounded-full bg-[#060608] border border-[#1a1a22]">
                     <button
                       type="button"
                       onClick={() => setActiveWebShowcase(0)}
-                      className={`px-3.5 py-1 rounded-full text-[12px] font-medium transition-colors cursor-pointer ${
+                      className={`px-3.5 py-1.5 sm:py-1 rounded-xl sm:rounded-full text-[12px] font-medium transition-colors cursor-pointer truncate ${
                         activeWebShowcase === 0
                           ? "bg-[#1c1c26] text-[#ededf0] border border-[#2e2e3e]"
                           : "text-[#7c7c88] hover:text-[#ededf0]"
@@ -937,7 +931,7 @@ export default function WheelPortfolio() {
                     <button
                       type="button"
                       onClick={() => setActiveWebShowcase(1)}
-                      className={`px-3.5 py-1 rounded-full text-[12px] font-medium transition-colors cursor-pointer ${
+                      className={`px-3.5 py-1.5 sm:py-1 rounded-xl sm:rounded-full text-[12px] font-medium transition-colors cursor-pointer truncate ${
                         activeWebShowcase === 1
                           ? "bg-[#1c1c26] text-[#ededf0] border border-[#2e2e3e]"
                           : "text-[#7c7c88] hover:text-[#ededf0]"
@@ -947,7 +941,7 @@ export default function WheelPortfolio() {
                     </button>
                   </div>
 
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0b1f15] border border-[#1c4430] text-[11px] font-mono text-[#3fbf7f]">
+                  <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0b1f15] border border-[#1c4430] text-[11px] font-mono text-[#3fbf7f] shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#3fbf7f]" />
                     200 OK · LIVE
                   </span>
@@ -955,11 +949,11 @@ export default function WheelPortfolio() {
 
                 {activeWebShowcase === 0 ? (
                   <div className="rounded-[10px] border border-[#181820] bg-[#060608] overflow-hidden">
-                    <div className="px-4 py-2.5 border-b border-[#15151c] flex items-center justify-between text-[11px] font-mono text-[#7c7c88]">
-                      <span>https://bowlingovyclubsv.cz</span>
-                      <span>Next.js · SSR/SSG · Schema.org</span>
+                    <div className="px-4 py-2.5 border-b border-[#15151c] flex items-center justify-between gap-2 text-[11px] font-mono text-[#7c7c88]">
+                      <span className="truncate">https://bowlingovyclubsv.cz</span>
+                      <span className="hidden sm:inline shrink-0">Next.js · SSR/SSG · Schema.org</span>
                     </div>
-                    <div className="p-6 sm:p-8 space-y-5">
+                    <div className="p-4 sm:p-8 space-y-4 sm:space-y-5">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="text-[11px] font-mono uppercase tracking-wider text-[#7c7c88]">
                           Týniště nad Orlicí · ČR
@@ -974,12 +968,12 @@ export default function WheelPortfolio() {
                       <p className="text-[13.5px] text-[#8e8e9a] leading-relaxed">
                         {t.projects[1].description}
                       </p>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 font-mono text-[11px]">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 pt-1 font-mono text-[11px]">
                         {["Dráha 01 · Volno", "Dráha 02 · 19:00", "Dráha 03 · Volno", "Dráha 04 · Turnaj"].map(
                           (slot, i) => (
                             <div
                               key={slot}
-                              className={`rounded-lg border p-2.5 text-center ${
+                              className={`rounded-lg border p-2 sm:p-2.5 text-center ${
                                 i === 1
                                   ? "border-[#1f4d35] bg-[#0b1f15] text-[#3fbf7f]"
                                   : "border-[#181820] bg-[#0b0b0f] text-[#8e8e9a]"
@@ -994,11 +988,11 @@ export default function WheelPortfolio() {
                   </div>
                 ) : (
                   <div className="rounded-[10px] border border-[#181820] bg-[#060608] overflow-hidden">
-                    <div className="px-4 py-2.5 border-b border-[#15151c] flex items-center justify-between text-[11px] font-mono text-[#7c7c88]">
-                      <span>https://www.luxury-cleaning-solutions.ca</span>
-                      <span>Edmonton, Alberta · Canada</span>
+                    <div className="px-4 py-2.5 border-b border-[#15151c] flex items-center justify-between gap-2 text-[11px] font-mono text-[#7c7c88]">
+                      <span className="truncate">https://www.luxury-cleaning-solutions.ca</span>
+                      <span className="hidden sm:inline shrink-0">Edmonton, Alberta · Canada</span>
                     </div>
-                    <div className="p-6 sm:p-8 space-y-5">
+                    <div className="p-4 sm:p-8 space-y-4 sm:space-y-5">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="text-[11px] font-mono uppercase tracking-wider text-[#7c7c88]">
                           B2B &amp; B2C Platform · Canada
@@ -1013,7 +1007,7 @@ export default function WheelPortfolio() {
                       <p className="text-[13.5px] text-[#8e8e9a] leading-relaxed">
                         {t.projects[2].description}
                       </p>
-                      <div className="rounded-xl border border-[#181820] bg-[#0b0b0f] p-4 flex items-center justify-between">
+                      <div className="rounded-xl border border-[#181820] bg-[#0b0b0f] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div>
                           <div className="text-[11px] font-mono uppercase text-[#7c7c88]">
                             Real-Time Quote Calculator
@@ -1022,7 +1016,7 @@ export default function WheelPortfolio() {
                             Deep Clean · 3 Bedrooms · Eco Package
                           </div>
                         </div>
-                        <div className="font-serif text-2xl text-[#ededf0]">$185 CAD</div>
+                        <div className="font-serif text-2xl text-[#ededf0] shrink-0">$185 CAD</div>
                       </div>
                     </div>
                   </div>
@@ -1030,15 +1024,15 @@ export default function WheelPortfolio() {
               </div>
             </div>
 
-            <div className="lg:col-span-5 order-1 lg:order-2 space-y-5">
+            <div className="lg:col-span-5 min-w-0 order-1 lg:order-2 space-y-5">
               <span className="inline-flex items-center px-3.5 py-1 rounded-full text-[12px] font-medium border border-[#242430] bg-[#0e0e13] text-[#d8d8de]">
                 {isCs ? "02 · Komerční produkce · ČR & Kanada" : "02 · Комерційний продакшн · ЧР & Канада"}
               </span>
 
-              <h3 className="font-serif text-[32px] sm:text-[40px] leading-[1.05] tracking-[-0.025em] text-[#ededf0]">
+              <h3 className="font-serif text-[28px] sm:text-[40px] leading-[1.07] tracking-[-0.025em] text-[#ededf0]">
                 {isCs
-                  ? "Komerční systémy postavené pro reálný provoz."
-                  : "Комерційні системи, створені для реального бізнесу."}
+                  ? "Komerční weby, které jsem postavil pro reálný provoz."
+                  : "Комерційні системи, які я створив для реального бізнесу."}
               </h3>
 
               <p className="text-[15px] leading-[1.58] text-[#8e8e9a]">
@@ -1070,14 +1064,14 @@ export default function WheelPortfolio() {
 
           {/* Equal 2-Column Subgrid (03 Boxing Club Nikita & 04 TDHP) */}
           <div className="pt-12 border-t border-[#16161c] grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-[10px] border border-[#1b1b24] bg-[#0a0a0e] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div className="min-w-0 rounded-[10px] border border-[#1b1b24] bg-[#0a0a0e] p-5 sm:p-8 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-[11.5px] font-medium border border-[#23232f] bg-[#101016] text-[#d8d8de]">
                   03 · nikita-box.cz · CZ / UA i18n
                 </span>
 
-                <div className="flex items-end justify-between gap-4">
-                  <h3 className="font-serif text-[28px] sm:text-[32px] leading-[1.08] tracking-[-0.02em] text-[#ededf0]">
+                <div className="flex flex-col items-start sm:flex-row sm:items-end justify-between gap-3">
+                  <h3 className="font-serif text-[25px] sm:text-[32px] leading-[1.1] tracking-[-0.02em] text-[#ededf0]">
                     {t.projects[3].title}
                   </h3>
                   <a
@@ -1091,17 +1085,17 @@ export default function WheelPortfolio() {
                   </a>
                 </div>
 
-                <p className="text-[14.5px] leading-[1.55] text-[#8e8e9a]">
+                <p className="text-[14px] sm:text-[14.5px] leading-[1.55] text-[#8e8e9a]">
                   {t.projects[3].description}
                 </p>
               </div>
 
               <div className="rounded-[8px] border border-[#17171f] bg-[#060608] p-4 space-y-3">
-                <div className="flex items-center justify-between font-mono text-[11px] text-[#7c7c88]">
-                  <span>HRADEC KRÁLOVÉ · SPORT CLUB</span>
-                  <span className="text-[#3fbf7f]">CZ / UA</span>
+                <div className="flex items-center justify-between gap-2 font-mono text-[11px] text-[#7c7c88]">
+                  <span className="truncate">HRADEC KRÁLOVÉ · SPORT CLUB</span>
+                  <span className="text-[#3fbf7f] shrink-0">CZ / UA</span>
                 </div>
-                <div className="grid grid-cols-3 gap-2 font-mono text-[11px]">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[11px]">
                   <div className="rounded bg-[#0d0d12] border border-[#191922] p-2.5 text-[#d8d8de]">
                     Po/St · 16:30
                   </div>
@@ -1115,14 +1109,14 @@ export default function WheelPortfolio() {
               </div>
             </div>
 
-            <div className="rounded-[10px] border border-[#1b1b24] bg-[#0a0a0e] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div className="min-w-0 rounded-[10px] border border-[#1b1b24] bg-[#0a0a0e] p-5 sm:p-8 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-[11.5px] font-medium border border-[#23232f] bg-[#101016] text-[#d8d8de]">
                   04 · honzapokusil.cz · Stage &amp; Repertoire
                 </span>
 
-                <div className="flex items-end justify-between gap-4">
-                  <h3 className="font-serif text-[28px] sm:text-[32px] leading-[1.08] tracking-[-0.02em] text-[#ededf0]">
+                <div className="flex flex-col items-start sm:flex-row sm:items-end justify-between gap-3">
+                  <h3 className="font-serif text-[25px] sm:text-[32px] leading-[1.1] tracking-[-0.02em] text-[#ededf0]">
                     {t.projects[4].title}
                   </h3>
                   <a
@@ -1136,17 +1130,17 @@ export default function WheelPortfolio() {
                   </a>
                 </div>
 
-                <p className="text-[14.5px] leading-[1.55] text-[#8e8e9a]">
+                <p className="text-[14px] sm:text-[14.5px] leading-[1.55] text-[#8e8e9a]">
                   {t.projects[4].description}
                 </p>
               </div>
 
               <div className="rounded-[8px] border border-[#17171f] bg-[#060608] p-4 space-y-3">
-                <div className="flex items-center justify-between font-mono text-[11px] text-[#7c7c88]">
-                  <span>TDHP · CONTEMPORARY THEATRE</span>
-                  <span className="text-[#3fbf7f]">200 OK</span>
+                <div className="flex items-center justify-between gap-2 font-mono text-[11px] text-[#7c7c88]">
+                  <span className="truncate">TDHP · CONTEMPORARY THEATRE</span>
+                  <span className="text-[#3fbf7f] shrink-0">200 OK</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 font-mono text-[11px]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-[11px]">
                   <div className="rounded bg-[#0d0d12] border border-[#191922] p-2.5 text-[#d8d8de]">
                     Repertoár &amp; Premiéry
                   </div>
@@ -1168,53 +1162,58 @@ export default function WheelPortfolio() {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="font-serif text-[clamp(32px,3.8vw,56px)] leading-[1.04] tracking-[-0.025em]">
               <span className="text-[#ededf0]">
-                {isCs ? "Ověřeno v produkci," : "Перевірено в продакшні,"}
+                {isCs ? "Vše si ověřuji v praxi —" : "Усе перевіряю на практиці —"}
               </span>{" "}
               <span className="text-[#6e6e7c]">
                 {isCs
-                  ? "v živých sálech ISSS i ve vlastním Home Labu."
-                  : "у залах конференції ISSS та у власному Home Lab."}
+                  ? "u klientů, v sálech ISSS i doma v Home Labu."
+                  : "у клієнтів, у залах ISSS та у власному Home Lab."}
               </span>
             </h2>
             <p className="text-[15.5px] text-[#8e8e9a]">
               {isCs
-                ? "Kombinace technické specializace na SŠ Kyberna, Cisco CCNA certifikací a reálné odpovědnosti za běžící systémy."
-                : "Поєднання профільної ІТ-освіти в SŠ Kyberna, сертифікацій Cisco CCNA та реальної відповідальності за живі системи."}
+                ? "Spojuji technické vzdělání ze SŠ Kyberna, moje Cisco CCNA certifikace a reálnou odpovědnost za systémy, které denně běží."
+                : "Поєдную профільну ІТ-освіту в SŠ Kyberna, свої сертифікати Cisco CCNA та особисту відповідальність за системи, які працюють щодня."}
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 border-y border-[#17171f] divide-y lg:divide-y-0 lg:divide-x divide-[#17171f] bg-[#07070a]">
+          <div className="grid grid-cols-2 lg:grid-cols-4 border-y border-[#17171f] bg-[#07070a]">
             {[
               {
                 val: "4+",
                 label: isCs
-                  ? "Komerční weby v produkci (ČR & Kanada)"
-                  : "Комерційні сайти в продакшні (ЧР & Канада)",
+                  ? "Komerční weby, které jsem nasadil (ČR & Kanada)"
+                  : "Комерційні сайти, які я запустив (ЧР & Канада)",
               },
               {
                 val: "6×",
                 label: isCs
-                  ? "Oficiální Cisco CCNA, Linux & IT certifikáty"
-                  : "Офіційні Cisco CCNA, Linux & IT сертифікати",
+                  ? "Moje oficiální Cisco CCNA, Linux & IT certifikáty"
+                  : "Мої офіційні Cisco CCNA, Linux & IT сертифікати",
               },
               {
                 val: "24/7",
                 label: isCs
-                  ? "Vlastní Linux, Docker CI/CD & Zero-Trust Home Lab"
-                  : "Власний Linux, Docker CI/CD & Zero-Trust Home Lab",
+                  ? "Můj vlastní Linux, Docker CI/CD & Zero-Trust Home Lab"
+                  : "Мій власний Linux, Docker CI/CD & Zero-Trust Home Lab",
               },
               {
                 val: "3×",
                 label: isCs
-                  ? "Ročníky 2024–2026 v IT Support týmu konference ISSS"
-                  : "Роки 2024–2026 в IT Support міжнародної конференції ISSS",
+                  ? "Moje účast v IT Support týmu konference ISSS (2024–2026)"
+                  : "Моя робота в IT Support конференції ISSS (2024–2026)",
               },
             ].map((m, i) => (
-              <div key={i} className="p-6 sm:p-8 text-center space-y-2">
-                <div className="text-[40px] sm:text-[52px] font-normal tracking-[-0.03em] text-[#ededf0] leading-none">
+              <div
+                key={i}
+                className={`p-5 sm:p-8 text-center space-y-2 border-[#17171f] ${
+                  i % 2 === 1 ? "border-l" : ""
+                } ${i >= 2 ? "border-t lg:border-t-0" : ""} ${i >= 1 ? "lg:border-l" : ""}`}
+              >
+                <div className="text-[32px] sm:text-[46px] lg:text-[52px] font-normal tracking-[-0.03em] text-[#ededf0] leading-none">
                   {m.val}
                 </div>
-                <p className="text-[13px] sm:text-[14px] text-[#8e8e9a] max-w-[230px] mx-auto leading-snug">
+                <p className="text-[12px] sm:text-[14px] text-[#8e8e9a] max-w-[230px] mx-auto leading-snug">
                   {m.label}
                 </p>
               </div>
@@ -1391,7 +1390,7 @@ export default function WheelPortfolio() {
             ))}
           </div>
 
-          <div className="pt-10 border-t border-[#16161c] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="pt-10 border-t border-[#16161c] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {t.skillCats.map((cat) => (
               <div key={cat.title} className="space-y-3">
                 <h4 className="text-[12px] font-medium text-[#7c7c88]">{cat.title}</h4>
@@ -1414,10 +1413,10 @@ export default function WheelPortfolio() {
       {/* ═══════════════════════════════════════════════════════════════════════
           8. DEEP DARK EDITORIAL MULTI-COLUMN FOOTER
       ═══════════════════════════════════════════════════════════════════════ */}
-      <footer className="cv-auto bg-[#040405] pt-16 sm:pt-24 pb-20">
+      <footer className="cv-auto bg-[#040405] pt-14 sm:pt-24 pb-24">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 min-h-[280px]">
-            <div className="lg:col-span-5 flex flex-col justify-between gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 min-h-[280px]">
+            <div className="lg:col-span-5 flex flex-col justify-between gap-8 sm:gap-10">
               <div className="space-y-4">
                 <a href="#top" className="inline-flex items-center gap-2.5">
                   <StarburstMark className="w-5 h-5 text-[#ededf0]" />
@@ -1436,12 +1435,12 @@ export default function WheelPortfolio() {
               </div>
             </div>
 
-            <div className="lg:col-span-7 grid grid-cols-2 gap-x-10 gap-y-10">
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8 sm:gap-y-10">
               <div className="space-y-2.5">
                 <span className="text-[12px] text-[#7c7c88] block">
                   {isCs ? "Komerční produkce" : "Комерційний продакшн"}
                 </span>
-                <ul className="space-y-1.5 font-serif text-[20px] sm:text-[22px] text-[#ededf0]">
+                <ul className="space-y-1.5 font-serif text-[19px] sm:text-[22px] text-[#ededf0]">
                   <li>
                     <a
                       href="https://bowlingovyclubsv.cz/"
@@ -1489,16 +1488,10 @@ export default function WheelPortfolio() {
                 <span className="text-[12px] text-[#7c7c88] block">
                   {isCs ? "Systémy & Dokumenty" : "Системи & Документи"}
                 </span>
-                <ul className="space-y-1.5 font-serif text-[20px] sm:text-[22px] text-[#ededf0]">
+                <ul className="space-y-1.5 font-serif text-[19px] sm:text-[22px] text-[#ededf0]">
                   <li>
                     <Link href="/cv" className="editorial-link">
-                      {isCs ? "Technické CV (PDF)" : "Технічне CV (PDF)"}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/uploadFile" className="editorial-link inline-flex items-center gap-2">
-                      <span>File Server</span>
-                      <FolderOpen size={16} className="text-[#7c7c88]" />
+                      {isCs ? "Moje CV (PDF)" : "Моє CV (PDF)"}
                     </Link>
                   </li>
                   <li>
@@ -1514,11 +1507,11 @@ export default function WheelPortfolio() {
                 </ul>
               </div>
 
-              <div className="space-y-2.5 col-span-2 pt-3 border-t border-[#15151b]">
+              <div className="space-y-2.5 sm:col-span-2 pt-3 border-t border-[#15151b]">
                 <span className="text-[12px] text-[#7c7c88] block">
                   {isCs ? "Přímý kontakt" : "Прямий контакт"}
                 </span>
-                <div className="flex flex-wrap items-center gap-x-8 gap-y-2 font-serif text-[20px] sm:text-[22px] text-[#ededf0]">
+                <div className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-2 font-serif text-[18px] sm:text-[22px] text-[#ededf0]">
                   <button
                     type="button"
                     onClick={openContact}
@@ -1526,7 +1519,7 @@ export default function WheelPortfolio() {
                   >
                     {isCs ? "Napsat zprávu" : "Написати повідомлення"}
                   </button>
-                  <a href="mailto:romanroskanuk74@gmail.com" className="editorial-link">
+                  <a href="mailto:romanroskanuk74@gmail.com" className="editorial-link break-all sm:break-normal">
                     romanroskanuk74@gmail.com
                   </a>
                   <a href="tel:+420605447445" className="editorial-link">
@@ -1559,9 +1552,9 @@ export default function WheelPortfolio() {
       <button
         type="button"
         onClick={openContact}
-        className="fixed right-5 bottom-4 z-40 h-11 px-5 rounded-full bg-[#13131a] hover:bg-[#1c1c26] border border-[#2c2c3c] text-[#ededf0] text-[13.5px] font-medium shadow-2xl inline-flex items-center gap-2 cursor-pointer transition-colors"
+        className="fixed right-3.5 sm:right-5 bottom-3.5 sm:bottom-4 z-40 h-10 sm:h-11 px-4 sm:px-5 rounded-full bg-[#13131a] hover:bg-[#1c1c26] border border-[#2c2c3c] text-[#ededf0] text-[12.5px] sm:text-[13.5px] font-medium shadow-2xl inline-flex items-center gap-2 cursor-pointer transition-colors"
       >
-        <span className="w-2 h-2 rounded-full bg-[#3fbf7f]" />
+        <span className="w-2 h-2 rounded-full bg-[#3fbf7f] shrink-0" />
         <span>{t.headerCta}</span>
       </button>
 
@@ -1576,7 +1569,7 @@ export default function WheelPortfolio() {
       {/* In-Browser Certificate PDF Modal */}
       {previewCert && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex flex-col"
+          className="fixed inset-0 z-50 h-[100dvh] bg-black/90 flex flex-col"
           onClick={() => setPreviewCert(null)}
         >
           <div

@@ -29,6 +29,9 @@ import {
   ArrowLeft,
   Loader2,
   FolderOpen,
+  Lock,
+  LogOut,
+  EyeOff,
 } from "lucide-react";
 
 interface FileEntry {
@@ -98,6 +101,13 @@ function renderFileTypeIcon(name: string, size = 18) {
 }
 
 export default function FileServerPage() {
+  const [authChecking, setAuthChecking] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [authSubmitting, setAuthSubmitting] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -118,20 +128,61 @@ export default function FileServerPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchFiles = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/files");
+      if (res.status === 401) {
+        setAuthenticated(false);
+        setFiles([]);
+        return;
+      }
       const data = await res.json();
+      setAuthenticated(true);
       setFiles(data.files ?? []);
     } catch {
       setFiles([]);
     } finally {
       setLoading(false);
+      setAuthChecking(false);
     }
   }, []);
 
   useEffect(() => {
     fetchFiles();
   }, [fetchFiles]);
+
+  const handleUnlock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!passwordInput.trim()) return;
+    setAuthSubmitting(true);
+    setAuthError(null);
+    try {
+      const res = await fetch("/api/files/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passwordInput }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setAuthError(data.error || "Невірний пароль.");
+        return;
+      }
+      setPasswordInput("");
+      setAuthenticated(true);
+      await fetchFiles();
+    } catch {
+      setAuthError("Не вдалося підключитися до сервера.");
+    } finally {
+      setAuthSubmitting(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/files/auth", { method: "DELETE" }).catch(() => {});
+    setPreviewIndex(null);
+    setFiles([]);
+    setAuthenticated(false);
+  };
 
   const deferredSearch = useDeferredValue(search);
 
@@ -274,25 +325,113 @@ export default function FileServerPage() {
   const inlineUrl = (name: string) => `/api/files/${encodeURIComponent(name)}`;
   const downloadUrl = (name: string) => `/api/files/${encodeURIComponent(name)}?download=1`;
 
+  if (authChecking) {
+    return (
+      <div className="min-h-screen bg-[#070709] text-[#ededf0] flex items-center justify-center px-4">
+        <Loader2 size={24} className="animate-spin text-[#8e8e9a]" />
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen bg-[#070709] text-[#ededf0] flex items-center justify-center px-4">
+        <div className="w-full max-w-sm rounded-2xl border border-[#1d1d26] bg-[#0b0b0f] p-6 sm:p-8 shadow-2xl space-y-6">
+          <div className="space-y-2 text-center">
+            <div className="w-12 h-12 mx-auto rounded-full bg-[#121219] border border-[#242430] flex items-center justify-center text-[#ededf0]">
+              <Lock size={19} />
+            </div>
+            <h1 className="font-serif text-2xl text-[#ededf0]">Приватне сховище</h1>
+            <p className="text-[13px] text-[#7c7c88]">
+              Введіть пароль для доступу до файлів
+            </p>
+          </div>
+
+          <form onSubmit={handleUnlock} className="space-y-3.5">
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="Пароль доступу"
+                autoFocus
+                required
+                className="w-full bg-[#07070a] border border-[#1f1f29] rounded-xl pl-4 pr-10 py-2.5 text-[16px] sm:text-[13.5px] text-[#ededf0] placeholder:text-[#6e6e7a] focus:outline-none focus:border-[#3a3a4b] transition-colors"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7c7c88] hover:text-[#ededf0] cursor-pointer"
+                aria-label="Показати або приховати пароль"
+              >
+                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
+
+            {authError && (
+              <p className="text-[12.5px] text-[#e8674a] bg-[#1c0d0a] border border-[#4d2017] rounded-xl px-3.5 py-2 text-center">
+                {authError}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={authSubmitting}
+              className="w-full h-10 rounded-full bg-[#ededf0] hover:bg-white text-[#070709] text-[13.5px] font-semibold inline-flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 transition-colors"
+            >
+              {authSubmitting ? (
+                <Loader2 size={15} className="animate-spin" />
+              ) : (
+                <span>Розблокувати</span>
+              )}
+            </button>
+          </form>
+
+          <div className="text-center pt-1">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-[12.5px] text-[#7c7c88] hover:text-[#ededf0] transition-colors"
+            >
+              <ArrowLeft size={13} />
+              <span>На портфоліо</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#070709] text-[#ededf0] overflow-x-hidden">
       {/* Sticky Solid Dark Header */}
-      <header className="sticky top-0 z-30 h-14 bg-[#070709]/95 border-b border-[#181820] px-4 sm:px-8">
-        <div className="max-w-5xl mx-auto h-full flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-[#3fbf7f]" />
-            <h1 className="font-serif text-[22px] tracking-[-0.02em] text-[#ededf0]">
-              File Server <span className="text-[#7c7c88]">· HTTP 206</span>
+      <header className="sticky top-0 z-30 h-14 bg-[#070709]/95 border-b border-[#181820] px-3.5 sm:px-8">
+        <div className="max-w-5xl mx-auto h-full flex items-center justify-between gap-2.5 sm:gap-4">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-[#3fbf7f] shrink-0" />
+            <h1 className="font-serif text-[18px] sm:text-[22px] tracking-[-0.02em] text-[#ededf0] truncate">
+              File Server <span className="hidden sm:inline text-[#7c7c88]">· Private</span>
             </h1>
           </div>
 
-          <Link
-            href="/"
-            className="h-9 px-4 rounded-full bg-[#111117] hover:bg-[#191922] border border-[#23232f] inline-flex items-center gap-2 text-[13px] font-medium text-[#ededf0] transition-colors"
-          >
-            <ArrowLeft size={14} />
-            <span>На портфоліо</span>
-          </Link>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="h-8 sm:h-9 px-3 sm:px-3.5 rounded-full bg-[#111117] hover:bg-[#191922] border border-[#23232f] inline-flex items-center gap-1.5 text-[12px] sm:text-[13px] font-medium text-[#8e8e9a] hover:text-[#ededf0] whitespace-nowrap cursor-pointer transition-colors"
+              title="Заблокувати сховище"
+            >
+              <LogOut size={13} />
+              <span className="hidden sm:inline">Заблокувати</span>
+            </button>
+
+            <Link
+              href="/"
+              className="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-[#111117] hover:bg-[#191922] border border-[#23232f] inline-flex items-center gap-1.5 sm:gap-2 text-[12px] sm:text-[13px] font-medium text-[#ededf0] whitespace-nowrap transition-colors"
+            >
+              <ArrowLeft size={14} />
+              <span>На портфоліо</span>
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -361,7 +500,7 @@ export default function FileServerPage() {
               placeholder="Пошук файлів..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#0b0b0f] border border-[#1e1e28] rounded-full pl-9 pr-4 py-2 text-[13px] text-[#ededf0] placeholder:text-[#7c7c88] focus:outline-none focus:border-[#363648] transition-colors"
+              className="w-full bg-[#0b0b0f] border border-[#1e1e28] rounded-full pl-9 pr-4 py-2 text-[16px] sm:text-[13px] text-[#ededf0] placeholder:text-[#7c7c88] focus:outline-none focus:border-[#363648] transition-colors"
             />
           </div>
 
@@ -419,10 +558,10 @@ export default function FileServerPage() {
         ) : viewMode === "list" ? (
           <div className="rounded-2xl border border-[#1b1b24] overflow-hidden bg-[#0b0b0f]">
             <ul className="divide-y divide-white/[0.08]">
-              <li className="grid grid-cols-[2.25rem_1fr_5.5rem_auto] sm:grid-cols-[2.25rem_1fr_6rem_9.5rem_8.5rem] gap-3 px-4 sm:px-5 py-3 font-mono text-[11px] text-[#9b968f] uppercase bg-black/25">
+              <li className="grid grid-cols-[2rem_minmax(0,1fr)_auto] sm:grid-cols-[2.25rem_minmax(0,1fr)_6rem_9.5rem_8.5rem] gap-2.5 sm:gap-3 px-3.5 sm:px-5 py-3 font-mono text-[11px] text-[#9b968f] uppercase bg-black/25">
                 <span />
                 <span>Назва</span>
-                <span className="text-right">Розмір</span>
+                <span className="text-right hidden sm:block">Розмір</span>
                 <span className="text-right hidden sm:block">Дата</span>
                 <span className="text-right">Дії</span>
               </li>
@@ -433,7 +572,7 @@ export default function FileServerPage() {
                   <li
                     key={file.name}
                     onClick={() => setPreviewIndex(idx)}
-                    className="grid grid-cols-[2.25rem_1fr_5.5rem_auto] sm:grid-cols-[2.25rem_1fr_6rem_9.5rem_8.5rem] gap-3 px-4 sm:px-5 py-3 items-center hover:bg-white/[0.05] transition-colors cursor-pointer group"
+                    className="grid grid-cols-[2rem_minmax(0,1fr)_auto] sm:grid-cols-[2.25rem_minmax(0,1fr)_6rem_9.5rem_8.5rem] gap-2.5 sm:gap-3 px-3.5 sm:px-5 py-3 items-center hover:bg-white/[0.05] transition-colors cursor-pointer group"
                   >
                     <div className="w-8 h-8 rounded-lg bg-white/[0.06] border border-white/[0.1] flex items-center justify-center overflow-hidden shrink-0">
                       {isImg ? (
@@ -451,17 +590,17 @@ export default function FileServerPage() {
 
                     <div className="min-w-0">
                       <span
-                        className="block text-[#f5f4f1] group-hover:opacity-80 text-[13.5px] font-medium truncate transition-opacity"
+                        className="block text-[#f5f4f1] group-hover:opacity-80 text-[13px] sm:text-[13.5px] font-medium truncate transition-opacity"
                         title={file.name}
                       >
                         {file.name}
                       </span>
-                      <span className="font-mono text-[11px] text-[#9b968f] sm:hidden">
-                        {formatDate(file.uploadedAt)}
+                      <span className="font-mono text-[10.5px] text-[#9b968f] sm:hidden block truncate">
+                        {formatSize(file.size)} · {formatDate(file.uploadedAt)}
                       </span>
                     </div>
 
-                    <span className="text-[#f5f4f1]/70 text-[12px] text-right font-mono">
+                    <span className="text-[#f5f4f1]/70 text-[12px] text-right font-mono hidden sm:block">
                       {formatSize(file.size)}
                     </span>
 
@@ -470,7 +609,7 @@ export default function FileServerPage() {
                     </span>
 
                     <div
-                      className="flex items-center gap-1 justify-end"
+                      className="flex items-center gap-0.5 sm:gap-1 justify-end shrink-0"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <button
@@ -521,14 +660,14 @@ export default function FileServerPage() {
             </ul>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
             {filtered.map((file, idx) => {
               const isImg = getPreviewKind(file.name) === "image";
               return (
                 <div
                   key={file.name}
                   onClick={() => setPreviewIndex(idx)}
-                  className="group rounded-xl border border-[#1b1b24] bg-[#0b0b0f] hover:border-[#2e2e3e] overflow-hidden flex flex-col cursor-pointer transition-colors"
+                  className="min-w-0 group rounded-xl border border-[#1b1b24] bg-[#0b0b0f] hover:border-[#2e2e3e] overflow-hidden flex flex-col cursor-pointer transition-colors"
                 >
                   <div className="aspect-[4/3] bg-black/40 flex items-center justify-center overflow-hidden relative border-b border-white/[0.08]">
                     {isImg ? (
@@ -601,26 +740,26 @@ export default function FileServerPage() {
       {/* IN-BROWSER PREVIEW MODAL */}
       {activeFile && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex flex-col"
+          className="fixed inset-0 z-50 h-[100dvh] bg-black/90 flex flex-col"
           onClick={() => setPreviewIndex(null)}
         >
           <div
-            className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-white/[0.1] bg-[#14110e]"
+            className="flex items-center justify-between gap-2 sm:gap-3 px-3.5 sm:px-6 py-3 sm:py-3.5 border-b border-[#1c1c24] bg-[#0a0a0e]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-3 min-w-0">
-              {renderFileTypeIcon(activeFile.name, 18)}
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="shrink-0">{renderFileTypeIcon(activeFile.name, 18)}</span>
               <div className="min-w-0">
-                <p className="font-serif text-[17px] text-[#f5f4f1] truncate max-w-[200px] sm:max-w-md">
+                <p className="font-serif text-[15px] sm:text-[17px] text-[#f5f4f1] truncate">
                   {activeFile.name}
                 </p>
-                <p className="font-mono text-[11px] text-[#9b968f]">
+                <p className="font-mono text-[10.5px] sm:text-[11px] text-[#9b968f] truncate">
                   {formatSize(activeFile.size)} · {formatDate(activeFile.uploadedAt)}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {getPreviewKind(activeFile.name) === "image" && (
                 <div className="hidden sm:flex items-center gap-1 mr-1 border border-white/[0.14] rounded-full px-2.5 py-1 bg-white/[0.04]">
                   <button

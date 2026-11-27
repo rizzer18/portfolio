@@ -5,12 +5,19 @@
 html {
   scroll-behavior: smooth;
   background-color: #070709;
+  -webkit-text-size-adjust: 100%;
+}
+
+section[id],
+div[id] {
+  scroll-margin-top: 4rem;
 }
 
 body {
   color: #ededf0;
   background-color: #070709;
   overflow-x: hidden;
+  min-width: 320px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { Readable } from "node:stream";
+import { isFilesAuthorized } from "@/lib/filesAuth";
 
 export const dynamic = "force-dynamic";
 
@@ -81,6 +82,9 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ filename: string }> }
 ) {
+  if (!isFilesAuthorized(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { filename } = await params;
     const decoded = decodeURIComponent(filename);
@@ -107,7 +111,7 @@ export async function GET(
         status: 304,
         headers: {
           ETag: etag,
-          "Cache-Control": "public, max-age=3600",
+          "Cache-Control": "private, max-age=3600",
         },
       });
     }
@@ -127,7 +131,7 @@ export async function GET(
       "X-Content-Type-Options": "nosniff",
       ETag: etag,
       "Last-Modified": stat.mtime.toUTCString(),
-      "Cache-Control": forceDownload ? "private, no-cache" : "public, max-age=3600",
+      "Cache-Control": forceDownload ? "private, no-cache" : "private, max-age=3600",
     };
 
     if (!forceDownload && contentType.startsWith("image/svg")) {
